@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1092202452903",
+    "project_id": "slowfit-notify-b2a9f",
+    "storage_bucket": "slowfit-notify-b2a9f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092202452903:android:f64501acfc0a6fd97e0882",
+        "android_client_info": {
+          "package_name": "com.example.slowfit_client_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPGsZudAyaD3VLX-MD-ZKXi54Kg_2gYe8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
