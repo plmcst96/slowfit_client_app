@@ -41,6 +41,8 @@ dependencies:
   url_launcher: ^6.3.1
   firebase_core: ^3.4.0
   firebase_messaging: ^15.0.3
+  dotted_border: ^2.0.0+3
+  flutter_screenutil: ^5.9.0
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.2
@@ -87,6 +89,8 @@ flutter:
     - assets/intro/fitness.jpeg
     - assets/loghi/esempio logo4.png
     - assets/loghi/logo9.png
+    - assets/nutrition_bg.jpg
+    - assets/Appuntamento.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

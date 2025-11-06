@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../l10n/app_localizations.dart';
 import '../provider/bottom_bar_provider.dart';
@@ -11,17 +12,17 @@ class FloatingBottomBar extends ConsumerWidget {
 
   List<Widget> _buildItems(BuildContext context, WidgetRef ref) {
     List<Map<String, dynamic>> items = [
-      {'icon': Icons.home_outlined, 'label': 'Home'},
+      {'icon': FontAwesomeIcons.house, 'label': 'Home'},
       {
-        'icon': Icons.calendar_today_outlined,
+        'icon': FontAwesomeIcons.dumbbell,
         'label': AppLocalizations.of(context)!.training,
       },
       {
-        'icon': Icons.favorite_border_outlined,
+        'icon': FontAwesomeIcons.appleWhole,
         'label': AppLocalizations.of(context)!.nutrition,
       },
       {
-        'icon': Icons.person_2_outlined,
+        'icon': FontAwesomeIcons.person,
         'label': AppLocalizations.of(context)!.profile,
       },
     ];

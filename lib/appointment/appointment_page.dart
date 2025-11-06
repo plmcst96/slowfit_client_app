@@ -207,7 +207,7 @@ class _AppointmentPageState extends ConsumerState<AppointmentPage> {
                 onTap: toggleBottomSheet,
                 child: Container(
                   padding: EdgeInsets.all(7),
-                  width: MediaQuery.of(context).size.width * 0.55,
+                  width: MediaQuery.of(context).size.width * 0.60,
                   decoration: BoxDecoration(
                     border: Border.all(color: Color(0XFFC4B7E1), width: 1.5),
                     borderRadius: BorderRadius.all(Radius.circular(20)),

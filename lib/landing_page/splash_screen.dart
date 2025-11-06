@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:slowFit_client/login/login_page.dart';
 import 'package:slowFit_client/quiz/quiz_page.dart';
 import '../l10n/app_localizations.dart';
 import '../provider/login_provider.dart';
@@ -31,21 +33,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       vsync: this,
     );
 
-    _logoAnimation = Tween<double>(begin: 0, end: -150).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _logoAnimation = Tween<double>(
+      begin: 0,
+      end: -150,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     _slideAnimation = Tween<Offset>(
       begin: Offset(0, 1),
       end: Offset(0, 0),
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutExpo),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutExpo));
 
-    _fadeAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    );
+    _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
     _checkLoginStatus();
   }
@@ -93,36 +91,25 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/splashscreen.jpeg',
-            fit: BoxFit.cover,
-          ),
-          Container(
-            color: Colors.black54,
-          ),
+          Image.asset('assets/splashscreen.jpeg', fit: BoxFit.cover),
+          Container(color: Colors.black54),
           AnimatedBuilder(
             animation: _logoAnimation,
             builder: (context, child) {
-
               return Transform.translate(
                 offset: Offset(0, _logoAnimation.value),
                 child: child,
               );
             },
             child: Center(
-              child: Image.asset(
-                'assets/loghi/esempio logo5.png',
-                width: 300,
-              ),
+              child: Image.asset('assets/loghi/esempio logo5.png', width: 300),
             ),
           ),
           if (_showContent)
@@ -141,8 +128,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                           AppLocalizations.of(context)!.splash,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize:
-                                MediaQuery.of(context).size.width.clamp(13, 18),
+                            fontSize: MediaQuery.of(
+                              context,
+                            ).size.width.clamp(13, 18),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -152,7 +140,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.pink),
+                              backgroundColor: Colors.pink,
+                            ),
                             onPressed: () {
                               if (_isFirstTime) {
                                 Navigator.pushReplacement(
@@ -166,11 +155,38 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                             child: Text(
                               AppLocalizations.of(context)!.button_welcome_1,
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        )
+                        ),
+                        SizedBox(height: 30),
+                        Text.rich(
+                          TextSpan(
+                            text: 'Sei già iscritto? ',
+                            style: TextStyle(fontSize: 12, color: Colors.white),
+                            children: [
+                              TextSpan(
+                                text: AppLocalizations.of(context)!.login,
+                                style: TextStyle(
+                                  color: Colors.pink,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => LoginPage(),
+                                      ),
+                                    );
+                                  },
+                              ),
+                            ],
+                          ),
+                          // Per accessibilità
+                        ),
                       ],
                     ),
                   ),

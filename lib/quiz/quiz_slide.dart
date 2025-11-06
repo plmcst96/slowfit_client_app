@@ -72,13 +72,37 @@ class _QuizSlideState extends ConsumerState<QuizSlide> {
     }
   }
 
+
   Future<void> _saveAnswer(List<Response> responses) async {
-    userAnswers[widget.quiz.quizId] = responses;
     final prefs = await SharedPreferences.getInstance();
-    final encoded = userAnswers.map((key, value) =>
-        MapEntry(key.toString(), value.map((r) => r.toJson()).toList()));
-    await prefs.setString('quizAnswers', json.encode(encoded));
+
+    // Recupera i dati già salvati
+    final savedData = prefs.getString('quizAnswers');
+    Map<String, dynamic> existingData =
+    savedData != null ? json.decode(savedData) : {};
+
+    // Aggiorna o aggiunge le risposte per il quiz corrente
+    existingData[widget.quiz.quizId.toString()] =
+        responses.map((r) => r.toJson()).toList();
+
+    // Salva su SharedPreferences
+    await prefs.setString('quizAnswers', json.encode(existingData));
+
+    // Aggiorna la mappa locale in memoria
+    userAnswers = existingData.map((key, value) {
+      final list = (value as List)
+          .map((e) => Response.fromJson(Map<String, dynamic>.from(e)))
+          .toList();
+      return MapEntry(int.parse(key), list);
+    });
+
+    // Debug: stampa ciò che è stato salvato
+    debugPrint("✅ Risposte salvate (quizId: ${widget.quiz.quizId}):");
+    for (var r in responses) {
+      debugPrint("  → answerId: ${r.answerId}, answerString: ${r.answerString}");
+    }
   }
+
 
   void _handleAnswer(Response response) async {
     if (widget.quiz.singleResponse) {

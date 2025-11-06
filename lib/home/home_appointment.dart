@@ -174,7 +174,7 @@ class _HomeAppointmentState extends ConsumerState<HomeAppointment> {
             child: Column(
               children: [
                 SizedBox(height: 20),
-                Icon(Icons.calendar_today_outlined),
+                Image.asset('assets/Appuntamento.png', width: 150,),
                 const Text(
                   'Nessun appuntamento per la giornata selezionata!',
                   textAlign: TextAlign.center,

@@ -20,7 +20,6 @@ class _BottomSheetAppointmentState
     extends ConsumerState<BottomSheetAppointment> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _descriptionController = TextEditingController();
-  late TextEditingController _callUserController = TextEditingController();
   late int? _duration;
   late DateTime? _date;
   late TimeOfDay? _time;
@@ -56,7 +55,6 @@ class _BottomSheetAppointmentState
         "Time": '${_time!.hour}:${_time!.minute.toString().padLeft(2, '0')}',
         "Duration": _duration,
         "Description": _descriptionController.text,
-        "CallUrl": _callUserController.text,
       };
 
       final title = "Richiesta Appuntamento";
@@ -117,7 +115,6 @@ class _BottomSheetAppointmentState
       // Reset form
       setState(() {
         _descriptionController.clear();
-        _callUserController.clear();
         _duration = 30;
         _date = DateTime.now();
       });
@@ -228,17 +225,8 @@ class _BottomSheetAppointmentState
                         return null;
                       },
                     ),
-                    SizedBox(height: 10),
-                    TextFormField(
-                      controller: _callUserController,
-                      decoration: InputDecoration(labelText: 'Link per Call'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Inserisci un link';
-                        }
-                        return null;
-                      },
-                    ),
+
+
                     SizedBox(height: 30),
                   ],
                 ),

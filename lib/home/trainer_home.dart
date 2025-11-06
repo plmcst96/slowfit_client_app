@@ -106,8 +106,8 @@ class _TrainerHomeState extends ConsumerState<TrainerHome> {
                             ],
                           ),
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
+                            horizontal: 4,
+                            vertical: 2,
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
