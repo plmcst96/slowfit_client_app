@@ -183,7 +183,6 @@ class NutritionByUserNotifier
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
-        print(data);
 
         final nutritions = data.map((json) {
           final nutrition = NutritionDetail.fromJson(json);
@@ -245,7 +244,6 @@ final dailyNutritionProvider = FutureProvider.family<DailyNutrition?, (int userI
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      print(data);
       return DailyNutrition.fromJson(data);
     } else if (response.statusCode == 404) {
       return null;
@@ -256,6 +254,68 @@ final dailyNutritionProvider = FutureProvider.family<DailyNutrition?, (int userI
     throw Exception('Errore nel caricamento del piano nutrizionale giornaliero: $e');
   }
 });
+
+/// Provider per gestire la lista dei piani nutrizionali
+final nutritionProvider =
+StateNotifierProvider<NutritionNotifier, List<Nutrition>>(
+      (ref) => NutritionNotifier(),
+);
+
+class NutritionNotifier extends StateNotifier<List<Nutrition>> {
+  NutritionNotifier() : super([]);
+
+  /// GET: recupera tutti i piani nutrizionali
+  Future<void> fetchNutritions() async {
+    final url = Uri.parse('${AppConfig.baseUrl}/nutrition');
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'slowKey': '${AppConfig.slowKey}'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        state = data.map((json) => Nutrition.fromJson(json)).toList();
+      } else if (response.statusCode == 204) {
+        state = [];
+      } else {
+        print('⚠️ Failed with status: ${response.statusCode}');
+        print('⚠️ Response body: ${response.body}');
+        throw Exception('Failed to fetch nutritions');
+      }
+    } catch (e) {
+      print('Error fetching nutritions: $e');
+      state = [];
+    }
+  }
+
+  /// DELETE: elimina un piano nutrizionale
+  Future<void> deleteNutrition(int nutritionId) async {
+    final url = Uri.parse('${AppConfig.baseUrl}/nutrition/${nutritionId}');
+    try {
+      final response = await http.delete(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'slowKey': '${AppConfig.slowKey}'
+        },
+      );
+
+      if (response.statusCode == 200) {
+        state = state.where((n) => n.nutritionId != nutritionId).toList();
+        await fetchNutritions();
+      } else {
+        throw Exception('Failed to delete nutrition plan');
+      }
+    } catch (e) {
+      print('Error deleting nutrition: $e');
+      rethrow;
+    }
+  }
+}
 
 
 

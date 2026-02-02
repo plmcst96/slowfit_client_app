@@ -46,6 +46,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.2
+  youtube_player_flutter: ^9.1.3
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +92,12 @@ flutter:
     - assets/loghi/logo9.png
     - assets/nutrition_bg.jpg
     - assets/Appuntamento.png
+    - assets/intermedio.jpg
+    - assets/avanzato.jpg
+    - assets/principiante.jpg
+    - assets/avatar_pt.jpg
+    - assets/tappetino.png
+    - assets/manubri.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -14,6 +14,7 @@ import 'package:slowFit_client/widget/custom_appbar.dart';
 import 'package:slowFit_client/widget/custom_bottom_bar.dart';
 
 import '../appointment/appointment_page.dart';
+import '../function.dart';
 import '../l10n/app_localizations.dart';
 import '../model/response_model.dart';
 import '../provider/login_provider.dart';
@@ -37,7 +38,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-
     _setupFCMListeners();
     _handleFirstLoginResponsePost(); // 👈 aggiungi qui
     // Aggiorna token e notifiche come prima
@@ -191,26 +191,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
   }
 
-  int getDayIdFromDate(DateTime date) {
-    switch (date.weekday) {
-      case DateTime.monday:
-        return 1;
-      case DateTime.tuesday:
-        return 2;
-      case DateTime.wednesday:
-        return 3;
-      case DateTime.thursday:
-        return 4;
-      case DateTime.friday:
-        return 5;
-      case DateTime.saturday:
-        return 6;
-      case DateTime.sunday:
-        return 7;
-      default:
-        return 1;
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -218,11 +199,15 @@ class _HomePageState extends ConsumerState<HomePage> {
     final selectedDate = ref.watch(selectedDateProvider);
     final login = ref.watch(loginProvider);
 
-    final dayId = selectedDate != null ? getDayIdFromDate(selectedDate) : 1;
+    final dayId = selectedDate != null ? Utils.getDayIdFromDate(selectedDate) : 1;
 
     final dailyNutritionAsync = ref.watch(
       dailyNutritionProvider((login.userId!, dayId)),
     );
+
+    if(_loading){
+      Center(child: CircularProgressIndicator(),);
+    }
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -442,9 +427,14 @@ class _HomePageState extends ConsumerState<HomePage> {
 
                                             return categoryAsync.when(
                                               data: (categoryData) {
-                                                final categoryName =
+                                                String categoryName =
                                                     categoryData?.momentOfDay ??
                                                     'Categoria $categoryId';
+                                                // ✂️ Tronca se contiene "Spuntino"
+                                                if (categoryName.contains('Spuntino')) {
+                                                  final index = categoryName.indexOf('Spuntino');
+                                                  categoryName = categoryName.substring(0, index + 'Spuntino'.length).trim();
+                                                }
 
                                                 return Padding(
                                                   padding:
@@ -734,7 +724,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                                     return Padding(
                                                                       padding: const EdgeInsets.symmetric(
                                                                         vertical:
-                                                                            6.0,
+                                                                            1.0,
                                                                       ),
                                                                       child: Row(
                                                                         children: [
@@ -742,7 +732,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                                             child: Text(
                                                                               'Segna come mangiato',
                                                                               style: const TextStyle(
-                                                                                fontSize: 16,
+                                                                                fontSize: 14,
                                                                                 fontWeight: FontWeight.bold,
                                                                                 color: Colors.white,
                                                                               ),

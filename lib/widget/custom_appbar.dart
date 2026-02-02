@@ -5,6 +5,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final double appBarHeight;
   final Widget? leading;
+  final PreferredSizeWidget? bottom;
 
   const CustomAppBar({
     super.key,
@@ -12,6 +13,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions,
     this.appBarHeight = 80,
     this.leading,
+    this.bottom
   });
 
   @override
@@ -34,6 +36,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               title!,
               style: const TextStyle(color: Colors.pink),
             ),
+          SizedBox(height: 20,)
         ],
       ),
       leading:
@@ -42,6 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: appBarHeight,
       scrolledUnderElevation: 0,
       elevation: 0,
+      bottom: bottom,
     );
   }
 

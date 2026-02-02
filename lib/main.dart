@@ -7,8 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slowFit_client/home/home_page.dart';
 import 'package:slowFit_client/login/register_page.dart';
+import 'package:slowFit_client/nutrition/nutrition_page.dart';
+import 'package:slowFit_client/profile/profile_page.dart';
 import 'package:slowFit_client/provider/language_provider.dart';
 import 'package:slowFit_client/provider/notification_provider.dart';
+import 'package:slowFit_client/training/training_page.dart';
 
 import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
@@ -78,6 +81,9 @@ class _MyAppState extends ConsumerState<MyApp> {
       routes: {
         '/register': (context) => RegisterPage(),
         '/home': (context) => HomePage(),
+        '/training': (context)=> TrainingPage(),
+        '/nutrition': (context)=> NutritionPage(),
+        '/profile': (context)=> ProfilePage()
       },
     );
   }

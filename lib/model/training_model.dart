@@ -1,4 +1,3 @@
-
 class TrainingCreateResponse {
   final int trainingId;
   final int typeId;
@@ -16,7 +15,7 @@ class TrainingCreateResponse {
     this.levelId,
     this.duration,
     required this.creationDate,
-     this.endDate,
+    this.endDate,
     required this.detailExercises,
   });
 
@@ -36,15 +35,15 @@ class TrainingCreateResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        'trainingId': trainingId,
-        'typeId': typeId,
-        'userId': userId,
-        'levelId': levelId,
-        'duration': duration,
-        'creationDate': creationDate.toIso8601String(),
-        'endDate': endDate?.toIso8601String(),
-        'detailExercises': detailExercises.map((e) => e.toJson()).toList(),
-      };
+    'trainingId': trainingId,
+    'typeId': typeId,
+    'userId': userId,
+    'levelId': levelId,
+    'duration': duration,
+    'creationDate': creationDate.toIso8601String(),
+    'endDate': endDate?.toIso8601String(),
+    'detailExercises': detailExercises.map((e) => e.toJson()).toList(),
+  };
 }
 
 class DetailExerciseRequest {
@@ -55,36 +54,42 @@ class DetailExerciseRequest {
   final int? series;
   final String name;
   final String image;
+  final double? kg;
 
-  DetailExerciseRequest(
-      {required this.exerciseId,
-      this.nRipetition,
-      this.pause,
-      this.phase,
-      this.series,
-      required this.image,
-      required this.name});
+  DetailExerciseRequest({
+    required this.exerciseId,
+    this.nRipetition,
+    this.pause,
+    this.phase,
+    this.series,
+    this.kg,
+    required this.image,
+    required this.name,
+  });
 
   factory DetailExerciseRequest.fromJson(Map<String, dynamic> json) {
     return DetailExerciseRequest(
-        exerciseId: json['exerciseId'],
-        image: json['image'],
-        name: json['name'],
-        nRipetition: json['nRipetition'],
-        phase: json['phase'] ?? null,
-        pause: json['pause'],
-        series: json['series']);
+      exerciseId: json['exerciseId'],
+      image: json['image'],
+      name: json['name'],
+      nRipetition: json['nRipetition'],
+      phase: json['phase'] ?? null,
+      pause: json['pause'],
+      series: json['series'],
+      kg: json['kg'] ?? 0.0,
+    );
   }
 
   Map<String, dynamic> toJson() => {
-        'exerciseId': exerciseId,
-        'nRipetition': nRipetition,
-        'pause': pause,
-        'phase': phase,
-        'series': series,
-        'image': image,
-        'name': name
-      };
+    'exerciseId': exerciseId,
+    'nRipetition': nRipetition,
+    'pause': pause,
+    'phase': phase,
+    'series': series,
+    'image': image,
+    'name': name,
+    'kg': kg,
+  };
 }
 
 class DetailExercise {
@@ -95,10 +100,12 @@ class DetailExercise {
   final int exerciseId;
   final int series;
   final String phase;
+  final double? kg;
 
   DetailExercise({
     required this.detailExerciseId,
     this.trainingId,
+    required this.kg,
     required this.exerciseId,
     required this.nRipetition,
     required this.series,
@@ -108,13 +115,15 @@ class DetailExercise {
 
   factory DetailExercise.fromJson(Map<String, dynamic> json) {
     return DetailExercise(
-        detailExerciseId: json['detailExerciseId'],
-        trainingId: json['trainingId'],
-        exerciseId: json['exerciseId'],
-        nRipetition: json['nRipetition'],
-        series: json['series'],
-        pause: json['pause'],
-        phase: json['phase']);
+      detailExerciseId: json['detailExerciseId'],
+      trainingId: json['trainingId'],
+      exerciseId: json['exerciseId'],
+      nRipetition: json['nRipetition'],
+      series: json['series'],
+      pause: json['pause'],
+      phase: json['phase'],
+      kg: json['kg'] ?? 0.0,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -125,7 +134,8 @@ class DetailExercise {
       'nRipetition': nRipetition,
       'pause': pause,
       'phase': phase,
-      'series': series
+      'series': series,
+      'kg': kg,
     };
   }
 }
