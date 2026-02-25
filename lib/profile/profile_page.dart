@@ -528,8 +528,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MeasurePage(measure: measure, userId: user.userId,),
+                                              builder: (context) => MeasurePage(
+                                                measure: measure,
+                                                userId: user.userId,
+                                              ),
                                             ),
                                           );
                                         },
@@ -562,6 +564,32 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                               duration: Duration(milliseconds: 5),
                             ),
                           ],
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Card(
+                        color: Colors.white,
+                        elevation: 3,
+                        child: GestureDetector(
+                          onTap: () {
+                            ref.read(loginProvider.notifier).logout();
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(15),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Esci',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                Spacer(),
+                                Icon(Icons.logout_outlined, color: Colors.red),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],

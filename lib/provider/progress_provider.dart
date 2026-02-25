@@ -33,7 +33,7 @@ class SingleProgressTrainingState extends StateNotifier<ProgressTraining?> {
     }
   }
 
-  Future<void> postProgressTraining(ProgressTraining progress) async {
+  Future<bool> postProgressTraining(ProgressTraining progress) async {
     final url = Uri.parse('${AppConfig.baseUrl}/progress');
 
     try {
@@ -48,20 +48,18 @@ class SingleProgressTrainingState extends StateNotifier<ProgressTraining?> {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic> data = json.decode(response.body);
-        
+
         if (data.containsKey("progress")) {
           state = ProgressTraining.fromJson(data["progress"]);
-        } else {
-          // fallback
-          state = null;
         }
+        return true; // ✅ SUCCESSO
       } else {
         print("Errore POST: ${response.statusCode} - ${response.body}");
-        state = null;
+        return false; // ❌ FALLIMENTO
       }
     } catch (e) {
       print("Errore: $e");
-      state = null;
+      return false; // ❌ FALLIMENTO
     }
   }
 }

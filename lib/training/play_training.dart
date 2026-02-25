@@ -486,9 +486,9 @@ class _PlayTrainingState extends ConsumerState<PlayTraining> {
     return ((completedSeries / totalSeries) * 100).round();
   }
 
-  Future<void> handelSaveProgress() async {
+  Future<bool> handelSaveProgress() async {
     final login = ref.read(loginProvider);
-    if (login.userId == null) return;
+    if (login.userId == null) return false;
 
     final progressValue = _calculateProgressValue();
 
@@ -499,12 +499,15 @@ class _PlayTrainingState extends ConsumerState<PlayTraining> {
       avarageKg: _kg.toInt(),
       dateOfProgress: DateTime.now(),
       createdAt: DateTime.now(),
+      duration: _seconds
+
     );
 
-    await ref
+    final success = await ref
         .read(progressTrainingProvider.notifier)
         .postProgressTraining(progressBody);
-    print(progressValue);
+
+    return success;
   }
 
   @override
@@ -562,9 +565,22 @@ class _PlayTrainingState extends ConsumerState<PlayTraining> {
                             Spacer(),
                             ElevatedButton(
                               onPressed: () async {
-                                _stopTimer();
-                                await handelSaveProgress();
-                                widget.onClose();
+                                final success = await handelSaveProgress();
+
+                                if (success) {
+                                  _stopTimer();
+                                  widget.onClose(); // ✅ chiude solo se OK
+                                } else {
+                                  // ❌ errore → resta aperto e mostra messaggio
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Errore nel salvataggio dell’allenamento. Riprova.',
+                                      ),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.pink,

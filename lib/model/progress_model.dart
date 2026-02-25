@@ -54,6 +54,7 @@ class ProgressTraining {
   final DateTime dateOfProgress;
   final int? avarageKg;
   final int userId;
+  final int duration;
 
   const ProgressTraining({
     this.id = 0,
@@ -63,6 +64,7 @@ class ProgressTraining {
     required this.dateOfProgress,
     required this.userId,
     required this.avarageKg,
+    required this.duration
   });
 
   /// FROM JSON (date arrivano come stringhe)
@@ -77,6 +79,7 @@ class ProgressTraining {
       dateOfProgress: DateTime.parse(json['dateOfProgress']),
       avarageKg: json['avarageKg'],
       userId: json['userId'],
+      duration: json['duration']
     );
   }
 
@@ -90,6 +93,7 @@ class ProgressTraining {
       'dateOfProgress': dateOfProgress.toIso8601String(),
       'avarageKg': avarageKg,
       'userId': userId,
+      'duration':duration
     };
   }
 }
