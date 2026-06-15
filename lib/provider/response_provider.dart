@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:http/http.dart' as http;
 import 'package:slowFit_client/config.dart';
-import 'package:slowFit_client/service/auth_token.dart';
+import 'package:slowFit_client/service/api_client.dart';
+import 'package:slowFit_client/service/app_messenger.dart';
 
 import '../model/response_model.dart';
 
@@ -16,33 +16,18 @@ class ResponseQuizNotifier extends StateNotifier<List<ResponseQuiz>> {
 
   /// Invia la lista di risposte al backend
   Future<bool> submitResponses(List<ResponseQuiz> responses) async {
-    final String baseUrl = '${AppConfig.baseUrl}/response';
-
     // Convertiamo la lista di oggetti in JSON
     final List<Map<String, dynamic>> jsonList =
-    responses.map((r) => r.toJson()).toList();
+        responses.map((r) => r.toJson()).toList();
 
     try {
-      final http.Response apiResponse = await http.post(
-        Uri.parse(baseUrl),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
+      await ApiClient.post(
+        '${AppConfig.baseUrl}/response',
         body: jsonEncode(jsonList),
       );
-
-      if (apiResponse.statusCode == 200 || apiResponse.statusCode == 201) {
-        print('✅ Risposte inviate con successo!');
-        print('Server response: ${apiResponse.body}');
-        return true;
-      } else {
-        print(
-            '❌ Errore POST: ${apiResponse.statusCode} - ${apiResponse.body}');
-        return false;
-      }
-    } catch (e) {
-      print('❌ Eccezione POST: $e');
+      return true;
+    } on ApiException catch (e) {
+      showAppError('Invio risposte fallito: ${e.message}');
       return false;
     }
   }

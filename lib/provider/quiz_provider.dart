@@ -2,94 +2,65 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:slowFit_client/config.dart';
-import 'package:slowFit_client/service/auth_token.dart';
 import 'package:slowFit_client/model/quiz_model.dart';
-import 'package:http/http.dart' as http;
+
+import '../service/api_client.dart';
+import '../service/app_messenger.dart';
 
 class QuizSingleNotifier extends StateNotifier<Quiz?> {
   QuizSingleNotifier() : super(null);
 
-  Future<void> getSingleQuiz(int quizId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/quiz/$quizId');
-
+  /// Restituisce `true` se il caricamento è andato a buon fine.
+  Future<bool> getSingleQuiz(int quizId) async {
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        state = Quiz.fromJson(data);
-        print(data.toString());
-      } else {
-        state = null;
-      }
-    } catch (e) {
-      print('Errore: $e');
+      final response = await ApiClient.get('${AppConfig.baseUrl}/quiz/$quizId');
+      final Map<String, dynamic> data = json.decode(response.body);
+      state = Quiz.fromJson(data);
+      return true;
+    } on ApiException catch (e) {
+      showAppError('Quiz non disponibile: ${e.message}');
       state = null;
+      return false;
     }
   }
 }
 
 final quizSingleProvider = StateNotifierProvider<QuizSingleNotifier, Quiz?>(
-      (ref) => QuizSingleNotifier(),
+  (ref) => QuizSingleNotifier(),
 );
 
 class QuizNotifier extends StateNotifier<List<Quiz>> {
   QuizNotifier() : super([]);
 
-  Future<void> getAllQuizzesType(String type, {bool includeBoth = false}) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/quiz?type=$type');
-    print(type);
-
+  /// Restituisce `true` se il caricamento è andato a buon fine.
+  Future<bool> getAllQuizzesType(String type, {bool includeBoth = false}) async {
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
-      );
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/quiz?type=$type');
+      final List<dynamic> data = json.decode(response.body);
+      var quizzes = data.map((json) => Quiz.fromJson(json)).toList();
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        var quizzes = data.map((json) => Quiz.fromJson(json)).toList();
-
-        if (includeBoth) {
-          // Carica anche le domande con type == "Both"
-          final bothUrl = Uri.parse('${AppConfig.baseUrl}/quiz?type=Both');
-          final bothResponse = await http.get(
-            bothUrl,
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ${AuthToken.token}',
-            },
-          );
-          if (bothResponse.statusCode == 200) {
-            final List<dynamic> bothData = json.decode(bothResponse.body);
-            quizzes.addAll(bothData.map((json) => Quiz.fromJson(json)).toList());
-          }
-        }
-
-        // ❗ Rimuovi la prima domanda già caricata (es. quizId == 3)
-        quizzes.removeWhere((quiz) => quiz.quizId == 3 || quiz.questionId == 1);
-
-        state = quizzes;
-      } else {
-        state = [];
+      if (includeBoth) {
+        // Carica anche le domande con type == "Both"
+        final bothResponse =
+            await ApiClient.get('${AppConfig.baseUrl}/quiz?type=Both');
+        final List<dynamic> bothData = json.decode(bothResponse.body);
+        quizzes.addAll(bothData.map((json) => Quiz.fromJson(json)).toList());
       }
-    } catch (e) {
-      print('Errore: $e');
+
+      // ❗ Rimuovi la prima domanda già caricata (es. quizId == 3)
+      quizzes.removeWhere((quiz) => quiz.quizId == 3 || quiz.questionId == 1);
+
+      state = quizzes;
+      return true;
+    } on ApiException catch (e) {
+      showAppError('Quiz non disponibile: ${e.message}');
       state = [];
+      return false;
     }
   }
 }
 
-
 final quizProvider = StateNotifierProvider<QuizNotifier, List<Quiz>>(
-      (ref) => QuizNotifier(),
+  (ref) => QuizNotifier(),
 );

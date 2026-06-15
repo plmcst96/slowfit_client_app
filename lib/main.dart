@@ -17,6 +17,7 @@ import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 import 'landing_page/splash_screen.dart';
 import 'service/auth_token.dart';
+import 'service/app_messenger.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -56,6 +57,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
 
     return MaterialApp(
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
       locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,

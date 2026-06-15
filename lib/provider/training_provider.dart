@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:http/http.dart' as http;
 
 import '../config.dart';
-import '../service/auth_token.dart';
+import '../service/api_client.dart';
+import '../service/app_messenger.dart';
 import '../model/training_model.dart';
 
 class Level {
@@ -30,28 +30,17 @@ class LevelSingleTraining extends StateNotifier<Map<int, Level>> {
   LevelSingleTraining() : super({});
 
   Future<void> getSingleLevel(int levelId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/level/$levelId');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final dynamic data = json.decode(response.body);
-        final type = Level.fromJson(data);
-
-        state = {
-          ...state,
-          levelId: type,
-        };
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/level/$levelId');
+      final dynamic data = json.decode(response.body);
+      final type = Level.fromJson(data);
+      state = {
+        ...state,
+        levelId: type,
+      };
+    } on ApiException catch (e) {
+      showAppError('Livello: ${e.message}');
     }
   }
 }
@@ -65,26 +54,12 @@ class LevelState extends StateNotifier<List<Level>> {
   LevelState(this.ref) : super([]);
 
   Future<void> getLevel() async {
-    final url = Uri.parse('${AppConfig.baseUrl}/level');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-
-        state = data.map((item) => Level.fromJson(item)).toList();
-      } else {
-        state = [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final response = await ApiClient.get('${AppConfig.baseUrl}/level');
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => Level.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Livelli: ${e.message}');
       state = [];
     }
   }
@@ -101,26 +76,14 @@ class TrainingStateResponse
   TrainingStateResponse(this.ref) : super([]);
 
   Future<void> getTrainingByUserId(int userId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/training/byUser/$userId');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        print(data.toString());
-        state =
-            data.map((item) => TrainingCreateResponse.fromJson(item)).toList();
-      } else {
-        state = [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/training/byUser/$userId');
+      final List<dynamic> data = json.decode(response.body);
+      state =
+          data.map((item) => TrainingCreateResponse.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Allenamenti: ${e.message}');
       state = [];
     }
   }

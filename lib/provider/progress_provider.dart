@@ -1,65 +1,40 @@
 import 'dart:convert';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:riverpod/src/framework.dart';
 import 'package:slowFit_client/config.dart';
-import 'package:slowFit_client/service/auth_token.dart';
-import 'package:http/http.dart' as http;
+import 'package:slowFit_client/service/api_client.dart';
+import 'package:slowFit_client/service/app_messenger.dart';
 import 'package:slowFit_client/model/progress_model.dart';
 
 class SingleProgressTrainingState extends StateNotifier<ProgressTraining?> {
   SingleProgressTrainingState(Ref ref) : super(null);
 
   Future<void> getSingleProgress(int progressId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/progress/$progressId');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final dynamic data = json.decode(response.body);
-        state = ProgressTraining.fromJson(data);
-      } else {
-        state = null;
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/progress/$progressId');
+      final dynamic data = json.decode(response.body);
+      state = ProgressTraining.fromJson(data);
+    } on ApiException catch (e) {
+      showAppError('Progressi: ${e.message}');
       state = null;
     }
   }
 
   Future<bool> postProgressTraining(ProgressTraining progress) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/progress');
-
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
+      final response = await ApiClient.post(
+        '${AppConfig.baseUrl}/progress',
         body: json.encode(progress.toJson()),
       );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final Map<String, dynamic> data = json.decode(response.body);
-
-        if (data.containsKey("progress")) {
-          state = ProgressTraining.fromJson(data["progress"]);
-        }
-        return true; // ✅ SUCCESSO
-      } else {
-        print("Errore POST: ${response.statusCode} - ${response.body}");
-        return false; // ❌ FALLIMENTO
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (data.containsKey("progress")) {
+        state = ProgressTraining.fromJson(data["progress"]);
       }
-    } catch (e) {
-      print("Errore: $e");
+      return true; // ✅ SUCCESSO
+    } on ApiException catch (e) {
+      showAppError('Salvataggio progressi fallito: ${e.message}');
       return false; // ❌ FALLIMENTO
     }
   }

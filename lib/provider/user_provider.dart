@@ -1,32 +1,21 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:http/http.dart' as http;
 import '../config.dart';
-import '../service/auth_token.dart';
+import '../service/api_client.dart';
+import '../service/app_messenger.dart';
 import '../model/user_model.dart';
 
 class UserProfileState extends StateNotifier<UserProfile?> {
   UserProfileState() : super(null); // Stato iniziale nullo
 
   Future<void> fetchUserByEmail(String email) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/user/byEmail/$email');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-
-        state = UserProfile.fromJson(data); // Assegna il singolo oggetto User
-      } else {
-        state = null;
-      }
-    } catch (e) {
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/user/byEmail/$email');
+      final Map<String, dynamic> data = json.decode(response.body);
+      state = UserProfile.fromJson(data); // Assegna il singolo oggetto User
+    } on ApiException catch (e) {
+      showAppError('Profilo utente: ${e.message}');
       state = null;
     }
   }
@@ -42,53 +31,25 @@ class UserState extends StateNotifier<List<User>> {
   UserState() : super([]); // Stato iniziale vuoto
 
   Future<void> fetchUserByPtId(int ptId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/user/pt/$ptId');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-
-        // Mapping the fetched data to a list of User objects
-        state = data.map((item) => User.fromJson(item)).toList();
-      } else {
-        state = [];
-        print('Failed to fetch users');
-      }
-    } catch (e) {
-      print('Error fetching users: $e');
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/user/pt/$ptId');
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => User.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Utenti: ${e.message}');
       state = [];
     }
   }
 
   Future<void> fetchUserById(int clientId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/user/$clientId');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-
-        // Mapping the fetched data to a list of User objects
-        state = data.map((item) => User.fromJson(item)).toList();
-      } else {
-        state = [];
-        print('Failed to fetch users');
-      }
-    } catch (e) {
-      print('Error fetching users: $e');
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/user/$clientId');
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => User.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Utenti: ${e.message}');
       state = [];
     }
   }
@@ -103,26 +64,13 @@ class UserSingleState extends StateNotifier<User?> {
   UserSingleState() : super(null); // Stato iniziale vuoto
 
   Future<void> fetchUserById(int clientId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/user/$clientId');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final dynamic data = json.decode(response.body);
-        state = User.fromJson(data);
-        ;
-      } else {
-        state = null;
-        print('Failed to fetch users');
-      }
-    } catch (e) {
-      print('Error fetching users: $e');
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/user/$clientId');
+      final dynamic data = json.decode(response.body);
+      state = User.fromJson(data);
+    } on ApiException catch (e) {
+      showAppError('Utente: ${e.message}');
       state = null;
     }
   }
@@ -137,32 +85,20 @@ class UserAddProfileState extends StateNotifier<AddProfile?> {
   UserAddProfileState() : super(null);
 
   Future<String?> addProfile(int userId, AddProfile profile) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/user/profile/$userId');
-
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
+      final response = await ApiClient.post(
+        '${AppConfig.baseUrl}/user/profile/$userId',
         body: jsonEncode(profile.toJson()),
       );
-
-      if (response.statusCode == 200) {
-        return response.body; // ritorna la risposta del server
-      } else {
-        return 'Errore ${response.statusCode}: ${response.body}';
-      }
-    } catch (e) {
-      print('Error post profile: $e');
+      return response.body; // ritorna la risposta del server
+    } on ApiException catch (e) {
+      showAppError('Salvataggio profilo fallito: ${e.message}');
       state = null;
+      return null;
     }
-    return null;
   }
 }
 
 final addProfileUserProvider =
     StateNotifierProvider<UserAddProfileState, AddProfile?>(
         (ref) => UserAddProfileState());
-

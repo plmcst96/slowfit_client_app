@@ -13,14 +13,14 @@ class QuizSlide extends ConsumerStatefulWidget {
     required this.currentPage,
     required this.onAnswerSelected,
     required this.pageController,
-    this.onContinueLastQuestion, // <-- aggiunto
+    this.onContinueLastQuestion,
   });
 
   final Quiz quiz;
   final int currentPage;
   final Function(dynamic) onAnswerSelected;
   final PageController pageController;
-  final VoidCallback? onContinueLastQuestion; // <-- tipo per callback
+  final VoidCallback? onContinueLastQuestion;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _QuizSlideState();
@@ -28,8 +28,8 @@ class QuizSlide extends ConsumerStatefulWidget {
 
 class _QuizSlideState extends ConsumerState<QuizSlide> {
   List<String> selectedAnswers = [];
-  Map<String, int> selectedAnswerIds = {}; // answerString -> answerId
-  Map<int, List<Response>> userAnswers = {}; // quizId -> lista di Response
+  Map<String, int> selectedAnswerIds = {};
+  Map<int, List<Response>> userAnswers = {};
 
   int selectedCm = 140;
   int selectedKg = 40;
@@ -291,8 +291,7 @@ class _QuizSlideState extends ConsumerState<QuizSlide> {
 
                             await _saveAnswer([response]);
                             widget.onAnswerSelected([response]);
-
-                            _navigateNext(); // ora passa alla slide successiva
+                            _navigateNext();
                           },
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                           child: const Text(
@@ -306,7 +305,7 @@ class _QuizSlideState extends ConsumerState<QuizSlide> {
                   else
                     Column(
                       children: [
-                        ...answers.map(_buildAnswerButton).toList(),
+                        ...answers.map(_buildAnswerButton),
                         SizedBox(height: 50,),
                         if (!widget.quiz.singleResponse)
                           ElevatedButton(

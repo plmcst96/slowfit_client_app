@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:http/http.dart' as http;
 
 import '../config.dart';
-import '../service/auth_token.dart';
+import '../service/api_client.dart';
+import '../service/app_messenger.dart';
 import '../model/ingredient_model.dart';
 
 class IngredientState extends StateNotifier<List<Ingredient>>{
@@ -14,34 +14,24 @@ class IngredientState extends StateNotifier<List<Ingredient>>{
   IngredientState(this.ref) : super([]);
 
   Future<void> getIngredients({String search = ''}) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/ingredient');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
-      );
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/ingredient');
+      final List<dynamic> data = json.decode(response.body);
+      List<Ingredient> ingredients =
+          data.map((e) => Ingredient.fromJson(e)).toList();
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        List<Ingredient> ingredients = data.map((e) => Ingredient.fromJson(e)).toList();
-
-        // ✅ Filtra SOLO se search non è vuoto
-        if (search.trim().isNotEmpty) {
-          ingredients = ingredients
-              .where((ing) => ing.name.toLowerCase().contains(search.toLowerCase()))
-              .toList();
-        }
-
-        state = ingredients;
-      } else {
-        state = [];
+      // ✅ Filtra SOLO se search non è vuoto
+      if (search.trim().isNotEmpty) {
+        ingredients = ingredients
+            .where((ing) =>
+                ing.name.toLowerCase().contains(search.toLowerCase()))
+            .toList();
       }
-    } catch (e) {
-      print("Errore: $e");
+
+      state = ingredients;
+    } on ApiException catch (e) {
+      showAppError('Ingredienti: ${e.message}');
       state = [];
     }
   }

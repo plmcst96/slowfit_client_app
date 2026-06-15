@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:slowFit_client/quiz/quiz_slide.dart';
@@ -19,13 +20,20 @@ class _QuizPageState extends ConsumerState<QuizPage> {
   final Map<int, dynamic> answers = {};
   bool _quizzesLoaded = false;
   bool _showFinalPage = false; // <-- nuovo flag
+  bool _loadFailed = false;
 
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-          () => ref.read(quizSingleProvider.notifier).getSingleQuiz(3),
-    );
+    _loadInitialQuiz();
+  }
+
+  Future<void> _loadInitialQuiz() async {
+    setState(() => _loadFailed = false);
+    final ok = await ref.read(quizSingleProvider.notifier).getSingleQuiz(3);
+    if (mounted && !ok) {
+      setState(() => _loadFailed = true);
+    }
   }
 
   void _handleAnswer(dynamic answer, {bool isLastQuestion = false}) async {
@@ -107,7 +115,36 @@ class _QuizPageState extends ConsumerState<QuizPage> {
     ];
 
     if (pages.isEmpty) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return Scaffold(
+        body: Center(
+          child: _loadFailed
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.cloud_off, size: 48, color: Colors.grey),
+                    const SizedBox(height: 12),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 32),
+                      child: Text(
+                        'Impossibile caricare il quiz. Controlla la connessione e riprova.',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.pink,
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: _loadInitialQuiz,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Riprova'),
+                    ),
+                  ],
+                )
+              : const CircularProgressIndicator(),
+        ),
+      );
     }
 
     return Scaffold(

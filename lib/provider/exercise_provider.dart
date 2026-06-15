@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:http/http.dart' as http;
 
 import '../config.dart';
-import '../service/auth_token.dart';
+import '../service/api_client.dart';
+import '../service/app_messenger.dart';
 import '../model/exercise_model.dart';
 import '../model/training_model.dart';
 
@@ -32,30 +32,16 @@ class TypeExerciseState extends StateNotifier<List<TypeExercise>> {
   TypeExerciseState(this.ref) : super([]);
 
   Future<void> getTypeExercise() async {
-    final url = Uri.parse('${AppConfig.baseUrl}/type');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-
-        state = data
-            .map((item) => TypeExercise.fromJson(item))
-            .where((type) =>
-                type.typeId != 11 && type.typeId != 12 && type.typeId != 13)
-            .toList();
-      } else {
-        state = [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final response = await ApiClient.get('${AppConfig.baseUrl}/type');
+      final List<dynamic> data = json.decode(response.body);
+      state = data
+          .map((item) => TypeExercise.fromJson(item))
+          .where((type) =>
+              type.typeId != 11 && type.typeId != 12 && type.typeId != 13)
+          .toList();
+    } on ApiException catch (e) {
+      showAppError('Tipi esercizio: ${e.message}');
       state = [];
     }
   }
@@ -69,34 +55,21 @@ class TypeSingleTraining extends StateNotifier<Map<int, TypeExercise>> {
   TypeSingleTraining() : super({});
 
   Future<TypeExercise?> getSingleType(int typeId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/type/$typeId');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
-      );
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/type/$typeId');
+      final dynamic data = json.decode(response.body);
+      final type = TypeExercise.fromJson(data);
 
-      if (response.statusCode == 200) {
-        final dynamic data = json.decode(response.body);
-        final type = TypeExercise.fromJson(data);
+      // aggiorna lo stato con il nuovo type
+      state = {
+        ...state,
+        typeId: type,
+      };
 
-        // aggiorna lo stato con il nuovo type
-        state = {
-          ...state,
-          typeId: type,
-        };
-
-        return type; // 👈 ritorna il singolo oggetto
-      } else {
-        print("Errore HTTP: ${response.statusCode}");
-        return null;
-      }
-    } catch (e) {
-      print("Errore durante il fetch del type $typeId: $e");
+      return type; // 👈 ritorna il singolo oggetto
+    } on ApiException catch (e) {
+      showAppError('Tipo esercizio: ${e.message}');
       return null;
     }
   }
@@ -131,26 +104,12 @@ class LocationExerciseState extends StateNotifier<List<LocationTraining>> {
   LocationExerciseState(this.ref) : super([]);
 
   Future<void> getLocationExercise() async {
-    final url = Uri.parse('${AppConfig.baseUrl}/location');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-
-        state = data.map((item) => LocationTraining.fromJson(item)).toList();
-      } else {
-        state = [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final response = await ApiClient.get('${AppConfig.baseUrl}/location');
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => LocationTraining.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Luoghi: ${e.message}');
       state = [];
     }
   }
@@ -167,118 +126,65 @@ class ExerciseState extends StateNotifier<List<Exercise>> {
 
   // Modifica la funzione per restituire una lista di esercizi
   Future<List<Exercise>> getExerciseGpt(int trainingId) async {
-    final url = Uri.parse(
-        '${AppConfig.baseUrl}/api/exercise/exerciseByTraining/$trainingId');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
+      final response = await ApiClient.get(
+        '${AppConfig.baseUrl}/api/exercise/exerciseByTraining/$trainingId',
       );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        // Restituisci una lista di esercizi
-        return data.map((item) => Exercise.fromJson(item)).toList();
-      } else {
-        return [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final List<dynamic> data = json.decode(response.body);
+      // Restituisci una lista di esercizi
+      return data.map((item) => Exercise.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Esercizi: ${e.message}');
       return [];
     }
   }
 
   Future<void> getExercise(int trainingId) async {
-    final url = Uri.parse(
-        '${AppConfig.baseUrl}/api/exercise/exerciseByTraining/$trainingId');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
+      final response = await ApiClient.get(
+        '${AppConfig.baseUrl}/api/exercise/exerciseByTraining/$trainingId',
       );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        state = data.map((item) => Exercise.fromJson(item)).toList();
-      } else {
-        state = [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => Exercise.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Esercizi: ${e.message}');
       state = [];
     }
   }
 
   Future<void> addExercise(Exercise exercise) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/api/exercise');
-
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
+      final response = await ApiClient.post(
+        '${AppConfig.baseUrl}/api/exercise',
         body: json.encode(exercise.toJson()),
       );
+      final decodedResponse = json.decode(response.body);
+      final newExercise = Exercise.fromJson(decodedResponse);
+      state = [...state, newExercise];
 
-      if (response.statusCode == 200) {
-        final decodedResponse = json.decode(response.body);
-
-        final newExercise = Exercise.fromJson(decodedResponse);
-
-        state = [...state, newExercise];
-
-        ref
-            .read(exerciseProvider.notifier)
-            .getExercise(exercise.typeTrainingId);
-      } else {
-        throw Exception('Failed to add exercise');
-      }
-    } catch (e) {
-      print('Error adding exercise: $e');
+      ref.read(exerciseProvider.notifier).getExercise(exercise.typeTrainingId);
+    } on ApiException catch (e) {
+      showAppError('Creazione esercizio fallita: ${e.message}');
     }
   }
 
   Future<void> updateExercise(Exercise exercise) async {
-    final url =
-        Uri.parse('${AppConfig.baseUrl}/api/exercise/${exercise.exerciseId}');
-
     try {
-      final response = await http.put(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
+      await ApiClient.put(
+        '${AppConfig.baseUrl}/api/exercise/${exercise.exerciseId}',
         body: json.encode(exercise.toJson()),
       );
+      // Aggiorna lo stato manualmente con i dati già in tuo possesso
+      state = state.map((ex) {
+        return ex.exerciseId == exercise.exerciseId ? exercise : ex;
+      }).toList();
 
-      if (response.statusCode == 200) {
-        final decodedResponse = json.decode(response.body);
-        print("Messaggio: ${decodedResponse['message']}");
-
-        // Aggiorna lo stato manualmente con i dati già in tuo possesso
-        state = state.map((ex) {
-          return ex.exerciseId == exercise.exerciseId ? exercise : ex;
-        }).toList();
-
-        // Oppure, se vuoi ricaricare dal backend:
-        await ref
-            .read(exerciseProvider.notifier)
-            .getExercise(exercise.typeTrainingId);
-      } else {
-        throw Exception('Failed to update exercise');
-      }
-    } catch (e) {
-      print('Error updating exercise: $e');
+      // Ricarica dal backend
+      await ref
+          .read(exerciseProvider.notifier)
+          .getExercise(exercise.typeTrainingId);
+    } on ApiException catch (e) {
+      showAppError('Aggiornamento esercizio fallito: ${e.message}');
     }
   }
 }
@@ -290,26 +196,13 @@ class ExerciseSingleState extends StateNotifier<Exercise?> {
   ExerciseSingleState() : super(null);
 
   Future<void> getSingleExercise(int exerciseId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/api/exercise/$exerciseId');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-
-        state = Exercise.fromJson(data);
-      } else {
-        state = null;
-      }
-    } catch (e) {
-      print('Errore: $e');
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/api/exercise/$exerciseId');
+      final data = json.decode(response.body);
+      state = Exercise.fromJson(data);
+    } on ApiException catch (e) {
+      showAppError('Esercizio: ${e.message}');
       state = null;
     }
   }
@@ -323,28 +216,17 @@ class ExerciseSingleMapState extends StateNotifier<Map<int, Exercise>> {
   ExerciseSingleMapState() : super({});
 
   Future<void> getSingleExerciseMap(int exerciseId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/api/exercise/$exerciseId');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final dynamic data = json.decode(response.body);
-        final exercise = Exercise.fromJson(data);
-
-        state = {
-          ...state,
-          exerciseId: exercise,
-        };
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/api/exercise/$exerciseId');
+      final dynamic data = json.decode(response.body);
+      final exercise = Exercise.fromJson(data);
+      state = {
+        ...state,
+        exerciseId: exercise,
+      };
+    } on ApiException catch (e) {
+      showAppError('Esercizio: ${e.message}');
     }
   }
 }
@@ -359,49 +241,27 @@ class ExerciseRestState extends StateNotifier<List<Exercise>> {
   ExerciseRestState(this.ref) : super([]);
 
   Future<void> getExerciseRest() async {
-    final url =
-        Uri.parse('${AppConfig.baseUrl}/api/exercise/exerciseByTraining/15');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
+      final response = await ApiClient.get(
+        '${AppConfig.baseUrl}/api/exercise/exerciseByTraining/15',
       );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        state = data.map((item) => Exercise.fromJson(item)).toList();
-      } else {
-        state = [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => Exercise.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Esercizi: ${e.message}');
       state = [];
     }
   }
 
   Future<void> getExerciseStr() async {
-    final url =
-        Uri.parse('${AppConfig.baseUrl}/api/exercise/exerciseByTraining/14');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
+      final response = await ApiClient.get(
+        '${AppConfig.baseUrl}/api/exercise/exerciseByTraining/14',
       );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        state = data.map((item) => Exercise.fromJson(item)).toList();
-      } else {
-        state = [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => Exercise.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Esercizi: ${e.message}');
       state = [];
     }
   }
@@ -417,25 +277,14 @@ class ExerciseStrState extends StateNotifier<List<Exercise>> {
   ExerciseStrState(this.ref) : super([]);
 
   Future<void> getExerciseStr() async {
-    final url =
-        Uri.parse('${AppConfig.baseUrl}/api/exercise/exerciseByTraining/14');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
+      final response = await ApiClient.get(
+        '${AppConfig.baseUrl}/api/exercise/exerciseByTraining/14',
       );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        state = data.map((item) => Exercise.fromJson(item)).toList();
-      } else {
-        state = [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => Exercise.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Esercizi: ${e.message}');
       state = [];
     }
   }

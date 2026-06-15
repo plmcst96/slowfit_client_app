@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
+import '../service/api_client.dart';
 import '../service/auth_token.dart';
 import '../l10n/app_localizations.dart';
 
@@ -57,42 +57,40 @@ class LoginNotifier extends StateNotifier<LoginState> {
     // Start the login process
     state = state.copyWith(errorMessage: null, isLoggedIn: false);
 
-    final url = Uri.parse('${AppConfig.baseUrl}/login');
+    // Catturo il messaggio localizzato prima dell'await (evita uso di context
+    // attraverso async gap).
+    final String invalidMsg = AppLocalizations.of(context)!.invalid;
 
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      final response = await ApiClient.post(
+        '${AppConfig.baseUrl}/login',
         body: json.encode({'Email': email, 'Password': password}),
       );
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+      final data = json.decode(response.body);
 
-        // Check if the message is "Login successful!" instead of "status"
-        if (data['message'] == 'Login successful!') {
-          // Salva il JWT per autenticare gli endpoint protetti.
-          if (data['token'] != null) {
-            await AuthToken.save(data['token']);
-          }
-          state = state.copyWith(
-            isLoggedIn: true,
-            email: data['email'], // Save the userId from response
-            userId: data['userId'],
-            roleId: data['roleId'],
-          );
+      // Check if the message is "Login successful!" instead of "status"
+      if (data['message'] == 'Login successful!') {
+        // Salva il JWT per autenticare gli endpoint protetti.
+        if (data['token'] != null) {
+          await AuthToken.save(data['token']);
         }
-      } else {
         state = state.copyWith(
-          errorMessage: AppLocalizations.of(context)!.invalid,
-          isLoggedIn: false,
+          isLoggedIn: true,
+          email: data['email'], // Save the userId from response
+          userId: data['userId'],
+          roleId: data['roleId'],
         );
+      } else {
+        state = state.copyWith(errorMessage: invalidMsg, isLoggedIn: false);
       }
-    } catch (e) {
-      state = state.copyWith(errorMessage: 'Error occurred', isLoggedIn: false);
-      print(e);
+    } on ApiException catch (e) {
+      // 400/401 = credenziali errate → messaggio localizzato;
+      // altri casi (rete/timeout/500) → messaggio dell'errore.
+      final msg = (e.statusCode == 400 || e.statusCode == 401)
+          ? invalidMsg
+          : e.message;
+      state = state.copyWith(errorMessage: msg, isLoggedIn: false);
     }
   }
 

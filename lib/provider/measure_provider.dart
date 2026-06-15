@@ -1,37 +1,22 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:http/http.dart' as http;
 
 import '../config.dart';
-import '../service/auth_token.dart';
+import '../service/api_client.dart';
+import '../service/app_messenger.dart';
 import '../model/measure_model.dart';
 
 class BodyPartState extends StateNotifier<List<BodyPart>> {
   BodyPartState() : super([]);
 
   Future<void> fetchBodyPart() async {
-    final url = Uri.parse('${AppConfig.baseUrl}/bodypart');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-
-        // Mapping the fetched data to a list of User objects
-        state = data.map((item) => BodyPart.fromJson(item)).toList();
-      } else {
-        state = [];
-        print('Failed to fetch body part');
-      }
-    } catch (e) {
-      print('Error fetching body part: $e');
+      final response = await ApiClient.get('${AppConfig.baseUrl}/bodypart');
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => BodyPart.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Parti del corpo: ${e.message}');
       state = [];
     }
   }
@@ -44,32 +29,18 @@ class MeasureState extends StateNotifier<List<MeasureAdd>> {
   MeasureState() : super([]);
 
   Future<void> saveMeasure(MeasureAdd measure) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/measure');
-
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
+      final response = await ApiClient.post(
+        '${AppConfig.baseUrl}/measure',
         body: json.encode(measure.toJson()),
       );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final decodedResponse = json.decode(response.body);
-
-        // Ricreo il training ritornato dal server
-        final newMeasure = MeasureAdd.fromJson(decodedResponse);
-
-        // Aggiorno il provider locale
-        state = [...state, newMeasure];
-      } else {
-        throw Exception(
-            'Errore nel salvataggio della misura: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Errore nel salvataggio della misura: $e');
+      final decodedResponse = json.decode(response.body);
+      // Ricreo la misura ritornata dal server
+      final newMeasure = MeasureAdd.fromJson(decodedResponse);
+      // Aggiorno il provider locale
+      state = [...state, newMeasure];
+    } on ApiException catch (e) {
+      showAppError('Salvataggio misura fallito: ${e.message}');
     }
   }
 }
@@ -82,25 +53,13 @@ class MeasureAllState extends StateNotifier<List<Measure>> {
 
   // 🔄 Recupera tutte le misure di un utente
   Future<void> fetchAllMeasure(int userId) async {
-    final url = Uri.parse('${AppConfig.baseUrl}/measure/byUser/$userId');
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        state = data.map((item) => Measure.fromJson(item)).toList();
-      } else {
-        state = [];
-        print('Failed to fetch measure');
-      }
-    } catch (e) {
-      print('Error fetching measure: $e');
+      final response =
+          await ApiClient.get('${AppConfig.baseUrl}/measure/byUser/$userId');
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => Measure.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Misure: ${e.message}');
       state = [];
     }
   }
@@ -108,30 +67,16 @@ class MeasureAllState extends StateNotifier<List<Measure>> {
   // 📌 NUOVA FUNZIONE — range generico
   Future<void> fetchMeasureByDateRange(
       int userId, DateTime start, DateTime end) async {
-    final url = Uri.parse(
-      '${AppConfig.baseUrl}/measure/byDateRange/$userId'
-          '?startDate=${start.toIso8601String().substring(0, 10)}'
-          '&endDate=${end.toIso8601String().substring(0, 10)}',
-    );
+    final url = '${AppConfig.baseUrl}/measure/byDateRange/$userId'
+        '?startDate=${start.toIso8601String().substring(0, 10)}'
+        '&endDate=${end.toIso8601String().substring(0, 10)}';
 
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        state = data.map((item) => Measure.fromJson(item)).toList();
-      } else {
-        print("No data in this range");
-        state = [];
-      }
-    } catch (e) {
-      print("Error fetching measure range: $e");
+      final response = await ApiClient.get(url);
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((item) => Measure.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError('Misure: ${e.message}');
       state = [];
     }
   }

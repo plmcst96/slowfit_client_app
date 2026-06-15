@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
-import '../service/auth_token.dart';
+import '../service/api_client.dart';
+import '../service/app_messenger.dart';
 import '../model/meal_model.dart';
 
 final mealEatenProvider =
@@ -80,74 +80,40 @@ class MealEatenNotifier extends StateNotifier<Set<int>> {
 
 final categoryByIdProvider =
 FutureProvider.family<CategoryOfDay?, int>((ref, categoryId) async {
-  final url = Uri.parse('${AppConfig.baseUrl}/category/$categoryId');
   try {
-    final response = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${AuthToken.token}',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return CategoryOfDay.fromJson(data);
-    } else {
-      return null;
-    }
-  } catch (e) {
-    print("Errore fetching category: $e");
+    final response =
+        await ApiClient.get('${AppConfig.baseUrl}/category/$categoryId');
+    final data = json.decode(response.body);
+    return CategoryOfDay.fromJson(data);
+  } on ApiException catch (e) {
+    showAppError('Categoria: ${e.message}');
     return null;
   }
 });
 
 final mealsByCategoryProvider =
     FutureProvider.family<List<Meal>, int>((ref, categoryId) async {
-  final url = Uri.parse('${AppConfig.baseUrl}/meal/byCategory/$categoryId');
-
   try {
-    final response = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${AuthToken.token}',
-      },
+    final response = await ApiClient.get(
+      '${AppConfig.baseUrl}/meal/byCategory/$categoryId',
     );
-
-    if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.map((e) => Meal.fromJson(e)).toList();
-    } else {
-      return [];
-    }
-  } catch (e) {
-    print("Errore fetch pasti per categoria: $e");
+    final List<dynamic> data = json.decode(response.body);
+    return data.map((e) => Meal.fromJson(e)).toList();
+  } on ApiException catch (e) {
+    showAppError('Pasti: ${e.message}');
     return [];
   }
 });
 
 final categoryByIdProviders =
     FutureProvider.family<CategoryOfDay?, int>((ref, categoryId) async {
-  final url = Uri.parse('${AppConfig.baseUrl}/category/$categoryId');
-
   try {
-    final response = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${AuthToken.token}',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return CategoryOfDay.fromJson(data);
-    } else {
-      return null;
-    }
-  } catch (e) {
-    print("Errore fetching category: $e");
+    final response =
+        await ApiClient.get('${AppConfig.baseUrl}/category/$categoryId');
+    final data = json.decode(response.body);
+    return CategoryOfDay.fromJson(data);
+  } on ApiException catch (e) {
+    showAppError('Categoria: ${e.message}');
     return null;
   }
 });
@@ -159,25 +125,12 @@ class MealState extends StateNotifier<List<Meal>> {
   MealState(this.ref) : super([]);
 
   Future<void> getMeals() async {
-    final url = Uri.parse('${AppConfig.baseUrl}/meal');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}'
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        state = data.map((e) => Meal.fromJson(e)).toList();
-      } else {
-        state = [];
-      }
-    } catch (e) {
-      print("Errore: $e");
+      final response = await ApiClient.get('${AppConfig.baseUrl}/meal');
+      final List<dynamic> data = json.decode(response.body);
+      state = data.map((e) => Meal.fromJson(e)).toList();
+    } on ApiException catch (e) {
+      showAppError('Pasti: ${e.message}');
       state = [];
     }
   }
@@ -220,124 +173,58 @@ class MealDetailNotifier extends StateNotifier<MealDetailState> {
   /// 🔥 Recupera i dettagli di un singolo meal con ingredienti
   Future<void> fetchMealDetail(int mealId) async {
     state = state.copyWith(isLoading: true, error: null);
-    final url = Uri.parse('${AppConfig.baseUrl}/meal/$mealId/withIngredients');
-
     try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
+      final response = await ApiClient.get(
+        '${AppConfig.baseUrl}/meal/$mealId/withIngredients',
       );
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final meal = MealDetail.fromJson(data);
-
-        state = state.copyWith(meal: meal, isLoading: false);
-        print(state.meal?.ingredients.length);
-      } else if (response.statusCode == 404) {
-        state = state.copyWith(
-          isLoading: false,
-          error: "Pasto non trovato con ID: $mealId",
-        );
-      } else {
-        state = state.copyWith(
-          isLoading: false,
-          error: "Errore del server: ${response.statusCode}",
-        );
-      }
-    } catch (e) {
+      final data = json.decode(response.body);
+      state = state.copyWith(meal: MealDetail.fromJson(data), isLoading: false);
+    } on ApiException catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: "Errore di rete: $e",
+        error: e.statusCode == 404
+            ? "Pasto non trovato con ID: $mealId"
+            : e.message,
       );
     }
   }
 
   Future<void> updateMeal(MealDetail meal) async {
     state = state.copyWith(isLoading: true, error: null);
-    final bodyJson = jsonEncode(meal.toJson()..remove('mealId'));
-    final url = Uri.parse('${AppConfig.baseUrl}/meal/${meal.mealId}');
-    print('PUT URL: $url');
-    print('PUT BODY: $bodyJson');
-
     try {
-      final response = await http.put(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
+      await ApiClient.put(
+        '${AppConfig.baseUrl}/meal/${meal.mealId}',
         body: jsonEncode(meal.toJson()), // ✅ invia i dati aggiornati
       );
-
-      print('STATUS CODE: ${response.statusCode}');
-      print('BODY: ${response.body}');
-
-      if (response.statusCode == 200) {
-        // ✅ Ricarica i dettagli aggiornati dal server
-        await fetchMealDetail(meal.mealId);
-        state = state.copyWith(isLoading: false);
-      } else if (response.statusCode == 404) {
-        state = state.copyWith(
-          isLoading: false,
-          error: "Pasto con ID ${meal.mealId} non trovato",
-        );
-      } else {
-        state = state.copyWith(
-          isLoading: false,
-          error:
-              "Errore durante l'aggiornamento: ${response.statusCode} ${response.body}",
-        );
-      }
-    } catch (e) {
+      // ✅ Ricarica i dettagli aggiornati dal server
+      await fetchMealDetail(meal.mealId);
+      state = state.copyWith(isLoading: false);
+    } on ApiException catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: "Errore di rete: $e",
+        error: e.statusCode == 404
+            ? "Pasto con ID ${meal.mealId} non trovato"
+            : "Errore durante l'aggiornamento: ${e.message}",
       );
     }
   }
 
   Future<void> createMeal(MealDetail meal) async {
     state = state.copyWith(isLoading: true, error: null);
-    final url = Uri.parse('${AppConfig.baseUrl}/meal');
-    print('PUT URL: $url');
-
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthToken.token}',
-        },
+      await ApiClient.post(
+        '${AppConfig.baseUrl}/meal',
         body: jsonEncode(meal.toJson()), // ✅ invia i dati aggiornati
       );
-
-      print('STATUS CODE: ${response.statusCode}');
-      print('BODY: ${response.body}');
-
-      if (response.statusCode == 200) {
-        // ✅ Ricarica i dettagli aggiornati dal server
-        await fetchMealDetail(meal.mealId);
-        state = state.copyWith(isLoading: false);
-      } else if (response.statusCode == 404) {
-        state = state.copyWith(
-          isLoading: false,
-          error: "Pasto non salvato",
-        );
-      } else {
-        state = state.copyWith(
-          isLoading: false,
-          error:
-              "Errore durante l'aggiunta: ${response.statusCode} ${response.body}",
-        );
-      }
-    } catch (e) {
+      // ✅ Ricarica i dettagli aggiornati dal server
+      await fetchMealDetail(meal.mealId);
+      state = state.copyWith(isLoading: false);
+    } on ApiException catch (e) {
       state = state.copyWith(
         isLoading: false,
-        error: "Errore di rete: $e",
+        error: e.statusCode == 404
+            ? "Pasto non salvato"
+            : "Errore durante l'aggiunta: ${e.message}",
       );
     }
   }
