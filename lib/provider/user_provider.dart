@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 import '../config.dart';
+import '../service/auth_token.dart';
 import '../model/user_model.dart';
 
 class UserProfileState extends StateNotifier<UserProfile?> {
@@ -14,7 +15,7 @@ class UserProfileState extends StateNotifier<UserProfile?> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -47,7 +48,7 @@ class UserState extends StateNotifier<List<User>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -73,7 +74,7 @@ class UserState extends StateNotifier<List<User>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -108,7 +109,7 @@ class UserSingleState extends StateNotifier<User?> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -143,7 +144,7 @@ class UserAddProfileState extends StateNotifier<AddProfile?> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
         body: jsonEncode(profile.toJson()),
       );

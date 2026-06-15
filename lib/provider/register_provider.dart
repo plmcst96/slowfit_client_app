@@ -50,7 +50,6 @@ class RegisterNotifier extends StateNotifier<RegisterState> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
         },
         body: json.encode(body),
       );

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
+import '../service/auth_token.dart';
 import '../l10n/app_localizations.dart';
 
 final loginProvider = StateNotifierProvider<LoginNotifier, LoginState>((ref) {
@@ -63,7 +64,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}',
         },
         body: json.encode({'Email': email, 'Password': password}),
       );
@@ -73,6 +73,10 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
         // Check if the message is "Login successful!" instead of "status"
         if (data['message'] == 'Login successful!') {
+          // Salva il JWT per autenticare gli endpoint protetti.
+          if (data['token'] != null) {
+            await AuthToken.save(data['token']);
+          }
           state = state.copyWith(
             isLoggedIn: true,
             email: data['email'], // Save the userId from response
@@ -96,6 +100,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
+    await AuthToken.clear();
 
     // 🔹 Resetta lo stato dell’utente
     state = LoginState(

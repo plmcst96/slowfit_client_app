@@ -123,7 +123,7 @@ class _DetailExerciseSheetState extends ConsumerState<DetailExerciseSheet> {
                                       _playVideo = !_playVideo;
                                     });
                                   },
-                                  icon: Icon(FontAwesomeIcons.play, size: 20),
+                                  icon: FaIcon(FontAwesomeIcons.play, size: 20),
                                 ),
                               ),
                             ),
@@ -194,8 +194,7 @@ class _DetailExerciseSheetState extends ConsumerState<DetailExerciseSheet> {
                                               SizedBox(height: 9),
                                               Row(
                                                 children: [
-                                                  Icon(
-                                                    FontAwesomeIcons.fire,
+                                                  FaIcon(FontAwesomeIcons.fire,
                                                     size: 20,
                                                     color: Color(0XFF9A91AD),
                                                   ),
@@ -235,8 +234,7 @@ class _DetailExerciseSheetState extends ConsumerState<DetailExerciseSheet> {
                                               SizedBox(height: 9),
                                               Row(
                                                 children: [
-                                                  Icon(
-                                                    FontAwesomeIcons.fire,
+                                                  FaIcon(FontAwesomeIcons.fire,
                                                     size: 20,
                                                     color: Color(0XFF9A91AD),
                                                   ),

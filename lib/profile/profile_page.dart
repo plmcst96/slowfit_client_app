@@ -209,8 +209,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(
-                                        FontAwesomeIcons.dumbbell,
+                                      FaIcon(FontAwesomeIcons.dumbbell,
                                         color: Colors.pink[300],
                                         size: 20,
                                       ),
@@ -276,8 +275,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(
-                                        FontAwesomeIcons.appleWhole,
+                                      FaIcon(FontAwesomeIcons.appleWhole,
                                         color: Colors.pink[300],
                                         size: 20,
                                       ),

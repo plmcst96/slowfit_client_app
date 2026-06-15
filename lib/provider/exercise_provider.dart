@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 
 import '../config.dart';
+import '../service/auth_token.dart';
 import '../model/exercise_model.dart';
 import '../model/training_model.dart';
 
@@ -38,7 +39,7 @@ class TypeExerciseState extends StateNotifier<List<TypeExercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -75,7 +76,7 @@ class TypeSingleTraining extends StateNotifier<Map<int, TypeExercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 
@@ -137,7 +138,7 @@ class LocationExerciseState extends StateNotifier<List<LocationTraining>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -174,7 +175,7 @@ class ExerciseState extends StateNotifier<List<Exercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -199,7 +200,7 @@ class ExerciseState extends StateNotifier<List<Exercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -223,7 +224,7 @@ class ExerciseState extends StateNotifier<List<Exercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
         body: json.encode(exercise.toJson()),
       );
@@ -255,7 +256,7 @@ class ExerciseState extends StateNotifier<List<Exercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
         body: json.encode(exercise.toJson()),
       );
@@ -296,7 +297,7 @@ class ExerciseSingleState extends StateNotifier<Exercise?> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -329,7 +330,7 @@ class ExerciseSingleMapState extends StateNotifier<Map<int, Exercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 
@@ -365,7 +366,7 @@ class ExerciseRestState extends StateNotifier<List<Exercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -389,7 +390,7 @@ class ExerciseRestState extends StateNotifier<List<Exercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -423,7 +424,7 @@ class ExerciseStrState extends StateNotifier<List<Exercise>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 

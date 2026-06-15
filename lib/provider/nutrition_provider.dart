@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 
 import '../config.dart';
+import '../service/auth_token.dart';
 import '../model/meal_model.dart';
 import '../model/nutrition_model.dart';
 
@@ -43,7 +44,7 @@ class TypeNutritionNotifier extends StateNotifier<List<TypeNutrition>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -74,7 +75,7 @@ class TypeNutritionByIdNotifier
       final url = Uri.parse('${AppConfig.baseUrl}/typeNutrition/$id');
       final response = await http.get(url, headers: {
         'Content-Type': 'application/json',
-        'slowKey': '${AppConfig.slowKey}'
+        'Authorization': 'Bearer ${AuthToken.token}'
       });
 
       if (response.statusCode == 200) {
@@ -114,7 +115,7 @@ class NutritionByIdNotifier extends StateNotifier<NutritionDetail?> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -177,7 +178,7 @@ class NutritionByUserNotifier
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}',
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 
@@ -238,7 +239,7 @@ final dailyNutritionProvider = FutureProvider.family<DailyNutrition?, (int userI
       url,
       headers: {
         'Content-Type': 'application/json',
-        'slowKey': AppConfig.slowKey,
+        'Authorization': 'Bearer ${AuthToken.token}',
       },
     );
 
@@ -272,7 +273,7 @@ class NutritionNotifier extends StateNotifier<List<Nutrition>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -300,7 +301,7 @@ class NutritionNotifier extends StateNotifier<List<Nutrition>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 

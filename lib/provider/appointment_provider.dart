@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 
 import '../config.dart';
+import '../service/auth_token.dart';
 import '../model/appointment_model.dart';
 
 
@@ -23,7 +24,7 @@ class AppointmentState extends StateNotifier<List<Appointment>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
         body: json.encode(appointment.toJson()),
       );
@@ -55,7 +56,7 @@ class AppointmentState extends StateNotifier<List<Appointment>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
         body: json.encode(appointment.toJson()),
       );
@@ -92,7 +93,7 @@ class AppointmentState extends StateNotifier<List<Appointment>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -127,7 +128,7 @@ class AppointmentGetState extends StateNotifier<List<AppointmentGet>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -163,7 +164,7 @@ class AppointmentSingleState extends StateNotifier<AppointmentGet?> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 

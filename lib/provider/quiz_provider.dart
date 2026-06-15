@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:slowFit_client/config.dart';
+import 'package:slowFit_client/service/auth_token.dart';
 import 'package:slowFit_client/model/quiz_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,7 +17,7 @@ class QuizSingleNotifier extends StateNotifier<Quiz?> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}',
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 
@@ -50,7 +51,7 @@ class QuizNotifier extends StateNotifier<List<Quiz>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}',
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 
@@ -65,7 +66,7 @@ class QuizNotifier extends StateNotifier<List<Quiz>> {
             bothUrl,
             headers: {
               'Content-Type': 'application/json',
-              'slowKey': '${AppConfig.slowKey}',
+              'Authorization': 'Bearer ${AuthToken.token}',
             },
           );
           if (bothResponse.statusCode == 200) {

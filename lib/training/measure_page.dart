@@ -160,8 +160,7 @@ class _MeasurePageState extends ConsumerState<MeasurePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    FontAwesomeIcons.weightScale,
+                  FaIcon(FontAwesomeIcons.weightScale,
                     size: 40,
                     color: Colors.pink[500],
                   ),

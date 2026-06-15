@@ -337,8 +337,7 @@ class _AppointmentPageState extends ConsumerState<AppointmentPage> {
             child: ListTile(
               title: Row(
                 children: [
-                  Icon(
-                    FontAwesomeIcons.circleCheck,
+                  FaIcon(FontAwesomeIcons.circleCheck,
                     color: Color(0XFFBAFFA5),
                     size: 20,
                   ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../config.dart';
+import 'auth_token.dart';
 
 class ApiService {
   Future<bool> updateFcmToken(int userId, String token) async {
@@ -15,7 +16,7 @@ class ApiService {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
         body: jsonEncode({'UserId': userId, 'FcmToken': token}),
       );
@@ -37,7 +38,7 @@ class ApiService {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 
@@ -63,7 +64,7 @@ class ApiService {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
       return response.statusCode == 200;
@@ -95,7 +96,7 @@ class ApiService {
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
         body: body,
       );

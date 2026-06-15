@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 
 import '../config.dart';
+import '../service/auth_token.dart';
 import '../model/ingredient_model.dart';
 
 class IngredientState extends StateNotifier<List<Ingredient>>{
@@ -20,7 +21,7 @@ class IngredientState extends StateNotifier<List<Ingredient>>{
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}',
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 

@@ -37,7 +37,7 @@ dependencies:
   flutter_riverpod: ^3.0.3
   shared_preferences: ^2.5.3
   google_fonts: ^6.2.1
-  font_awesome_flutter: ^10.8.0
+  font_awesome_flutter: ^11.0.0
   url_launcher: ^6.3.1
   firebase_core: ^3.4.0
   firebase_messaging: ^15.0.3
@@ -53,19 +53,18 @@ dev_dependencies:
     sdk: flutter
   intl_utils: ^2.8.11
   flutter_launcher_icons: "^0.14.3"
-
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/loghi/logo11.png"
-  remove_alpha_ios: true
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/loghi/logo11.png"
+  remove_alpha_ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

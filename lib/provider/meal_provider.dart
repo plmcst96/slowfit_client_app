@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
+import '../service/auth_token.dart';
 import '../model/meal_model.dart';
 
 final mealEatenProvider =
@@ -85,7 +86,7 @@ FutureProvider.family<CategoryOfDay?, int>((ref, categoryId) async {
       url,
       headers: {
         'Content-Type': 'application/json',
-        'slowKey': AppConfig.slowKey,
+        'Authorization': 'Bearer ${AuthToken.token}',
       },
     );
 
@@ -110,7 +111,7 @@ final mealsByCategoryProvider =
       url,
       headers: {
         'Content-Type': 'application/json',
-        'slowKey': '${AppConfig.slowKey}',
+        'Authorization': 'Bearer ${AuthToken.token}',
       },
     );
 
@@ -135,7 +136,7 @@ final categoryByIdProviders =
       url,
       headers: {
         'Content-Type': 'application/json',
-        'slowKey': '${AppConfig.slowKey}',
+        'Authorization': 'Bearer ${AuthToken.token}',
       },
     );
 
@@ -165,7 +166,7 @@ class MealState extends StateNotifier<List<Meal>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -226,7 +227,7 @@ class MealDetailNotifier extends StateNotifier<MealDetailState> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 
@@ -267,7 +268,7 @@ class MealDetailNotifier extends StateNotifier<MealDetailState> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
         body: jsonEncode(meal.toJson()), // ✅ invia i dati aggiornati
       );
@@ -309,7 +310,7 @@ class MealDetailNotifier extends StateNotifier<MealDetailState> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
         body: jsonEncode(meal.toJson()), // ✅ invia i dati aggiornati
       );

@@ -434,7 +434,7 @@ class _AppointmentDetailState extends ConsumerState<AppointmentDetail> {
 
   Widget _buildDropdownDuration() {
     return DropdownButtonFormField<int>(
-      value: _duration,
+      initialValue: _duration,
       decoration: const InputDecoration(labelText: 'Durata'),
       items: [15, 30, 60, 90].map((value) {
         return DropdownMenuItem<int>(

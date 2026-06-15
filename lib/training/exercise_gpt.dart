@@ -256,8 +256,7 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
-                                  FontAwesomeIcons.clock,
+                                FaIcon(FontAwesomeIcons.clock,
                                   size: 15,
                                 ),
                                 SizedBox(
@@ -271,8 +270,7 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                                 SizedBox(
                                   width: 12,
                                 ),
-                                Icon(
-                                  FontAwesomeIcons.chartColumn,
+                                FaIcon(FontAwesomeIcons.chartColumn,
                                   size: 15,
                                 ),
                                 SizedBox(

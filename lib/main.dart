@@ -16,6 +16,7 @@ import 'package:slowFit_client/training/training_page.dart';
 import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 import 'landing_page/splash_screen.dart';
+import 'service/auth_token.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -32,6 +33,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   HttpOverrides.global = MyHttpOverrides();
+  await AuthToken.load();
   runApp(ProviderScope(child: const MyApp()));
 }
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 import 'package:slowFit_client/config.dart';
+import 'package:slowFit_client/service/auth_token.dart';
 
 import '../model/response_model.dart';
 
@@ -26,7 +27,7 @@ class ResponseQuizNotifier extends StateNotifier<List<ResponseQuiz>> {
         Uri.parse(baseUrl),
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
         body: jsonEncode(jsonList),
       );

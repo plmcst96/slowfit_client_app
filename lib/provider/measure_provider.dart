@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:http/http.dart' as http;
 
 import '../config.dart';
+import '../service/auth_token.dart';
 import '../model/measure_model.dart';
 
 class BodyPartState extends StateNotifier<List<BodyPart>> {
@@ -16,7 +17,7 @@ class BodyPartState extends StateNotifier<List<BodyPart>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': '${AppConfig.slowKey}'
+          'Authorization': 'Bearer ${AuthToken.token}'
         },
       );
 
@@ -50,7 +51,7 @@ class MeasureState extends StateNotifier<List<MeasureAdd>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
         body: json.encode(measure.toJson()),
       );
@@ -87,7 +88,7 @@ class MeasureAllState extends StateNotifier<List<Measure>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 
@@ -118,7 +119,7 @@ class MeasureAllState extends StateNotifier<List<Measure>> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'slowKey': AppConfig.slowKey,
+          'Authorization': 'Bearer ${AuthToken.token}',
         },
       );
 
