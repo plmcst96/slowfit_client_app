@@ -16,14 +16,11 @@ class AddClient extends ConsumerStatefulWidget{
   }
 }
 class _AddClientState extends ConsumerState<AddClient>{
-
-  // Campo di stato: deve persistere tra i rebuild, altrimenti il toggle
-  // mostra/nascondi password non funziona.
   bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
     final TextEditingController _nameController = TextEditingController();
@@ -32,13 +29,13 @@ class _AddClientState extends ConsumerState<AddClient>{
     void _registerUser() async {
       final loginState = ref.watch(loginProvider);
 
-      if (_formKey.currentState!.validate()) {
+
+      if (formKey.currentState!.validate()) {
         final registerModel = Register(
           email: _emailController.text,
           password: _passwordController.text,
           firstName: _nameController.text,
           surname: _surnameController.text,
-          // Il PT crea un utente CLIENTE (roleId 1) e si assegna come PT.
           roleId: Roles.client,
           ptId: loginState.userId,
         );
@@ -47,7 +44,6 @@ class _AddClientState extends ConsumerState<AddClient>{
 
         final registerState = ref.read(registerProvider);
         if (registerState.isRegister) {
-          // ✅ Mostra messaggio di successo
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(AppLocalizations.of(context)!.register_success),
@@ -96,7 +92,7 @@ class _AddClientState extends ConsumerState<AddClient>{
           Padding(
             padding: const EdgeInsets.all(30),
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 children: [
                   TextFormField(

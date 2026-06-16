@@ -31,8 +31,8 @@ class FloatingBottomBar extends ConsumerWidget {
       final isSelected = currentIndex == index;
       final iconColor = isSelected ? Colors.pink : Colors.white;
 
-      Widget iconWidget = Icon(
-        items[index]['icon'],
+      Widget iconWidget = FaIcon(
+        items[index]['icon'] as FaIconData,
         color: iconColor,
         size: isSelected ? 26 : 24,
       );
@@ -201,8 +201,8 @@ class CustomBottomBar extends ConsumerWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
-                            items[index]['icon'] as IconData,
+                          FaIcon(
+                            items[index]['icon'] as FaIconData,
                             color: iconColor,
                             size: isSelected ? 24 : 20,
                           ),
