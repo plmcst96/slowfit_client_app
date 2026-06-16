@@ -5,6 +5,8 @@ class AuthToken {
   static String? _token;
   static String? get token => _token;
 
+  static bool get hasToken => _token != null && _token!.isNotEmpty;
+
   /// Salva il token in memoria e su disco (dopo il login).
   static Future<void> save(String token) async {
     _token = token;

@@ -262,7 +262,7 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/exercise');
+                        Navigator.pushNamed(context, '/trainer-exercise');
                       },
                       icon: const Icon(Icons.arrow_back_ios),
                       color: Colors.white,

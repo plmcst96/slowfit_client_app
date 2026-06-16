@@ -101,7 +101,7 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                 child: IconButton(
                   onPressed: () {
                     ref.read(bottomBarProvider.notifier).updateIndex(3);
-                    Navigator.pushNamed(context, '/clients');
+                    Navigator.pushNamed(context, '/trainer-clients');
                   },
                   icon: const Icon(Icons.arrow_back_ios),
                   color: Colors.white,
@@ -152,7 +152,7 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                             ),
                           );
 
-                          Navigator.pushNamed(context, '/clients'); // Torna indietro alla lista
+                          Navigator.pushNamed(context, '/trainer-clients'); // Torna indietro alla lista
                         }
                       }
                     },

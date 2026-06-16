@@ -176,7 +176,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                       padding: const EdgeInsets.all(14.0),
                       child: IconButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/clients');
+                          Navigator.pushNamed(context, '/trainer-clients');
                         },
                         icon: const Icon(Icons.arrow_back_ios),
                         color: Colors.white,

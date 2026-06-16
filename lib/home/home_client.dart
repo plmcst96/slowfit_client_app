@@ -37,7 +37,7 @@ class _HomeClientState extends ConsumerState<HomeClient> {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/clients');
+        Navigator.pushNamed(context, '/trainer-clients');
       },
       child: Container(
         padding: EdgeInsets.all(10),

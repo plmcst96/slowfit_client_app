@@ -76,7 +76,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                     left: 10,
                     child: IconButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/home');
+                        Navigator.pushNamed(context, '/trainer-home');
                       },
                       icon: Icon(
                         Icons.arrow_back_ios,

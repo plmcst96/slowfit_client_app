@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config.dart';
 import '../service/api_client.dart';
+import '../service/auth_session.dart';
 import '../service/auth_token.dart';
 import '../l10n/app_localizations.dart';
 
@@ -74,6 +75,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
         // Salva il JWT per autenticare gli endpoint protetti.
         if (data['token'] != null) {
           await AuthToken.save(data['token']);
+          // Avvia il rinnovo proattivo del token (refresh prima della scadenza).
+          AuthSession.instance.start();
         }
         state = state.copyWith(
           isLoggedIn: true,
@@ -96,6 +99,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
   /// 🔹 LOGOUT: cancella tutto e torna allo stato iniziale
   Future<void> logout() async {
+    AuthSession.instance.stop();
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
     await AuthToken.clear();

@@ -94,7 +94,7 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                 padding: const EdgeInsets.all(14.0),
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/exercise');
+                    Navigator.pushNamed(context, '/trainer-exercise');
                   },
                   icon: const Icon(Icons.arrow_back_ios),
                   color: Colors.white,

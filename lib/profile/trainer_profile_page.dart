@@ -69,7 +69,7 @@ class _TrainerProfilePageState extends ConsumerState<TrainerProfilePage> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushNamed(context, '/trainer-home');
                     },
                     icon: Icon(
                       Icons.arrow_back_ios_new_outlined,
@@ -82,6 +82,22 @@ class _TrainerProfilePageState extends ConsumerState<TrainerProfilePage> {
                     icon: Icon(
                       Icons.notifications_active_outlined,
                       color: Colors.black,
+                    ),
+                  ),
+                  IconButton(
+                    tooltip: 'Logout',
+                    onPressed: () async {
+                      await ref.read(loginProvider.notifier).logout();
+                      if (!context.mounted) return;
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/login',
+                        (route) => false,
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.logout_outlined,
+                      color: Colors.red,
                     ),
                   ),
                 ],
@@ -222,7 +238,7 @@ class _TrainerProfilePageState extends ConsumerState<TrainerProfilePage> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, '/nutrition');
+                                Navigator.pushNamed(context, '/trainer-nutrition');
                                 ref
                                     .read(bottomBarProvider.notifier)
                                     .updateIndex(2);

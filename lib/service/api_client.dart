@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import 'auth_session.dart';
 import 'auth_token.dart';
 
 class ApiException implements Exception {
@@ -60,8 +61,12 @@ class ApiClient {
       if (response.statusCode >= 200 && response.statusCode < 300) {
         return response;
       }
+      if (response.statusCode == 401) {
+        // Sessione scaduta/non valida: pulisce il token e riporta al login.
+        unawaited(AuthSession.instance.handleUnauthorized());
+      }
       throw ApiException(
-        _messageForStatus(response.statusCode),
+        _messageFromResponse(response),
         statusCode: response.statusCode,
       );
     } on ApiException {
@@ -116,5 +121,43 @@ class ApiClient {
       default:
         return 'Errore del server ($code).';
     }
+  }
+
+  static String _messageFromResponse(http.Response response) {
+    final body = response.body.trim();
+    if (body.isEmpty) return _messageForStatus(response.statusCode);
+
+    try {
+      final decoded = jsonDecode(body);
+      if (decoded is Map<String, dynamic>) {
+        final message = decoded['message'];
+        if (message is String && message.trim().isNotEmpty) {
+          return message.trim();
+        }
+
+        final title = decoded['title'];
+        if (title is String && title.trim().isNotEmpty) {
+          return title.trim();
+        }
+
+        final errors = decoded['errors'];
+        if (errors is Map<String, dynamic> && errors.isNotEmpty) {
+          final messages = errors.values
+              .expand((value) => value is List ? value : [value])
+              .whereType<String>()
+              .where((value) => value.trim().isNotEmpty)
+              .toList();
+          if (messages.isNotEmpty) return messages.join('\n');
+        }
+      }
+
+      if (decoded is String && decoded.trim().isNotEmpty) {
+        return decoded.trim();
+      }
+    } catch (_) {
+      if (!body.startsWith('<') && body.length <= 200) return body;
+    }
+
+    return _messageForStatus(response.statusCode);
   }
 }

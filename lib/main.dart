@@ -23,6 +23,7 @@ import 'firebase_options.dart';
 import 'l10n/app_localizations.dart';
 import 'landing_page/role_router.dart';
 import 'landing_page/splash_screen.dart';
+import 'service/auth_session.dart';
 import 'service/auth_token.dart';
 import 'service/app_messenger.dart';
 
@@ -42,6 +43,8 @@ void main() async {
   );
   HttpOverrides.global = MyHttpOverrides();
   await AuthToken.load();
+  // Se c'è già un token valido in memoria, avvia il rinnovo proattivo.
+  AuthSession.instance.start();
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -64,6 +67,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
 
     return MaterialApp(
+      navigatorKey: rootNavigatorKey,
       scaffoldMessengerKey: rootScaffoldMessengerKey,
       locale: locale,
       localizationsDelegates: const [

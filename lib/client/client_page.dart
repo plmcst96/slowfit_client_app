@@ -33,7 +33,7 @@ class _ClientPageState extends ConsumerState<ClientPage> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushNamed(context, '/trainer-home');
                       ref.read(bottomBarProvider.notifier).updateIndex(0);
                     },
                     icon: Icon(Icons.arrow_back_ios, color: Colors.pink[400],),
