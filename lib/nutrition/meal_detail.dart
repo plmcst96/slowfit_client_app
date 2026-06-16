@@ -36,7 +36,7 @@ class _MealDetailModalState extends ConsumerState<MealDetailModal> {
       // ✅ Evita crash se il widget è stato smontato nel frattempo
       if (!mounted) return;
 
-      final meal = mealNotifier.state.meal;
+      final meal = ref.read(mealDetailProvider).meal;
       if (meal != null) {
         _nameController = TextEditingController(text: meal.name);
         _descriptionController = TextEditingController(text: meal.description);

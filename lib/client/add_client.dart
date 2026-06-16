@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/roles.dart';
 import '../l10n/app_localizations.dart';
 import '../model/register_model.dart';
 import '../provider/login_provider.dart';
@@ -16,6 +17,10 @@ class AddClient extends ConsumerStatefulWidget{
 }
 class _AddClientState extends ConsumerState<AddClient>{
 
+  // Campo di stato: deve persistere tra i rebuild, altrimenti il toggle
+  // mostra/nascondi password non funziona.
+  bool _passwordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -23,7 +28,6 @@ class _AddClientState extends ConsumerState<AddClient>{
     final TextEditingController _passwordController = TextEditingController();
     final TextEditingController _nameController = TextEditingController();
     final TextEditingController _surnameController = TextEditingController();
-    bool _passwordVisible = false;
 
     void _registerUser() async {
       final loginState = ref.watch(loginProvider);
@@ -34,7 +38,8 @@ class _AddClientState extends ConsumerState<AddClient>{
           password: _passwordController.text,
           firstName: _nameController.text,
           surname: _surnameController.text,
-          roleId: 2,
+          // Il PT crea un utente CLIENTE (roleId 1) e si assegna come PT.
+          roleId: Roles.client,
           ptId: loginState.userId,
         );
 
