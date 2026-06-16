@@ -291,7 +291,7 @@ class CategoryState extends StateNotifier<List<CategoryOfDay>> {
       showAppError(e.message);
       state = [];
     } catch (e) {
-      showAppError('Errore imprevisto: $e');
+      showAppError('Si è verificato un errore. Riprova.');
       state = [];
     }
   }
@@ -318,7 +318,7 @@ class DayWeekState extends StateNotifier<List<DayWeek>> {
       showAppError(e.message);
       state = [];
     } catch (e) {
-      showAppError('Errore imprevisto: $e');
+      showAppError('Si è verificato un errore. Riprova.');
       state = [];
     }
   }
@@ -340,7 +340,7 @@ final dayWeekByIdProvider =
     if (e.statusCode != 404) showAppError(e.message);
     return null;
   } catch (e) {
-    showAppError('Errore imprevisto: $e');
+    showAppError('Si è verificato un errore. Riprova.');
     return null;
   }
 });

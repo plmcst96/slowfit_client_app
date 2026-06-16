@@ -598,7 +598,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                 loading: () => const Center(
                                   child: CircularProgressIndicator(),
                                 ),
-                                error: (e, _) => Text('Errore: $e'),
+                                error: (e, _) => Text('Impossibile caricare i dati.'),
                               );
                             },
                           ),
@@ -608,7 +608,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                   },
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
-                  error: (e, _) => Center(child: Text("Errore: $e")),
+                  error: (e, _) => Center(child: Text('Impossibile caricare i dati.')),
                 ),
               ),
             ],

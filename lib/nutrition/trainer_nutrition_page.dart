@@ -355,7 +355,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                                   width: 20,
                                                   height: 20,
                                                   child: CircularProgressIndicator(strokeWidth: 2)),
-                                              error: (e, _) => Text('Errore: $e'),
+                                              error: (e, _) => Text('Impossibile caricare i dati.'),
                                             ),
                                           ),
                                         ),

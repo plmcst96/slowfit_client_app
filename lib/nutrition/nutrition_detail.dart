@@ -95,15 +95,8 @@ class _NutritionDetailModalState extends ConsumerState<NutritionDetailModal> {
           MaterialPageRoute(builder: (context) => NutritionPage()),
         );
       }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Errore durante l\'aggiornamento: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+    } catch (_) {
+      // Errore (messaggio del backend) già mostrato dal provider via showAppError.
     }
   }
 
@@ -124,15 +117,8 @@ class _NutritionDetailModalState extends ConsumerState<NutritionDetailModal> {
           MaterialPageRoute(builder: (context) => ClientPage()),
         );
       }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Errore durante l\'eliminazione del piano nutrizionale con ID: $id'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+    } catch (_) {
+      // Errore (messaggio del backend) già mostrato dal provider via showAppError.
     }
   }
 
@@ -204,7 +190,7 @@ class _NutritionDetailModalState extends ConsumerState<NutritionDetailModal> {
                                       height: 20,
                                       child: CircularProgressIndicator(
                                           strokeWidth: 2)),
-                                  error: (e, _) => Text('Errore: $e',
+                                  error: (e, _) => Text('Impossibile caricare i dati.',
                                       style:
                                           const TextStyle(color: Colors.red)),
                                 ),

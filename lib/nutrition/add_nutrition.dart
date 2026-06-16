@@ -52,16 +52,10 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
           MaterialPageRoute(builder: (context) => NutritionPage()),
         );
       }
-    } catch (e) {
-      // Se c'è un errore nella POST
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Errore durante la creazione del piano: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
+
+    } catch (_) {
+      // L'errore (messaggio del backend) è già mostrato dal provider tramite
+      // showAppError: qui evitiamo solo la snackbar di successo e la navigazione.
     }
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../provider/login_provider.dart';
 import '../provider/user_provider.dart';
 import '../service/api_service.dart';
+import '../service/app_messenger.dart';
 
 class BottomSheetAppointment extends ConsumerStatefulWidget {
   const BottomSheetAppointment({super.key, required this.onClose});
@@ -61,55 +62,32 @@ class _BottomSheetAppointmentState
       final bodyText =
           "Hai ricevuto una richiesta di appuntamento da ${user.firstName}";
 
-      try {
-        final success = await ApiService().notifyTrainerByClient(
-          login.userId!,
-          title,
-          bodyText,
-          appointmentData,
-        );
+      // notifyTrainerByClient gestisce internamente gli errori (showAppError nel
+      // provider/service) e ritorna true/false: niente try/catch ridondante qui.
+      final success = await ApiService().notifyTrainerByClient(
+        login.userId!,
+        title,
+        bodyText,
+        appointmentData,
+      );
 
-        if (success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                "Richiesta inviata al trainer!",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              backgroundColor: Colors.green,
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.orange,
-              content: Text(
-                "Errore nell’invio della richiesta",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          );
-        }
-      } catch (e) {
-        // Gestione generale degli errori (network, parsing, ecc.)
+      if (!mounted) return;
+
+      if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
+          const SnackBar(
             content: Text(
-              "Si è verificato un errore: $e",
+              "Richiesta inviata al trainer!",
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
+            backgroundColor: Colors.green,
           ),
         );
+      } else {
+        showAppError("Impossibile inviare la richiesta. Riprova.");
       }
 
       // Reset form

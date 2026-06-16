@@ -110,7 +110,7 @@ class TrainingState extends StateNotifier<List<TrainingRes>> {
       showAppError(e.message);
       state = [];
     } catch (e) {
-      showAppError('Errore imprevisto: $e');
+      showAppError('Si è verificato un errore. Riprova.');
       state = [];
     }
   }
@@ -132,7 +132,7 @@ class TrainingState extends StateNotifier<List<TrainingRes>> {
     } on ApiException catch (e) {
       showAppError(e.message);
     } catch (e) {
-      showAppError('Errore imprevisto: $e');
+      showAppError('Si è verificato un errore. Riprova.');
     }
   }
 
@@ -145,7 +145,7 @@ class TrainingState extends StateNotifier<List<TrainingRes>> {
     } on ApiException catch (e) {
       if (e.statusCode != 404) showAppError(e.message);
     } catch (e) {
-      showAppError('Errore imprevisto: $e');
+      showAppError('Si è verificato un errore. Riprova.');
     }
   }
 
@@ -160,7 +160,7 @@ class TrainingState extends StateNotifier<List<TrainingRes>> {
       showAppError(e.message);
       state = [];
     } catch (e) {
-      showAppError('Errore imprevisto: $e');
+      showAppError('Si è verificato un errore. Riprova.');
       state = [];
     }
   }

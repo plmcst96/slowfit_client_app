@@ -257,7 +257,7 @@ class NutritionNotifier extends StateNotifier<List<Nutrition>> {
       showAppError(e.message);
       state = [];
     } catch (e) {
-      showAppError('Errore imprevisto: $e');
+      showAppError('Si è verificato un errore. Riprova.');
       state = [];
     }
   }
@@ -271,7 +271,7 @@ class NutritionNotifier extends StateNotifier<List<Nutrition>> {
       showAppError(e.message);
       rethrow;
     } catch (e) {
-      showAppError('Errore imprevisto: $e');
+      showAppError('Si è verificato un errore. Riprova.');
       rethrow;
     }
   }
@@ -288,7 +288,7 @@ class NutritionNotifier extends StateNotifier<List<Nutrition>> {
       showAppError(e.message);
       rethrow;
     } catch (e) {
-      showAppError('Errore imprevisto: $e');
+      showAppError('Si è verificato un errore. Riprova.');
       rethrow;
     }
   }

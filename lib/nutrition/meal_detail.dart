@@ -5,6 +5,7 @@ import 'package:slowFit_client/model/ingredient_model.dart';
 import 'package:slowFit_client/model/meal_model.dart';
 import 'package:slowFit_client/provider/ingredient_provider.dart';
 import '../provider/meal_provider.dart';
+import '../service/app_messenger.dart';
 
 class MealDetailModal extends ConsumerStatefulWidget {
   final int mealId;
@@ -104,34 +105,24 @@ class _MealDetailModalState extends ConsumerState<MealDetailModal> {
       ingredients: validIngredients,
     );
 
-    try {
-      await ref.read(mealDetailProvider.notifier).updateMeal(updatedMeal);
+    await ref.read(mealDetailProvider.notifier).updateMeal(updatedMeal);
+    if (!mounted) return;
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Pasto aggiornato con successo ✅'),
-            backgroundColor: Colors.green,
-          ),
-        );
-        setState(() => _isEdit = false);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Errore aggiornamento'),
-            backgroundColor: Colors.orange,
-          ),
-        );
-      }
-    } catch (e) {
-      debugPrint('ERRORE DURANTE LA PUT: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Errore di rete: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
+    // updateMeal non rilancia: l'esito è nello stato. Se c'è un errore
+    // (messaggio del backend) lo mostriamo, altrimenti confermiamo il successo.
+    final error = ref.read(mealDetailProvider).error;
+    if (error != null) {
+      showAppError(error);
+      return;
     }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Pasto aggiornato con successo ✅'),
+        backgroundColor: Colors.green,
+      ),
+    );
+    setState(() => _isEdit = false);
   }
 
   @override

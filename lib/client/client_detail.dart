@@ -627,7 +627,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                                                   strokeWidth:
                                                                       2)),
                                                       error: (e, _) =>
-                                                          Text('Errore: $e'),
+                                                          Text('Impossibile caricare i dati.'),
                                                     ),
                                                   ),
                                                 ),
