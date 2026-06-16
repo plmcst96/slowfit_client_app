@@ -68,11 +68,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           .read(loginProvider.notifier)
           .login(savedEmail, savedPassword, context);
       if (ref.read(loginProvider).isLoggedIn) {
-        Navigator.pushNamed(context, '/home');
+        // Smistamento per ruolo (client/trainer) gestito dal RoleRouter.
+        Navigator.pushReplacementNamed(context, '/router');
       } else {
+        // Auto-login fallito (es. credenziali non più valide): vai al login,
+        // non al quiz (il quiz è solo per i nuovi client dal flusso "Inizia").
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => QuizPage()),
+          MaterialPageRoute(builder: (context) => const LoginPage()),
         );
       }
     } else {

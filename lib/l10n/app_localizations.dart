@@ -98,6 +98,12 @@ abstract class AppLocalizations {
     Locale('it'),
   ];
 
+  /// No description provided for @client.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get client;
+
   /// No description provided for @training.
   ///
   /// In en, this message translates to:

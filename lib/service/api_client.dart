@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -78,6 +79,26 @@ class ApiClient {
     } catch (e) {
       throw ApiException('Errore imprevisto: $e');
     }
+  }
+
+  /// Decodifica il body come lista, gestendo body vuoto.
+  static List<dynamic> decodeList(http.Response response) {
+    final body = response.body.trim();
+    if (body.isEmpty) return const [];
+    final decoded = jsonDecode(body);
+    return decoded is List ? decoded : const [];
+  }
+
+  /// Decodifica il body come oggetto, gestendo body vuoto / oggetto vuoto.
+  /// Restituisce null se il body è vuoto (nessun risultato).
+  static Map<String, dynamic>? decodeMap(http.Response response) {
+    final body = response.body.trim();
+    if (body.isEmpty) return null;
+    final decoded = jsonDecode(body);
+    if (decoded is Map<String, dynamic>) {
+      return decoded.isEmpty ? null : decoded;
+    }
+    return null;
   }
 
   static String _messageForStatus(int code) {

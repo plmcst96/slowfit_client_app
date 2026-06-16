@@ -244,6 +244,54 @@ class NutritionNotifier extends StateNotifier<List<Nutrition>> {
       rethrow;
     }
   }
+
+  // --- Authoring diete PT (importato da slowfit) ---
+
+  Future<void> getNutritionByUser(int userId) async {
+    final url = '${AppConfig.baseUrl}/nutrition/byUser/$userId';
+    try {
+      final response = await ApiClient.get(url);
+      final data = ApiClient.decodeList(response);
+      state = data.map((json) => Nutrition.fromJson(json)).toList();
+    } on ApiException catch (e) {
+      showAppError(e.message);
+      state = [];
+    } catch (e) {
+      showAppError('Errore imprevisto: $e');
+      state = [];
+    }
+  }
+
+  Future<void> createNutrition(Nutrition nutrition) async {
+    final url = '${AppConfig.baseUrl}/nutrition';
+    try {
+      await ApiClient.post(url, body: jsonEncode(nutrition.toJson()));
+      await fetchNutritions();
+    } on ApiException catch (e) {
+      showAppError(e.message);
+      rethrow;
+    } catch (e) {
+      showAppError('Errore imprevisto: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> updateNutrition(Nutrition nutrition) async {
+    if (nutrition.nutritionId == null) {
+      throw Exception('NutritionId is required');
+    }
+    final url = '${AppConfig.baseUrl}/nutrition/${nutrition.nutritionId}';
+    try {
+      await ApiClient.put(url, body: jsonEncode(nutrition.toJson()));
+      await fetchNutritions();
+    } on ApiException catch (e) {
+      showAppError(e.message);
+      rethrow;
+    } catch (e) {
+      showAppError('Errore imprevisto: $e');
+      rethrow;
+    }
+  }
 }
 
 

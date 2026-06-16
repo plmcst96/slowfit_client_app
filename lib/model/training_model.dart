@@ -1,3 +1,91 @@
+class TrainingRes {
+  final int trainingId;
+  final int typeId;
+  final int userId;
+  final int? levelId;
+  final int? duration;
+  final DateTime? creationDate;
+  final DateTime endDate;
+
+  TrainingRes({
+    required this.trainingId,
+    required this.typeId,
+    required this.userId,
+    required this.levelId,
+    this.creationDate,
+    this.duration,
+    required this.endDate,
+  });
+
+  factory TrainingRes.fromJson(Map<String, dynamic> json) {
+    return TrainingRes(
+      trainingId: json['trainingId'],
+      typeId: json['typeId'],
+      userId: json['userId'],
+      levelId: json['levelId'],
+      duration: json['duration'],
+      creationDate: DateTime.parse(DateTime.now().toIso8601String()),
+      endDate: DateTime.parse(json['endDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'trainingId': trainingId,
+      'typeId': typeId,
+      'userId': userId,
+      'levelId': levelId,
+      'duration': duration,
+      'creationDate': DateTime.now().toIso8601String(),
+      'endDate': endDate.toIso8601String(),
+    };
+  }
+}
+
+class TrainingCreateRequest {
+  final int typeId;
+  final int userId;
+  final int? levelId;
+  final int? duration;
+  final DateTime creationDate;
+  final DateTime endDate;
+  final List<DetailExerciseRequest> detailExercises;
+
+  TrainingCreateRequest({
+    required this.typeId,
+    required this.userId,
+    this.levelId,
+    this.duration,
+    required this.creationDate,
+    required this.endDate,
+    required this.detailExercises,
+  });
+
+  factory TrainingCreateRequest.fromJson(Map<String, dynamic> json) {
+    return TrainingCreateRequest(
+      typeId: json['typeId'],
+      userId: json['userId'],
+      levelId: json['levelId'],
+      duration: json['duration'],
+      creationDate: DateTime.parse(DateTime.now().toIso8601String()),
+      endDate: DateTime.parse(json['endDate']),
+      detailExercises: (json['detailExercises'] as List<dynamic>?)
+          !.map((e) => DetailExerciseRequest.fromJson(e))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'typeId': typeId,
+        'userId': userId,
+        'levelId': levelId,
+        'duration': duration,
+        'creationDate': creationDate.toIso8601String(),
+        'endDate': endDate.toIso8601String(),
+        'detailExercises': detailExercises.map((e) => e.toJson()).toList(),
+      };
+}
+
 class TrainingCreateResponse {
   final int trainingId;
   final int typeId;

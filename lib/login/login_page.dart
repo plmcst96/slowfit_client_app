@@ -148,25 +148,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             final loginState = ref.read(loginProvider);
 
                             if (loginState.isLoggedIn) {
-                              // 🔹 Controllo del roleId
-                              if (loginState.roleId == 1) {
-                                // Blocca accesso e mostra errore
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Accesso non consentito per questo tipo di utente.',
-                                    ),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-
-                                // Eventuale logout forzato
-                                ref.read(loginProvider.notifier).logout();
-
-                                return; // Interrompi qui
-                              }
-
-                              // 🔹 Se tutto ok, salva i dati e vai alla home
+                              // Login valido per qualsiasi ruolo: lo smistamento
+                              // client (roleId 1) / trainer (roleId 2) avviene
+                              // nel RoleRouter.
                               await saveLoginData(
                                 _emailController.text,
                                 _passwordController.text,
@@ -175,7 +159,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               if (mounted) {
                                 Navigator.pushReplacementNamed(
                                   context,
-                                  '/home',
+                                  '/router',
                                 );
                               }
                             }

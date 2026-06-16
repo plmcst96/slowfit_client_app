@@ -1,5 +1,6 @@
 {
   "@@locale": "it",
+  "client": "Clienti",
   "training": "Allenamento",
   "nutrition": "Nutrizione",
   "app": "Appuntamenti Settimanali",

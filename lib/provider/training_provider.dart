@@ -92,3 +92,109 @@ class TrainingStateResponse
 final trainingGetProvider =
     StateNotifierProvider<TrainingStateResponse, List<TrainingCreateResponse>>(
         (ref) => TrainingStateResponse(ref));
+
+// --- Authoring schede PT (importato da slowfit) ---
+
+class TrainingState extends StateNotifier<List<TrainingRes>> {
+  final Ref ref;
+
+  TrainingState(this.ref) : super([]);
+
+  Future<void> getTraining(int trainingId) async {
+    final url = '${AppConfig.baseUrl}/training';
+    try {
+      final response = await ApiClient.get(url);
+      final data = ApiClient.decodeList(response);
+      state = data.map((item) => TrainingRes.fromJson(item)).toList();
+    } on ApiException catch (e) {
+      showAppError(e.message);
+      state = [];
+    } catch (e) {
+      showAppError('Errore imprevisto: $e');
+      state = [];
+    }
+  }
+
+  Future<void> updateTraining(TrainingRes training) async {
+    final url = '${AppConfig.baseUrl}/training/${training.trainingId}';
+
+    try {
+      await ApiClient.put(
+        url,
+        body: json.encode(training.toJson()),
+      );
+
+      state = state.map((ex) {
+        return ex.trainingId == training.trainingId ? training : ex;
+      }).toList();
+
+      await ref.read(trainingProvider.notifier).getTraining(training.trainingId);
+    } on ApiException catch (e) {
+      showAppError(e.message);
+    } catch (e) {
+      showAppError('Errore imprevisto: $e');
+    }
+  }
+
+  Future<void> deleteTraining(int trainingId) async {
+    final url = '${AppConfig.baseUrl}/training/$trainingId';
+
+    try {
+      await ApiClient.delete(url);
+      state = state.where((t) => t.trainingId != trainingId).toList();
+    } on ApiException catch (e) {
+      if (e.statusCode != 404) showAppError(e.message);
+    } catch (e) {
+      showAppError('Errore imprevisto: $e');
+    }
+  }
+
+  Future<void> getAllTrainings() async {
+    final url = '${AppConfig.baseUrl}/training';
+
+    try {
+      final response = await ApiClient.get(url);
+      final data = ApiClient.decodeList(response);
+      state = data.map((json) => TrainingRes.fromJson(json)).toList();
+    } on ApiException catch (e) {
+      showAppError(e.message);
+      state = [];
+    } catch (e) {
+      showAppError('Errore imprevisto: $e');
+      state = [];
+    }
+  }
+}
+
+final trainingProvider =
+    StateNotifierProvider<TrainingState, List<TrainingRes>>(
+        (ref) => TrainingState(ref));
+
+class TrainingStateRe extends StateNotifier<List<TrainingCreateRequest>> {
+  final Ref ref;
+
+  TrainingStateRe(this.ref) : super([]);
+
+  Future<void> saveTraining(TrainingCreateRequest training) async {
+    final url = '${AppConfig.baseUrl}/training';
+
+    try {
+      final response = await ApiClient.post(
+        url,
+        body: json.encode(training.toJson()),
+      );
+
+      final decodedResponse = json.decode(response.body);
+      final newTraining = TrainingCreateRequest.fromJson(decodedResponse);
+      state = [...state, newTraining];
+    } on ApiException catch (e) {
+      showAppError(e.message);
+    } catch (e) {
+      showAppError('Errore nel salvataggio dell\'allenamento: $e');
+    }
+  }
+}
+
+final trainingAddProvider =
+    StateNotifierProvider<TrainingStateRe, List<TrainingCreateRequest>>(
+        (ref) => TrainingStateRe(ref));

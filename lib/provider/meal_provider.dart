@@ -235,3 +235,112 @@ final mealDetailProvider =
     StateNotifierProvider<MealDetailNotifier, MealDetailState>(
   (ref) => MealDetailNotifier(),
 );
+
+// --- Authoring pasti/diete PT (importato da slowfit) ---
+
+class SelectedMealsNotifier extends StateNotifier<List<Meal>> {
+  SelectedMealsNotifier() : super([]);
+
+  void addMeal(Meal meal) {
+    state = [...state, meal];
+  }
+
+  void removeMeal(Meal meal) {
+    state = state.where((m) => m != meal).toList();
+  }
+
+  void updateMeals(List<Meal> updatedMeals) {
+    state = updatedMeals;
+  }
+
+  void clear() {
+    state = [];
+  }
+
+  void toggleMeal(Meal meal) {
+    final exists =
+        state.any((m) => m.mealId == meal.mealId && m.dayId == meal.dayId);
+
+    if (exists) {
+      state = state
+          .where((m) => !(m.mealId == meal.mealId && m.dayId == meal.dayId))
+          .toList();
+    } else {
+      state = [...state, meal];
+    }
+  }
+}
+
+final selectedMealsProvider =
+    StateNotifierProvider<SelectedMealsNotifier, List<Meal>>(
+        (ref) => SelectedMealsNotifier());
+
+class CategoryState extends StateNotifier<List<CategoryOfDay>> {
+  final Ref ref;
+
+  CategoryState(this.ref) : super([]);
+
+  Future<void> getCategoryOfDay() async {
+    final url = '${AppConfig.baseUrl}/category';
+
+    try {
+      final response = await ApiClient.get(url);
+      final data = ApiClient.decodeList(response);
+      state = data.map((e) => CategoryOfDay.fromJson(e)).toList();
+    } on ApiException catch (e) {
+      showAppError(e.message);
+      state = [];
+    } catch (e) {
+      showAppError('Errore imprevisto: $e');
+      state = [];
+    }
+  }
+}
+
+final categoryProvider =
+    StateNotifierProvider<CategoryState, List<CategoryOfDay>>((ref) {
+  return CategoryState(ref);
+});
+
+class DayWeekState extends StateNotifier<List<DayWeek>> {
+  final Ref ref;
+
+  DayWeekState(this.ref) : super([]);
+
+  Future<void> getDayWeek() async {
+    final url = '${AppConfig.baseUrl}/dayWeek';
+
+    try {
+      final response = await ApiClient.get(url);
+      final data = ApiClient.decodeList(response);
+      state = data.map((e) => DayWeek.fromJson(e)).toList();
+    } on ApiException catch (e) {
+      showAppError(e.message);
+      state = [];
+    } catch (e) {
+      showAppError('Errore imprevisto: $e');
+      state = [];
+    }
+  }
+}
+
+final dayWeekProvider =
+    StateNotifierProvider<DayWeekState, List<DayWeek>>((ref) {
+  return DayWeekState(ref);
+});
+
+final dayWeekByIdProvider =
+    FutureProvider.family<DayWeek?, int>((ref, id) async {
+  final url = '${AppConfig.baseUrl}/dayWeek/$id';
+  try {
+    final response = await ApiClient.get(url);
+    final data = ApiClient.decodeMap(response);
+    return data == null ? null : DayWeek.fromJson(data);
+  } on ApiException catch (e) {
+    if (e.statusCode != 404) showAppError(e.message);
+    return null;
+  } catch (e) {
+    showAppError('Errore imprevisto: $e');
+    return null;
+  }
+});

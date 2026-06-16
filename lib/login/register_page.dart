@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/roles.dart';
 import '../l10n/app_localizations.dart';
 import '../model/register_model.dart';
 import '../provider/register_provider.dart';
@@ -36,8 +37,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         password: _passwordController.text,
         firstName: _nameController.text,
         surname: _surnameController.text,
-        roleId: 2,
-        ptId: 2,
+        // La registrazione in-app crea solo utenti CLIENTE (roleId 1).
+        // I personal trainer (roleId 2) non si registrano dall'app.
+        // ptId resta null: l'assegnazione al PT avviene lato backend/PT.
+        roleId: Roles.client,
       );
       await ref
           .read(registerProvider.notifier)
