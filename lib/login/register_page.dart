@@ -5,6 +5,7 @@ import '../core/roles.dart';
 import '../l10n/app_localizations.dart';
 import '../model/register_model.dart';
 import '../provider/register_provider.dart';
+import '../service/app_messenger.dart';
 import 'login_page.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -64,11 +65,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           );
         });
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.error_register),
-            backgroundColor: Colors.red,
-          ),
+        // Mostra il messaggio del backend (registerState.errorMessage); in
+        // sua assenza ricade sul messaggio generico localizzato.
+        showAppError(
+          registerState.errorMessage ??
+              AppLocalizations.of(context)!.error_register,
         );
       }
     }

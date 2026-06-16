@@ -6,6 +6,7 @@ import '../l10n/app_localizations.dart';
 import '../model/register_model.dart';
 import '../provider/login_provider.dart';
 import '../provider/register_provider.dart';
+import '../service/app_messenger.dart';
 
 class AddClient extends ConsumerStatefulWidget{
   const AddClient({super.key});
@@ -54,12 +55,10 @@ class _AddClientState extends ConsumerState<AddClient>{
           // ✅ Chiude automaticamente il modale
           Navigator.pop(context);
         } else {
-          // ❌ Mostra messaggio di errore
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppLocalizations.of(context)!.error_register),
-              backgroundColor: Colors.red,
-            ),
+          // Mostra il messaggio del backend; fallback su quello generico.
+          showAppError(
+            registerState.errorMessage ??
+                AppLocalizations.of(context)!.error_register,
           );
         }
       }
