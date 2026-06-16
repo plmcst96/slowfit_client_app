@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
@@ -24,12 +25,12 @@ class FcmTokenNotifier extends StateNotifier<String?> {
     // Ottiene il token
     final token = await messaging.getToken();
     state = token;
-    print('📱 Token FCM: $token');
+    debugPrint('📱 Token FCM: $token');
 
     // Aggiorna quando cambia
     FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
       state = newToken;
-      print('🔁 Token FCM aggiornato: $newToken');
+      debugPrint('🔁 Token FCM aggiornato: $newToken');
       // Aggiorna subito anche sul backend se l'utente è loggato
       final container = ProviderContainer();
       final login = container.read(loginProvider);
@@ -44,18 +45,18 @@ final updateFcmTokenProvider = FutureProvider<void>((ref) async {
   final token = ref.watch(fcmTokenProvider);
   final login = ref.watch(loginProvider);
 
-  print('🧠 updateFcmTokenProvider - token: $token');
-  print('🧠 updateFcmTokenProvider - userId: ${login.userId}');
+  debugPrint('🧠 updateFcmTokenProvider - token: $token');
+  debugPrint('🧠 updateFcmTokenProvider - userId: ${login.userId}');
 
   if (token != null && login.userId != null) {
     final success = await ApiService().updateFcmToken(login.userId!, token);
-    print(
+    debugPrint(
       success
           ? '✅ Token aggiornato sul backend con successo'
           : '❌ Errore nell’aggiornamento token',
     );
   } else {
-    print('⚠️ Token o userId null, skip update.');
+    debugPrint('⚠️ Token o userId null, skip update.');
   }
 });
 
@@ -103,7 +104,7 @@ class NotificationsNotifier extends StateNotifier<List<NotificationModel>> {
           .map<NotificationModel>((json) => NotificationModel.fromJson(json))
           .toList();
     } catch (e) {
-      print('Errore nel fetch delle notifiche: $e');
+      debugPrint('Errore nel fetch delle notifiche: $e');
     }
   }
 

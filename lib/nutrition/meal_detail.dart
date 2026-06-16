@@ -124,7 +124,7 @@ class _MealDetailModalState extends ConsumerState<MealDetailModal> {
         );
       }
     } catch (e) {
-      print('ERRORE DURANTE LA PUT: $e');
+      debugPrint('ERRORE DURANTE LA PUT: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Errore di rete: $e'),

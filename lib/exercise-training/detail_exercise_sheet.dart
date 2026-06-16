@@ -21,10 +21,10 @@ class DetailExercise extends ConsumerStatefulWidget {
 class _DetailExerciseState extends ConsumerState<DetailExercise> {
   bool _isEdit = false;
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _nameController = TextEditingController();
-  late TextEditingController _descriptionController = TextEditingController();
-  late TextEditingController _imageController = TextEditingController();
-  late TextEditingController _urlVideoController = TextEditingController();
+  late final TextEditingController _nameController = TextEditingController();
+  late final TextEditingController _descriptionController = TextEditingController();
+  late final TextEditingController _imageController = TextEditingController();
+  late final TextEditingController _urlVideoController = TextEditingController();
   late int? _locationTraining;
 
   @override
@@ -56,7 +56,7 @@ class _DetailExerciseState extends ConsumerState<DetailExercise> {
           locationTrainingId: _locationTraining!,
           typeTrainingId: widget.typeId);
 
-      print('typeid ${widget.typeId}');
+      debugPrint('typeid ${widget.typeId}');
 
       // Effettua una richiesta PUT per aggiornare l'appuntamento
       ref
@@ -281,7 +281,7 @@ class _DetailExerciseState extends ConsumerState<DetailExercise> {
                                           ),
                                         ),
                                       const SizedBox(height: 40),
-                                      Container(
+                                      SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.90,

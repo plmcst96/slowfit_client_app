@@ -10,6 +10,8 @@ import '../provider/exercise_provider.dart';
 import '../widget/custom_bottom_bar.dart';
 
 class TrainingPage extends ConsumerStatefulWidget {
+  const TrainingPage({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _TrainingPageState();

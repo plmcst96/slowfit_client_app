@@ -27,7 +27,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
   final _formKey = GlobalKey<FormState>();
   late int _levelId = 1;
   int _selectedTypeId = 1;
-  late TextEditingController _duration = TextEditingController();
+  late final TextEditingController _duration = TextEditingController();
 
   @override
   void initState() {
@@ -132,7 +132,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                       child: Column(
                         children: [
                           Text(
-                            'Workout ${user.firstName + ' ' + user.surname}',
+                            'Workout ${'${user.firstName} ${user.surname}'}',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -147,7 +147,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: 80,
                                       height: 30,
                                       child: TextFormField(
@@ -186,7 +186,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                       width: 200,
                                       height: 30,
                                       child: DropdownButtonFormField<int>(
-                                        value: _levelId,
+                                        initialValue: _levelId,
                                         decoration: InputDecoration(
                                           prefixIcon: FaIcon(
                                             FontAwesomeIcons.chartColumn,
@@ -214,8 +214,9 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                           });
                                         },
                                         validator: (value) {
-                                          if (value == null)
+                                          if (value == null) {
                                             return 'Seleziona un livello';
+                                          }
                                           return null;
                                         },
                                       ),
@@ -229,7 +230,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                   width: 300,
                                   height: 30,
                                   child: DropdownButtonFormField<int>(
-                                    value: _selectedTypeId,
+                                    initialValue: _selectedTypeId,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(
                                           vertical: 4, horizontal: 8),
@@ -252,8 +253,9 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                       });
                                     },
                                     validator: (value) {
-                                      if (value == null)
+                                      if (value == null) {
                                         return 'Seleziona un livello';
+                                      }
                                       return null;
                                     },
                                   ),
@@ -267,7 +269,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(
@@ -379,7 +381,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(
@@ -492,7 +494,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 // -------------------- API SERVICE --------------------
 import 'dart:convert';
 
@@ -14,7 +15,7 @@ class ApiService {
       return true;
     } on ApiException catch (e) {
       // Operazione in background: logghiamo soltanto, niente SnackBar.
-      print('🚨 updateFcmToken: ${e.message}');
+      debugPrint('🚨 updateFcmToken: ${e.message}');
       return false;
     }
   }
@@ -34,7 +35,7 @@ class ApiService {
       );
       return true;
     } on ApiException catch (e) {
-      print('🚨 deleteNotification: ${e.message}');
+      debugPrint('🚨 deleteNotification: ${e.message}');
       return false;
     }
   }
@@ -57,7 +58,7 @@ class ApiService {
       );
       return true;
     } on ApiException catch (e) {
-      print('🚨 notifyTrainerByClient: ${e.message}');
+      debugPrint('🚨 notifyTrainerByClient: ${e.message}');
       return false;
     }
   }

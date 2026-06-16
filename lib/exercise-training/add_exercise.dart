@@ -16,10 +16,10 @@ class AddExercise extends ConsumerStatefulWidget {
 
 class _AddExerciseState extends ConsumerState<AddExercise> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _nameController = TextEditingController();
-  late TextEditingController _descriptionController = TextEditingController();
-  late TextEditingController _imageController = TextEditingController();
-  late TextEditingController _urlVideoController = TextEditingController();
+  late final TextEditingController _nameController = TextEditingController();
+  late final TextEditingController _descriptionController = TextEditingController();
+  late final TextEditingController _imageController = TextEditingController();
+  late final TextEditingController _urlVideoController = TextEditingController();
   late int? _locationId;
 
   @override
@@ -220,7 +220,7 @@ class _AddExerciseState extends ConsumerState<AddExercise> {
                               ),
                             ),
                           const SizedBox(height: 40),
-                          Container(
+                          SizedBox(
                             width: MediaQuery.of(context).size.width * 0.90,
                             height: 50,
                             child: ElevatedButton(

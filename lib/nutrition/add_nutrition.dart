@@ -11,6 +11,8 @@ import '../provider/user_provider.dart';
 import 'meal_widget.dart';
 
 class AddNutrition extends ConsumerStatefulWidget {
+  const AddNutrition({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _AddNutritionState();
@@ -202,7 +204,7 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                                   onTap: () {
                                     setState(() {
                                       selectedType = item.typeNutritionId;
-                                      print(item.typeNutritionId);
+                                      debugPrint('${item.typeNutritionId}');
                                     });
                                   },
                                   child: Container(
@@ -288,7 +290,7 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                       SizedBox(
                         height: 30,
                       ),
-                      if (selectedMeals.length != 0)
+                      if (selectedMeals.isNotEmpty)
                         SizedBox(
                           height: 420, // altezza fissa delle card
                           child: ListView.builder(
@@ -315,7 +317,7 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                           ),
                         )
                       else
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.16,
                           child: Center(
                             child: Column(
@@ -379,7 +381,7 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                       Text(
                           "Seleziona l'utente a cui assegnare il piano nutrizionale."),
                       const SizedBox(height: 30),
-                      Container(
+                      SizedBox(
                           height: MediaQuery.of(context).size.height * 0.13,
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
@@ -423,9 +425,7 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          user.firstName +
-                                                              ' ' +
-                                                              user.surname,
+                                                          '${user.firstName} ${user.surname}',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight

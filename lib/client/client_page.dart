@@ -8,6 +8,8 @@ import '../widget/custom_bottom_bar.dart';
 import 'add_client.dart';
 
 class ClientPage extends ConsumerStatefulWidget {
+  const ClientPage({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _ClientPageState();

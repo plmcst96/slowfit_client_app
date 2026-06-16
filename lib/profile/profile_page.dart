@@ -14,6 +14,8 @@ import '../provider/notification_provider.dart';
 import '../provider/user_provider.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
+  const ProfilePage({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _ProfilePageState();

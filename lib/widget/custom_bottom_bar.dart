@@ -157,7 +157,7 @@ class CustomBottomBar extends ConsumerWidget {
         'label': AppLocalizations.of(context)!.client,
       },
       {
-        'icon': FontAwesomeIcons.userLarge,
+        'icon': FontAwesomeIcons.user,
         'label': AppLocalizations.of(context)!.profile,
       },
     ];

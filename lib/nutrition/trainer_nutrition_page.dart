@@ -13,6 +13,8 @@ import '../provider/bottom_bar_provider.dart';
 import '../widget/custom_bottom_bar.dart';
 
 class TrainerNutritionPage extends ConsumerStatefulWidget {
+  const TrainerNutritionPage({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _TrainerNutritionPageState();
@@ -159,7 +161,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                       SizedBox(
                         height: 10,
                       ),
-                      if (meal.length != 0)
+                      if (meal.isNotEmpty)
                         SizedBox(
                           height: 420, // altezza fissa delle card
                           child: ListView.builder(
@@ -217,7 +219,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                   fontSize: 22, fontWeight: FontWeight.bold),
                             ),
                             Spacer(),
-                            nutrition.length != 0
+                            nutrition.isNotEmpty
                                 ? TextButton(
                                     onPressed: () {},
                                     child: Row(
@@ -249,7 +251,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                   fontSize: 22, fontWeight: FontWeight.bold),
                             ),
                             Spacer(),
-                            nutrition.length != 0
+                            nutrition.isNotEmpty
                                 ? TextButton(
                                     onPressed: () {
                                       Navigator.push(
@@ -367,7 +369,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                         )
 
                       else
-                        Container(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * 0.16,
                           child: Center(
                             child: Column(

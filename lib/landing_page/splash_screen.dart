@@ -8,6 +8,8 @@ import '../l10n/app_localizations.dart';
 import '../provider/login_provider.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _SplashScreenState();

@@ -12,6 +12,8 @@ import '../widget/custom_bottom_bar.dart';
 import 'add_training.dart';
 
 class ExercisePage extends ConsumerStatefulWidget {
+  const ExercisePage({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _ExercisePageState();
@@ -221,7 +223,7 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                         ),
                       ),
                     // Lista orizzontale per gli esercizi
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height *
                           0.33, // Imposta l'altezza fissa
                       child: ListView.builder(
@@ -236,7 +238,7 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                     setState(() {
                                       _isOpen = !_isOpen;
                                     });
-                                    print(ex.exerciseId);
+                                    debugPrint('${ex.exerciseId}');
                                     showModalBottomSheet(
                                       context: context,
                                       isScrollControlled: true,
@@ -312,7 +314,7 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height * 0.17,
                       child: users.isNotEmpty
                           ? ListView.builder(
@@ -359,9 +361,7 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                      user.firstName +
-                                                          ' ' +
-                                                          user.surname,
+                                                      '${user.firstName} ${user.surname}',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold),
@@ -425,7 +425,7 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 200,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,

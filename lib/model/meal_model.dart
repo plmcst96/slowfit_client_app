@@ -107,10 +107,10 @@ class Meal {
       protein: json['protein'],
       fats: json['fats'],
       carbohydrate: json['carbohydrate'],
-      imageMeal: json['imageMeal'] ?? null,
-      difficulty: json['difficulty'] ?? null,
-      categoryId: json['categoryId'] ?? null,
-      dayId: json['dayId'] ?? null
+      imageMeal: json['imageMeal'],
+      difficulty: json['difficulty'],
+      categoryId: json['categoryId'],
+      dayId: json['dayId']
     );
   }
 

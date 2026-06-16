@@ -9,6 +9,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../provider/login_provider.dart';
 
 class HomeClient extends ConsumerStatefulWidget {
+  const HomeClient({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _HomeClientState();
@@ -87,7 +89,7 @@ class _HomeClientState extends ConsumerState<HomeClient> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        user.firstName + ' ' + user.surname,
+                                        '${user.firstName} ${user.surname}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -154,7 +156,7 @@ class _HomeClientState extends ConsumerState<HomeClient> {
                                   ),
                                   SizedBox(width: 20),
                                   Expanded(
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 100,
                                       height: 150,
                                       child: SfCircularChart(

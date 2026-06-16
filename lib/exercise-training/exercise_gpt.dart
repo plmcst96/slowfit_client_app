@@ -163,7 +163,7 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
     final trainingPlan = generateTrainingPlan(allExercises);
     final selectedLevelData = trainingPlan[widget.level];
 
-    void _showClientSelectionModal(BuildContext context, List<User> clients) {
+    void showClientSelectionModal(BuildContext context, List<User> clients) {
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -352,7 +352,7 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0XFFBAFFA5)),
                                 onPressed: () {
-                                  _showClientSelectionModal(context, users);
+                                  showClientSelectionModal(context, users);
                                 },
                                 child: Text(
                                   'Assegna Workout',
@@ -472,7 +472,7 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                 ),
               ),
             );
-          }).toList(),
+          }),
       ],
     );
   }

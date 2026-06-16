@@ -22,7 +22,7 @@ class Register {
       email: json['email'],
       password: json['password'],
       roleId: json['roleId'] ?? 1,
-      ptId: json['ptId'] ?? null
+      ptId: json['ptId']
     );
   }
 

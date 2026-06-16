@@ -6,6 +6,8 @@ import '../l10n/app_localizations.dart';
 import '../provider/appointment_provider.dart';
 
 class HorizontalWeekCalendar extends ConsumerStatefulWidget {
+  const HorizontalWeekCalendar({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _HorizontalWeekCalendarState();

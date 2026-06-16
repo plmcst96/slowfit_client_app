@@ -13,6 +13,8 @@ import '../widget/calendar_horizontal.dart';
 import '../widget/custom_bottom_bar.dart';
 
 class NutritionPage extends ConsumerStatefulWidget {
+  const NutritionPage({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _NutritionPageState();
@@ -20,7 +22,7 @@ class NutritionPage extends ConsumerStatefulWidget {
 }
 
 class _NutritionPageState extends ConsumerState<NutritionPage> {
-  bool _loading = true;
+  final bool _loading = true;
 
   int calculateTotalCalories(List<Meal> meals) {
     return meals.fold(0, (sum, meal) => sum + meal.calories);
@@ -147,7 +149,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                totCalories.toString() + 'kcal',
+                                                '${totCalories}kcal',
                                                 style: TextStyle(
                                                   color: Colors.pink[600],
                                                   fontWeight: FontWeight.bold,
@@ -168,7 +170,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                totProtein.toString() + 'g',
+                                                '${totProtein}g',
                                                 style: TextStyle(
                                                   color: Colors.pink[600],
                                                   fontWeight: FontWeight.bold,
@@ -189,7 +191,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                totFats.toString() + 'g',
+                                                '${totFats}g',
                                                 style: TextStyle(
                                                   color: Colors.pink[600],
                                                   fontWeight: FontWeight.bold,
@@ -210,7 +212,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Text(
-                                                totCarb.toString() + 'g',
+                                                '${totCarb}g',
                                                 style: TextStyle(
                                                   color: Colors.pink[600],
                                                   fontWeight: FontWeight.bold,
@@ -385,9 +387,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            meal.calories
-                                                                    .toString() +
-                                                                'kcal',
+                                                            '${meal.calories}kcal',
                                                             style: TextStyle(
                                                               color: Colors
                                                                   .pink[600],
@@ -413,9 +413,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            meal.protein
-                                                                    .toString() +
-                                                                'g',
+                                                            '${meal.protein}g',
                                                             style: TextStyle(
                                                               color: Colors
                                                                   .pink[600],
@@ -441,9 +439,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            meal.fats
-                                                                    .toString() +
-                                                                'g',
+                                                            '${meal.fats}g',
                                                             style: TextStyle(
                                                               color: Colors
                                                                   .pink[600],
@@ -469,9 +465,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                                                 .start,
                                                         children: [
                                                           Text(
-                                                            meal.carbohydrate
-                                                                    .toString() +
-                                                                'g',
+                                                            '${meal.carbohydrate}g',
                                                             style: TextStyle(
                                                               color: Colors
                                                                   .pink[600],
@@ -592,7 +586,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                                       );
                                                     },
                                                   );
-                                                }).toList(), // ricordati il toList() se serve
+                                                }), // ricordati il toList() se serve
                                               ],
                                             ),
                                           ),

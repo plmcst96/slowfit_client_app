@@ -161,7 +161,7 @@ class DetailExerciseRequest {
       image: json['image'],
       name: json['name'],
       nRipetition: json['nRipetition'],
-      phase: json['phase'] ?? null,
+      phase: json['phase'],
       pause: json['pause'],
       series: json['series'],
       kg: json['kg'] ?? 0.0,

@@ -73,7 +73,7 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
     final selectedIndex = ref.watch(bottomBarProvider);
     final user = ref.watch(userSingleProvider);
     final exDet = ref.watch(exerciseSingleMapProvider);
-    print(exDet);
+    debugPrint('$exDet');
 
     return Scaffold(
       body: Stack(
@@ -188,7 +188,7 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                       child: Column(
                         children: [
                           Text(
-                            'Workout ${user!.firstName + ' ' + user.surname}',
+                            'Workout ${'${user!.firstName} ${user.surname}'}',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -222,7 +222,7 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height *
                                 0.20, // Imposta l'altezza fissa
                             child: ListView.builder(
@@ -328,7 +328,7 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height *
                                 0.20, // Imposta l'altezza fissa
                             child: ListView.builder(
@@ -436,7 +436,7 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height *
                                 0.20, // Imposta l'altezza fissa
                             child: ListView.builder(

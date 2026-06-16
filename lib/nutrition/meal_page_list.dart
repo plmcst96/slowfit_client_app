@@ -105,7 +105,7 @@ class _MealPageListState extends ConsumerState<MealPageList> {
             ),
             const SizedBox(height: 20),
             // 📂 Lista categorie
-            Container(
+            SizedBox(
               height: 40,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,

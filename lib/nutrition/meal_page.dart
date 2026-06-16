@@ -279,7 +279,7 @@ class _MealPageState extends ConsumerState<MealPage> {
                                 ],
                               ),
                             ))
-                                .toList(),
+                                ,
 
                           ],
                         );

@@ -390,7 +390,7 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                 ),
               ),
             );
-          }).toList(),
+          }),
       ],
     );
   }

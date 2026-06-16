@@ -22,9 +22,9 @@ class AddTraining extends ConsumerStatefulWidget {
 class _AddTrainingState extends ConsumerState<AddTraining> {
   final _formKey = GlobalKey<FormState>();
   int _selectedTypeId = 1;
-  List<Exercise> _selectedExercises = [];
-  List<Exercise> _selectedExercisesRest = [];
-  List<Exercise> _selectedExercisesStr = [];
+  final List<Exercise> _selectedExercises = [];
+  final List<Exercise> _selectedExercisesRest = [];
+  final List<Exercise> _selectedExercisesStr = [];
 
   @override
   void initState() {
@@ -127,7 +127,7 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                       child: Column(
                         children: [
                           Text(
-                            'Workout ${user.firstName + ' ' + user.surname}',
+                            'Workout ${'${user.firstName} ${user.surname}'}',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
@@ -148,7 +148,7 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(
@@ -259,7 +259,7 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Container(
+                                SizedBox(
                                   height: 40,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
@@ -312,7 +312,7 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                     },
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(
@@ -424,7 +424,7 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(

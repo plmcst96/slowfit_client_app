@@ -14,7 +14,7 @@ class ClientGoalChart extends ConsumerWidget {
     final randomProgress = clients.map((client) {
       final progress = (50 + (client.hashCode % 50)).toDouble(); // tra 50 e 100
       return ClientGoalData(
-        name: "${client.firstName}",
+        name: client.firstName,
         progress: progress,
       );
     }).toList();

@@ -238,7 +238,7 @@ class _AppointmentDetailState extends ConsumerState<AppointmentDetail> {
                                   ],
                                 ),
                                 const SizedBox(height: 40),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.90,
                                   height: 50,
@@ -260,7 +260,7 @@ class _AppointmentDetailState extends ConsumerState<AppointmentDetail> {
                           )
                         : Column(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: double.infinity,
                                 child: _buildCard(
                                   [
@@ -306,7 +306,7 @@ class _AppointmentDetailState extends ConsumerState<AppointmentDetail> {
                               SizedBox(
                                 height: 30,
                               ),
-                              Container(
+                              SizedBox(
                                 width: double.infinity,
                                 child: _buildCard(
                                   [

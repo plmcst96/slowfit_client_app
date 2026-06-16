@@ -19,10 +19,10 @@ class Ingredient {
     return Ingredient(
       ingredientId: json['ingredientId'],
       name: json['name'],
-      calories: json['calories'] ?? null,
-      protein: json['protein'] ?? null,
-      fats: json['fats'] ?? null,
-      carbohydrate: json['carbohydrate'] ?? null,
+      calories: json['calories'],
+      protein: json['protein'],
+      fats: json['fats'],
+      carbohydrate: json['carbohydrate'],
     );
   }
 
@@ -55,7 +55,7 @@ class IngredientDetail {
         ingredientId: json['ingredientId'],
         name: json['name'] ?? '',
 
-        unit: json['unit'] ?? null,
+        unit: json['unit'],
         quantity: json['quantity']);
   }
 

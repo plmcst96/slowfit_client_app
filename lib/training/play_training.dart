@@ -518,7 +518,7 @@ class _PlayTrainingState extends ConsumerState<PlayTraining> {
         children: [
           GestureDetector(
             onTap: widget.onClose,
-            child: Container(width: double.infinity, height: double.infinity),
+            child: SizedBox(width: double.infinity, height: double.infinity),
           ),
           AnimatedPositioned(
             duration: Duration(milliseconds: 400),

@@ -21,21 +21,21 @@ class _AddClientState extends ConsumerState<AddClient>{
   @override
   Widget build(BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _surnameController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController surnameController = TextEditingController();
 
-    void _registerUser() async {
+    void registerUser() async {
       final loginState = ref.watch(loginProvider);
 
 
       if (formKey.currentState!.validate()) {
         final registerModel = Register(
-          email: _emailController.text,
-          password: _passwordController.text,
-          firstName: _nameController.text,
-          surname: _surnameController.text,
+          email: emailController.text,
+          password: passwordController.text,
+          firstName: nameController.text,
+          surname: surnameController.text,
           roleId: Roles.client,
           ptId: loginState.userId,
         );
@@ -67,7 +67,7 @@ class _AddClientState extends ConsumerState<AddClient>{
 
 
     // Funzione per validare l'email
-    String? _validateEmail(String? value) {
+    String? validateEmail(String? value) {
       if (value == null || value.isEmpty) {
         return AppLocalizations.of(context)!.insert_email;
       }
@@ -96,7 +96,7 @@ class _AddClientState extends ConsumerState<AddClient>{
               child: Column(
                 children: [
                   TextFormField(
-                    controller: _nameController,
+                    controller: nameController,
                     keyboardType: TextInputType.text,
                     autocorrect: false,
                     enableSuggestions: false,
@@ -130,7 +130,7 @@ class _AddClientState extends ConsumerState<AddClient>{
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: _surnameController,
+                    controller: surnameController,
                     keyboardType: TextInputType.text,
                     autocorrect: false,
                     enableSuggestions: false,
@@ -164,7 +164,7 @@ class _AddClientState extends ConsumerState<AddClient>{
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: _emailController,
+                    controller: emailController,
                     keyboardType:
                     TextInputType.emailAddress,
                     autocorrect: false,
@@ -190,11 +190,11 @@ class _AddClientState extends ConsumerState<AddClient>{
                                 .blue), // Colore bordo al focus
                       ),
                     ),
-                    validator: _validateEmail,
+                    validator: validateEmail,
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
-                    controller: _passwordController,
+                    controller: passwordController,
                     keyboardType:
                     TextInputType.visiblePassword,
                     autocorrect: false,
@@ -244,7 +244,7 @@ class _AddClientState extends ConsumerState<AddClient>{
                   ),
                   SizedBox(
                     child: ElevatedButton(
-                      onPressed: _registerUser,
+                      onPressed: registerUser,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.pink,
                         padding:

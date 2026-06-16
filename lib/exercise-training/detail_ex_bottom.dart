@@ -30,10 +30,10 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
   final _formKey = GlobalKey<FormState>();
 
   // Controllers per ogni esercizio
-  Map<int, TextEditingController> _seriesControllers = {};
-  Map<int, TextEditingController> _nRipetitionControllers = {};
-  Map<int, TextEditingController> _pauseControllers = {};
-  Map<int, TextEditingController> _phaseControllers = {};
+  final Map<int, TextEditingController> _seriesControllers = {};
+  final Map<int, TextEditingController> _nRipetitionControllers = {};
+  final Map<int, TextEditingController> _pauseControllers = {};
+  final Map<int, TextEditingController> _phaseControllers = {};
 
   List<DetailExerciseRequest> exRest = [];
   List<DetailExerciseRequest> ex = [];
@@ -94,13 +94,13 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
       );
       if (exercise.phase == 'Riscaldamento') {
         exRest.add(updatedExercise);
-        print(updatedExercise.toJson());
+        debugPrint('${updatedExercise.toJson()}');
       } else if (exercise.phase == 'Allenamento') {
         ex.add(updatedExercise);
-        print(updatedExercise.toJson());
+        debugPrint('${updatedExercise.toJson()}');
       } else {
         exStr.add(updatedExercise);
-        print(updatedExercise.toJson());
+        debugPrint('${updatedExercise.toJson()}');
       }
     }
   }
@@ -341,7 +341,7 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                             SizedBox(
                               width: 15,
                             ),
-                            Container(
+                            SizedBox(
                               width: 80,
                               child: TextFormField(
                                 controller:
@@ -382,7 +382,7 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                             SizedBox(
                               width: 15,
                             ),
-                            Container(
+                            SizedBox(
                               width: 80,
                               child: TextFormField(
                                 controller: _nRipetitionControllers[
@@ -423,7 +423,7 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                             SizedBox(
                               width: 15,
                             ),
-                            Container(
+                            SizedBox(
                               width: 100,
                               child: TextFormField(
                                 controller:
@@ -465,7 +465,7 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                 ],
               ),
             );
-          }).toList(),
+          }),
       ],
     );
   }

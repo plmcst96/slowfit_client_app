@@ -77,7 +77,7 @@ class AppointmentGet {
         userEmail: json['userEmail'],
         userFullName: json['userFullName'],
         userPhone: json['userPhone'],
-        callUrl: json['callUrl'] ?? null);
+        callUrl: json['callUrl']);
   }
 
   Map<String, dynamic> toJson() {

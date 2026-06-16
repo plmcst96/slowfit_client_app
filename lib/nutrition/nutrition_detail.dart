@@ -313,14 +313,14 @@ class _NutritionDetailModalState extends ConsumerState<NutritionDetailModal> {
                                           meals: meal, inte: 0.87, inte2: 2.8),
                                     ]),
                               );
-                            }).toList(),
+                            }),
                           ],
                         );
                       },
                       loading: () => const CircularProgressIndicator(),
                       error: (e, _) => Text("Errore giorno: $e"),
                     );
-                  }).toList(),
+                  }),
                   const Divider(thickness: 1, height: 20),
                 ],
               );
@@ -328,7 +328,7 @@ class _NutritionDetailModalState extends ConsumerState<NutritionDetailModal> {
             loading: () => const CircularProgressIndicator(),
             error: (e, _) => Text("Errore categoria: $e"),
           );
-        }).toList(),
+        }),
         SizedBox(
           height: 20,
         ),

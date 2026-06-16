@@ -26,6 +26,8 @@ import '../widget/calendar_horizontal.dart';
 import 'home_appointment.dart';
 
 class HomePage extends ConsumerStatefulWidget {
+  const HomePage({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _HomePageState();
@@ -343,7 +345,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 dashPattern: [6, 3],
                                 borderType: BorderType.RRect,
                                 radius: const Radius.circular(40),
-                                child: Container(
+                                child: SizedBox(
                                   height: 60,
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
@@ -396,11 +398,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                                             .entries
                                             .toList();
 
-                                        final PageController _pageController =
+                                        final PageController pageController =
                                             PageController();
 
                                         return PageView.builder(
-                                          controller: _pageController,
+                                          controller: pageController,
                                           scrollDirection: Axis.horizontal,
                                           physics: const PageScrollPhysics(),
                                           itemCount: categories.length,
@@ -590,8 +592,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                                               .start,
                                                                       children: [
                                                                         Text(
-                                                                          meal.protein.toString() +
-                                                                              'g',
+                                                                          '${meal.protein}g',
                                                                           style: TextStyle(
                                                                             color:
                                                                                 Colors.pink[600],
@@ -617,8 +618,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                                               .start,
                                                                       children: [
                                                                         Text(
-                                                                          meal.fats.toString() +
-                                                                              'g',
+                                                                          '${meal.fats}g',
                                                                           style: TextStyle(
                                                                             color:
                                                                                 Colors.pink[600],
@@ -644,8 +644,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                                               .start,
                                                                       children: [
                                                                         Text(
-                                                                          meal.carbohydrate.toString() +
-                                                                              'g',
+                                                                          '${meal.carbohydrate}g',
                                                                           style: TextStyle(
                                                                             color:
                                                                                 Colors.pink[600],
@@ -767,7 +766,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                                     );
                                                                   },
                                                                 );
-                                                              }).toList(), // ricordati il toList() se serve
+                                                              }), // ricordati il toList() se serve
                                                             ],
                                                           ),
                                                         ),

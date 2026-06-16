@@ -7,7 +7,7 @@ import '../provider/user_provider.dart';
 
 class AddProfileBottomSheet extends ConsumerStatefulWidget {
   final int userId;
-  const AddProfileBottomSheet({Key? key, required this.userId}) : super(key: key);
+  const AddProfileBottomSheet({super.key, required this.userId});
 
   @override
   ConsumerState<AddProfileBottomSheet> createState() => _AddProfileBottomSheetState();

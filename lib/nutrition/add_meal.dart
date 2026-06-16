@@ -9,17 +9,19 @@ import '../model/meal_model.dart';
 import '../provider/ingredient_provider.dart';
 
 class AddMeal extends ConsumerStatefulWidget {
+  const AddMeal({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AddMealState();
 }
 
 class _AddMealState extends ConsumerState<AddMeal> {
   final GlobalKey _formKey = GlobalKey();
-  late TextEditingController _nameController = TextEditingController();
-  late TextEditingController _descriptionController = TextEditingController();
-  late TextEditingController _recipeController = TextEditingController();
-  late TextEditingController _searchController = TextEditingController();
-  late TextEditingController _imageMealController = TextEditingController();
+  late final TextEditingController _nameController = TextEditingController();
+  late final TextEditingController _descriptionController = TextEditingController();
+  late final TextEditingController _recipeController = TextEditingController();
+  late final TextEditingController _searchController = TextEditingController();
+  late final TextEditingController _imageMealController = TextEditingController();
   late int _calories = 0;
   late int _preparingTime = 0;
   late int _protein = 0;
@@ -73,8 +75,12 @@ class _AddMealState extends ConsumerState<AddMeal> {
     _descriptionController.dispose();
     _recipeController.dispose();
     _searchController.dispose();
-    for (final c in _quantityControllers.values) c.dispose();
-    for (final c in _unitControllers.values) c.dispose();
+    for (final c in _quantityControllers.values) {
+      c.dispose();
+    }
+    for (final c in _unitControllers.values) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -520,7 +526,7 @@ class _AddMealState extends ConsumerState<AddMeal> {
                                 borderSide: BorderSide(
                                     color: Colors.black, width: 1.5)),
                           ),
-                          value: _preparingTime != 0
+                          initialValue: _preparingTime != 0
                               ? _preparingTime
                               : null, // 👈 valore iniziale (null se non selezionato)
                           items: [10, 15, 20, 25, 30, 40, 45, 50, 60, 80, 90]

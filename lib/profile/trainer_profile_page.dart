@@ -12,6 +12,8 @@ import '../provider/bottom_bar_provider.dart';
 import '../widget/custom_bottom_bar.dart';
 
 class TrainerProfilePage extends ConsumerStatefulWidget {
+  const TrainerProfilePage({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _TrainerProfilePageState();
@@ -111,7 +113,7 @@ class _TrainerProfilePageState extends ConsumerState<TrainerProfilePage> {
                 height: 10,
               ),
               Text(
-                '${user.email}',
+                user.email,
                 style: TextStyle(
                   fontSize: 16,
                 ),

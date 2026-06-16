@@ -176,7 +176,7 @@ class _TrainerHomePageState extends ConsumerState<TrainerHomePage> {
                     'Clienti',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.42,
                     child: HomeClient(),
                   ),

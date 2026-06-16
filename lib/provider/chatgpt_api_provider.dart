@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,7 @@ bool isValidJson(String input) {
     jsonDecode(input);
     return true;
   } catch (e) {
-    print("Errore nel parsing JSON: $e");
+    debugPrint("Errore nel parsing JSON: $e");
     return false;
   }
 }
@@ -47,7 +48,7 @@ Future<http.Response> sendOpenAIRequestWithRetry({
       if (retryCount > maxRetries) {
         if (modelIndex < models.length - 1) {
           modelIndex++;
-          print("🔁 Cambio modello: ${models[modelIndex]}");
+          debugPrint("🔁 Cambio modello: ${models[modelIndex]}");
           final newBody = jsonDecode(body);
           newBody["model"] = models[modelIndex];
           body = jsonEncode(newBody);
@@ -59,7 +60,7 @@ Future<http.Response> sendOpenAIRequestWithRetry({
       }
 
       final waitTime = pow(2, retryCount).toInt() + random.nextInt(3);
-      print(
+      debugPrint(
           '🟠 Rate limit. Attendo $waitTime secondi... (tentativo $retryCount)');
       await Future.delayed(Duration(seconds: waitTime));
     } else {
@@ -71,7 +72,7 @@ Future<http.Response> sendOpenAIRequestWithRetry({
 final trainingRequestProvider =
     FutureProvider.family<Map<String, dynamic>, int>(
         (ref, typeTrainingId) async {
-  print("➡️ Eseguo richiesta OpenAI per typeTrainingId: $typeTrainingId");
+  debugPrint("➡️ Eseguo richiesta OpenAI per typeTrainingId: $typeTrainingId");
 
   // 1. Recupera esercizi dal backend
   await ref.read(exerciseProvider.notifier).getExercise(typeTrainingId);
@@ -163,14 +164,14 @@ Genera solo il JSON, senza commenti. Racchiudi il risultato in un blocco ```json
     models: models,
   );
 
-  print("✅ Risposta OpenAI ricevuta: ${response.statusCode}");
+  debugPrint("✅ Risposta OpenAI ricevuta: ${response.statusCode}");
 
   if (response.statusCode == 200) {
     final decoded = jsonDecode(response.body);
     final content = decoded['choices'][0]['message']['content'];
 
     if (content.isEmpty) {
-      print('❌ La risposta di OpenAI è vuota.');
+      debugPrint('❌ La risposta di OpenAI è vuota.');
       throw Exception('Risposta vuota da OpenAI');
     }
 
@@ -180,13 +181,13 @@ Genera solo il JSON, senza commenti. Racchiudi il risultato in un blocco ```json
       final finalResponse = jsonDecode(sanitizedContent);
       return finalResponse;
     } else {
-      print("❌ JSON malformato dopo sanitizzazione:");
-      print(sanitizedContent);
+      debugPrint("❌ JSON malformato dopo sanitizzazione:");
+      debugPrint(sanitizedContent);
       throw Exception('JSON malformato dopo sanitizzazione.');
     }
   } else {
-    print('❌ Errore nella richiesta OpenAI: ${response.statusCode}');
-    print('📦 Body: ${response.body}');
+    debugPrint('❌ Errore nella richiesta OpenAI: ${response.statusCode}');
+    debugPrint('📦 Body: ${response.body}');
     throw Exception('Errore nella richiesta OpenAI: ${response.statusCode}');
   }
 });

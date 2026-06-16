@@ -60,7 +60,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final locale = ref.watch(languageProvider);
     final token = ref.watch(fcmTokenProvider);
-    print("FCM Token: $token");
+    debugPrint("FCM Token: $token");
 
 
     return MaterialApp(

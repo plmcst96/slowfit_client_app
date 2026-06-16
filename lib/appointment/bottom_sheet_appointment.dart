@@ -19,7 +19,7 @@ class BottomSheetAppointment extends ConsumerStatefulWidget {
 class _BottomSheetAppointmentState
     extends ConsumerState<BottomSheetAppointment> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _descriptionController = TextEditingController();
+  late final TextEditingController _descriptionController = TextEditingController();
   late int? _duration;
   late DateTime? _date;
   late TimeOfDay? _time;

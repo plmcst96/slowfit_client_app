@@ -68,7 +68,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
 
   void _showMeasurementSheet(
       BuildContext context, int bodyPartId, String bodyPartName) {
-    final TextEditingController _controller = TextEditingController();
+    final TextEditingController controller = TextEditingController();
 
     showModalBottomSheet(
       context: context,
@@ -94,7 +94,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
               ),
               const SizedBox(height: 30),
               TextField(
-                controller: _controller,
+                controller: controller,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
                   labelText: 'Centimetri',
@@ -105,13 +105,13 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
                 onPressed: () async {
-                  final value = double.tryParse(_controller.text);
+                  final value = double.tryParse(controller.text);
                   if (value != null) {
                     await ref.read(measureProvider.notifier).saveMeasure(
                         MeasureAdd(
                             userId: widget.clientId,
                             bodyId: bodyPartId,
-                            cm: int.tryParse(_controller.text)!,
+                            cm: int.tryParse(controller.text)!,
                             collectPeriod: DateTime.now()));
                     await ref
                         .read(measureAllProvider.notifier)
@@ -284,7 +284,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                           SizedBox(
                             height: 10,
                           ),
-                          if (measures.length == 0)
+                          if (measures.isEmpty)
                             Text(
                               'Clicca qui per aggiungere le misurazioni',
                               style: TextStyle(
@@ -294,7 +294,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                           SizedBox(
                             height: 20,
                           ),
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height * 0.20,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,

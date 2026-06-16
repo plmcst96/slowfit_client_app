@@ -52,7 +52,7 @@ class _MeasurePageState extends ConsumerState<MeasurePage> {
         }).toList();
         userAnswers[int.parse(key)] = list;
       });
-      print(userAnswers);
+      debugPrint('$userAnswers');
     }
   }
 
@@ -89,7 +89,7 @@ class _MeasurePageState extends ConsumerState<MeasurePage> {
 
                   SizedBox(height: 10),
 
-                  Container(
+                  SizedBox(
                     height: 350,
                     child: CalendarDatePicker(
                       initialDate: DateTime.now(),
@@ -99,7 +99,7 @@ class _MeasurePageState extends ConsumerState<MeasurePage> {
                         setState(() {
                           _dateSelected = date;
                         });
-                        print("DATA SELEZIONATA: $date");
+                        debugPrint("DATA SELEZIONATA: $date");
                         Navigator.pop(context);
                       },
                     ),
