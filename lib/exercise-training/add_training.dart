@@ -64,29 +64,25 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
     if (user == null) {
       return Scaffold(
         body: Center(
-            child:
-                CircularProgressIndicator()), // Mostra un caricamento mentre i dati non sono pronti
+          child: CircularProgressIndicator(),
+        ), // Mostra un caricamento mentre i dati non sono pronti
       );
     }
 
     return Scaffold(
       body: Stack(
         children: [
-          // Immagine sfondo
           Container(
             height: MediaQuery.of(context).size.height * 0.25,
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                  'assets/avanzato.jpg',
-                ),
+                image: AssetImage('assets/avanzato.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
 
-          // Freccia in alto a destra sopra immagine
           SafeArea(
             child: Align(
               alignment: Alignment.topLeft,
@@ -108,9 +104,7 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
             right: 0,
             bottom: 0,
             child: Container(
-              padding: EdgeInsets.only(
-                top: 30,
-              ),
+              padding: EdgeInsets.only(top: 30),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: const BorderRadius.only(
@@ -129,27 +123,27 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                           Text(
                             'Workout ${'${user.firstName} ${user.surname}'}',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Form(
                             key: _formKey,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                SizedBox(height: 20),
                                 Text(
                                   'Seleziona Riscaldamento',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
                                 ),
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height *
+                                  height:
+                                      MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(
                                     shrinkWrap:
@@ -158,8 +152,8 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                     itemCount: exerciseRest.length,
                                     itemBuilder: (context, index) {
                                       final ex = exerciseRest[index];
-                                      final isSelected =
-                                          _selectedExercisesRest.contains(ex);
+                                      final isSelected = _selectedExercisesRest
+                                          .contains(ex);
                                       return exerciseRest.isNotEmpty
                                           ? GestureDetector(
                                               onTap: () {
@@ -168,191 +162,32 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                                     _selectedExercisesRest
                                                         .remove(ex);
                                                   } else {
-                                                    _selectedExercisesRest
-                                                        .add(ex);
+                                                    _selectedExercisesRest.add(
+                                                      ex,
+                                                    );
                                                   }
                                                 });
                                               },
                                               child: Card(
                                                 margin: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 30),
-                                                child: Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.55,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(15),
-                                                    ),
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          ex.image ?? ''),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                  child: Stack(
-                                                    children: [
-                                                      Positioned(
-                                                        top: 20,
-                                                        right: 10,
-                                                        child: Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal: 6,
-                                                                  vertical: 6),
-                                                          decoration: BoxDecoration(
-                                                              color: Color(
-                                                                  0XFFBAFFA5),
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          20))),
-                                                          child: Text(
-                                                            ex.name,
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 12,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      // Spunta di selezione
-                                                      if (isSelected)
-                                                        Positioned(
-                                                          top: 10,
-                                                          left: 10,
-                                                          child: Icon(
-                                                            Icons.check_circle,
-                                                            color: Colors.green,
-                                                            size: 24,
-                                                          ),
-                                                        ),
-                                                    ],
-                                                  ),
+                                                  horizontal: 10,
+                                                  vertical: 30,
                                                 ),
-                                              ),
-                                            )
-                                          : Container(
-                                              child: Text(
-                                                'Nessun contenuto',
-                                                style: TextStyle(
-                                                    color: Colors.black),
-                                              ),
-                                            );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  'Seleziona Tipo Allenamneto',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                SizedBox(
-                                  height: 40,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: type.length,
-                                    itemBuilder: (context, index) {
-                                      final typeEx = type[index];
-                                      bool isSelected =
-                                          _selectedTypeId == typeEx.typeId;
-
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        child: OutlinedButton(
-                                          onPressed: () async {
-                                            setState(() {
-                                              _selectedTypeId = typeEx
-                                                  .typeId; // Imposta il tipo selezionato
-                                            });
-                                            await ref
-                                                .read(exerciseProvider.notifier)
-                                                .getExercise(typeEx.typeId);
-                                          },
-                                          style: OutlinedButton.styleFrom(
-                                            minimumSize: Size(100, 40),
-                                            side: BorderSide(
-                                                color: isSelected
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                                width: 1.5),
-                                            backgroundColor: isSelected
-                                                ? Colors.white
-                                                : Colors
-                                                    .transparent, // Sfondo bianco se selezionato
-                                            foregroundColor: isSelected
-                                                ? Colors.black
-                                                : Colors
-                                                    .black, // Testo nero se selezionato
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                          ),
-                                          child: Text(
-                                            typeEx.typeName,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.20, // Imposta l'altezza fissa
-                                  child: ListView.builder(
-                                    shrinkWrap:
-                                        true, // Permette di adattarsi al contenuto
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: exercise.length,
-                                    itemBuilder: (context, index) {
-                                      final ex = exercise[index];
-                                      final isSelected =
-                                          _selectedExercises.contains(ex);
-                                      return exercise.isNotEmpty
-                                          ? GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  if (isSelected) {
-                                                    _selectedExercises
-                                                        .remove(ex);
-                                                  } else {
-                                                    _selectedExercises.add(ex);
-                                                  }
-                                                });
-                                              },
-                                              child: Card(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 30),
                                                 child: Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
+                                                  width:
+                                                      MediaQuery.of(
+                                                        context,
+                                                      ).size.width *
                                                       0.55,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                      Radius.circular(15),
-                                                    ),
+                                                          Radius.circular(15),
+                                                        ),
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                          ex.image ?? ''),
+                                                        ex.image ?? '',
+                                                      ),
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
@@ -362,20 +197,21 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                                         top: 20,
                                                         right: 10,
                                                         child: Container(
-                                                          padding: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal: 6,
-                                                                  vertical: 6),
-                                                          decoration:
-                                                              BoxDecoration(
+                                                          padding:
+                                                              EdgeInsets.symmetric(
+                                                                horizontal: 6,
+                                                                vertical: 6,
+                                                              ),
+                                                          decoration: BoxDecoration(
                                                             color: Color(
-                                                                0XFFBAFFA5),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(
-                                                              Radius.circular(
-                                                                  20),
+                                                              0XFFBAFFA5,
                                                             ),
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    20,
+                                                                  ),
+                                                                ),
                                                           ),
                                                           child: Text(
                                                             ex.name,
@@ -388,7 +224,6 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                                           ),
                                                         ),
                                                       ),
-                                                      // Spunta di selezione
                                                       if (isSelected)
                                                         Positioned(
                                                           top: 10,
@@ -415,88 +250,151 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                     },
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                SizedBox(height: 20),
                                 Text(
-                                  'Seleziona Stretching',
+                                  'Seleziona Tipo Allenamneto',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                SizedBox(
+                                  height: 40,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: type.length,
+                                    itemBuilder: (context, index) {
+                                      final typeEx = type[index];
+                                      bool isSelected =
+                                          _selectedTypeId == typeEx.typeId;
+
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 5,
+                                        ),
+                                        child: OutlinedButton(
+                                          onPressed: () async {
+                                            setState(() {
+                                              _selectedTypeId = typeEx
+                                                  .typeId; // Imposta il tipo selezionato
+                                            });
+                                            await ref
+                                                .read(exerciseProvider.notifier)
+                                                .getExercise(typeEx.typeId);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                            minimumSize: Size(100, 40),
+                                            side: BorderSide(
+                                              color: isSelected
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              width: 1.5,
+                                            ),
+                                            backgroundColor: isSelected
+                                                ? Colors.white
+                                                : Colors.transparent,
+                                            foregroundColor: isSelected
+                                                ? Colors.black
+                                                : Colors.black,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            typeEx.typeName,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height *
+                                  height:
+                                      MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(
                                     shrinkWrap:
                                         true, // Permette di adattarsi al contenuto
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: exerciseStr.length,
+                                    itemCount: exercise.length,
                                     itemBuilder: (context, index) {
-                                      final ex = exerciseStr[index];
-                                      final isSelected =
-                                          _selectedExercisesStr.contains(ex);
-                                      return exerciseStr.isNotEmpty
+                                      final ex = exercise[index];
+                                      final isSelected = _selectedExercises
+                                          .contains(ex);
+                                      return exercise.isNotEmpty
                                           ? GestureDetector(
                                               onTap: () {
                                                 setState(() {
                                                   if (isSelected) {
-                                                    _selectedExercisesStr
-                                                        .remove(ex);
+                                                    _selectedExercises.remove(
+                                                      ex,
+                                                    );
                                                   } else {
-                                                    _selectedExercisesStr
-                                                        .add(ex);
+                                                    _selectedExercises.add(ex);
                                                   }
                                                 });
                                               },
                                               child: Card(
                                                 margin: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 30),
+                                                  horizontal: 10,
+                                                  vertical: 30,
+                                                ),
                                                 child: Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
+                                                  width:
+                                                      MediaQuery.of(
+                                                        context,
+                                                      ).size.width *
                                                       0.55,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                      Radius.circular(15),
-                                                    ),
+                                                          Radius.circular(15),
+                                                        ),
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                          ex.image ?? ''),
+                                                        ex.image ?? '',
+                                                      ),
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                   child: Stack(
                                                     children: [
                                                       Positioned(
-                                                        bottom: 20,
+                                                        top: 20,
                                                         right: 10,
-                                                        child: SizedBox(
-                                                          width: 180, // 👈 limite
-                                                          child: Container(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                                                            decoration: const BoxDecoration(
-                                                              color: Color(0XFFBAFFA5),
-                                                              borderRadius: BorderRadius.all(Radius.circular(20)),
-                                                            ),
-                                                            child: Text(
-                                                              ex.name,
-                                                              maxLines: 2,
-                                                              textAlign: TextAlign.center,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: const TextStyle(
-                                                                fontWeight: FontWeight.bold,
-                                                                fontSize: 12,
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.symmetric(
+                                                                horizontal: 6,
+                                                                vertical: 6,
                                                               ),
+                                                          decoration: BoxDecoration(
+                                                            color: Color(
+                                                              0XFFBAFFA5,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                  Radius.circular(
+                                                                    20,
+                                                                  ),
+                                                                ),
+                                                          ),
+                                                          child: Text(
+                                                            ex.name,
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 12,
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-
-                                                      // Spunta di selezione
                                                       if (isSelected)
                                                         Positioned(
                                                           top: 10,
@@ -516,7 +414,137 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                               child: Text(
                                                 'Nessun contenuto',
                                                 style: TextStyle(
-                                                    color: Colors.black),
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  'Seleziona Stretching',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height *
+                                      0.20, // Imposta l'altezza fissa
+                                  child: ListView.builder(
+                                    shrinkWrap:
+                                        true, // Permette di adattarsi al contenuto
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: exerciseStr.length,
+                                    itemBuilder: (context, index) {
+                                      final ex = exerciseStr[index];
+                                      final isSelected = _selectedExercisesStr
+                                          .contains(ex);
+                                      return exerciseStr.isNotEmpty
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  if (isSelected) {
+                                                    _selectedExercisesStr
+                                                        .remove(ex);
+                                                  } else {
+                                                    _selectedExercisesStr.add(
+                                                      ex,
+                                                    );
+                                                  }
+                                                });
+                                              },
+                                              child: Card(
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                  vertical: 30,
+                                                ),
+                                                child: Container(
+                                                  width:
+                                                      MediaQuery.of(
+                                                        context,
+                                                      ).size.width *
+                                                      0.55,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                          Radius.circular(15),
+                                                        ),
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(
+                                                        ex.image ?? '',
+                                                      ),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                  child: Stack(
+                                                    children: [
+                                                      Positioned(
+                                                        bottom: 20,
+                                                        right: 10,
+                                                        child: SizedBox(
+                                                          width:
+                                                              180, // 👈 limite
+                                                          child: Container(
+                                                            padding:
+                                                                const EdgeInsets.symmetric(
+                                                                  horizontal: 6,
+                                                                  vertical: 6,
+                                                                ),
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(
+                                                                0XFFBAFFA5,
+                                                              ),
+                                                              borderRadius:
+                                                                  BorderRadius.all(
+                                                                    Radius.circular(
+                                                                      20,
+                                                                    ),
+                                                                  ),
+                                                            ),
+                                                            child: Text(
+                                                              ex.name,
+                                                              maxLines: 2,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+
+                                                      if (isSelected)
+                                                        Positioned(
+                                                          top: 10,
+                                                          left: 10,
+                                                          child: Icon(
+                                                            Icons.check_circle,
+                                                            color: Colors.green,
+                                                            size: 24,
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          : Container(
+                                              child: Text(
+                                                'Nessun contenuto',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                ),
                                               ),
                                             );
                                     },
@@ -527,7 +555,8 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0XFFC4B7E1)),
+                                      backgroundColor: Color(0XFFC4B7E1),
+                                    ),
                                     onPressed: () {
                                       Navigator.pushReplacement(
                                         context,
@@ -550,9 +579,7 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 30,
-                                ),
+                                SizedBox(height: 30),
                               ],
                             ),
                           ),
@@ -563,12 +590,10 @@ class _AddTrainingState extends ConsumerState<AddTraining> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
-      bottomNavigationBar: CustomBottomBar(
-        currentIndex: selectedIndex,
-      ),
+      bottomNavigationBar: CustomBottomBar(currentIndex: selectedIndex),
     );
   }
 }

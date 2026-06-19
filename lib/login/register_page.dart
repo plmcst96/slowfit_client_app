@@ -28,8 +28,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   bool _hasUpperCase = false;
   bool _hasSpecialChar = false;
   bool _hasNumber = false;
-  bool _passwordVisible = false; // Variabile per vedere/nascondere la password
-  bool _showPasswordRequirements = false; // Mostra i requisiti solo al click
+  bool _passwordVisible = false;
+  bool _showPasswordRequirements = false;
 
   void _registerUser() async {
     if (_formKey.currentState!.validate()) {
@@ -38,9 +38,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         password: _passwordController.text,
         firstName: _nameController.text,
         surname: _surnameController.text,
-        // La registrazione in-app crea solo utenti CLIENTE (roleId 1).
-        // I personal trainer (roleId 2) non si registrano dall'app.
-        // ptId resta null: l'assegnazione al PT avviene lato backend/PT.
         roleId: Roles.client,
       );
       await ref
@@ -144,18 +141,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: AppLocalizations.of(context)!.name,
-                          labelStyle: TextStyle(
-                            color: Colors.blue,
-                          ), // Colore label
+                          labelStyle: TextStyle(color: Colors.blue),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ), // Colore bordo al focus
+                            borderSide: BorderSide(color: Colors.blue),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ), // Bordo sempre blu
+                            borderSide: BorderSide(color: Colors.blue),
                           ),
                         ),
                         validator: (value) => value!.isEmpty
@@ -175,18 +166,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: AppLocalizations.of(context)!.surname,
-                          labelStyle: TextStyle(
-                            color: Colors.blue,
-                          ), // Colore label
+                          labelStyle: TextStyle(color: Colors.blue),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ), // Colore bordo al focus
+                            borderSide: BorderSide(color: Colors.blue),
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ), // Bordo sempre blu
+                            borderSide: BorderSide(color: Colors.blue),
                           ),
                         ),
                         validator: (value) => value!.isEmpty
@@ -206,18 +191,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                           border: OutlineInputBorder(),
                           labelText: 'Email',
-                          labelStyle: TextStyle(
-                            color: Colors.blue,
-                          ), // Colore label
+                          labelStyle: TextStyle(color: Colors.blue),
                           enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ), // Bordo sempre blu
+                            borderSide: BorderSide(color: Colors.blue),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                            ), // Colore bordo al focus
+                            borderSide: BorderSide(color: Colors.blue),
                           ),
                         ),
                         validator: _validateEmail,
@@ -243,18 +222,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             ),
                             border: const OutlineInputBorder(),
                             labelText: 'Password',
-                            labelStyle: const TextStyle(
-                              color: Colors.blue,
-                            ), // Colore label
+                            labelStyle: const TextStyle(color: Colors.blue),
                             enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ), // Bordo sempre blu
+                              borderSide: BorderSide(color: Colors.blue),
                             ),
                             focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ), // Colore bordo al focus
+                              borderSide: BorderSide(color: Colors.blue),
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
@@ -302,9 +275,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         style: TextStyle(fontSize: 12),
                         TextSpan(
                           text: AppLocalizations.of(context)!.text_span,
-                          style: TextStyle(
-                            color: Colors.black,
-                          ), // Testo normale
+                          style: TextStyle(color: Colors.black),
                           children: [
                             TextSpan(
                               text: AppLocalizations.of(context)!.text_span_1,
@@ -395,7 +366,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                             ],
                           ),
-                          // Per accessibilità
                         ),
                       ),
                     ],

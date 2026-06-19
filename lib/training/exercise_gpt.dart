@@ -47,7 +47,6 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
     }
   }
 
-
   Future<void> fetchAllExercises() async {
     final notifier = ref.read(exerciseProvider.notifier);
 
@@ -88,17 +87,23 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
   Map<String, dynamic> generateTrainingPlan(List<Exercise> allExercises) {
     final classifiedExercises = classifyExercises(allExercises);
 
-    List<Map<String, dynamic>> selectExercises(List<Exercise> source, int count,
-        {required String fase}) {
+    List<Map<String, dynamic>> selectExercises(
+      List<Exercise> source,
+      int count, {
+      required String fase,
+    }) {
       final random = Random();
       source.shuffle(random);
       return source.take(count).map((ex) {
-        int serie =
-            fase == 'riscaldamento' ? 2 : (fase == 'stretching' ? 2 : 4);
-        int ripetizioni =
-            fase == 'riscaldamento' ? 15 : (fase == 'stretching' ? 10 : 12);
-        int recupero =
-            fase == 'riscaldamento' ? 30 : (fase == 'stretching' ? 30 : 60);
+        int serie = fase == 'riscaldamento'
+            ? 2
+            : (fase == 'stretching' ? 2 : 4);
+        int ripetizioni = fase == 'riscaldamento'
+            ? 15
+            : (fase == 'stretching' ? 10 : 12);
+        int recupero = fase == 'riscaldamento'
+            ? 30
+            : (fase == 'stretching' ? 30 : 60);
 
         return {
           "esercizio": ex.toJson(),
@@ -112,34 +117,57 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
     return {
       "Principiante": {
         "riscaldamento": selectExercises(
-            classifiedExercises['riscaldamento']!, 3,
-            fase: 'riscaldamento'),
-        "allenamento": selectExercises(classifiedExercises['allenamento']!, 4,
-            fase: 'allenamento'),
-        "stretching": selectExercises(classifiedExercises['stretching']!, 3,
-            fase: 'stretching'),
+          classifiedExercises['riscaldamento']!,
+          3,
+          fase: 'riscaldamento',
+        ),
+        "allenamento": selectExercises(
+          classifiedExercises['allenamento']!,
+          4,
+          fase: 'allenamento',
+        ),
+        "stretching": selectExercises(
+          classifiedExercises['stretching']!,
+          3,
+          fase: 'stretching',
+        ),
       },
       "Intermedio": {
         "riscaldamento": selectExercises(
-            classifiedExercises['riscaldamento']!, 4,
-            fase: 'riscaldamento'),
-        "allenamento": selectExercises(classifiedExercises['allenamento']!, 5,
-            fase: 'allenamento'),
-        "stretching": selectExercises(classifiedExercises['stretching']!, 4,
-            fase: 'stretching'),
+          classifiedExercises['riscaldamento']!,
+          4,
+          fase: 'riscaldamento',
+        ),
+        "allenamento": selectExercises(
+          classifiedExercises['allenamento']!,
+          5,
+          fase: 'allenamento',
+        ),
+        "stretching": selectExercises(
+          classifiedExercises['stretching']!,
+          4,
+          fase: 'stretching',
+        ),
       },
       "Avanzato": {
         "riscaldamento": selectExercises(
-            classifiedExercises['riscaldamento']!, 4,
-            fase: 'riscaldamento'),
-        "allenamento": selectExercises(classifiedExercises['allenamento']!, 6,
-            fase: 'allenamento'),
-        "stretching": selectExercises(classifiedExercises['stretching']!, 4,
-            fase: 'stretching'),
-      }
+          classifiedExercises['riscaldamento']!,
+          4,
+          fase: 'riscaldamento',
+        ),
+        "allenamento": selectExercises(
+          classifiedExercises['allenamento']!,
+          6,
+          fase: 'allenamento',
+        ),
+        "stretching": selectExercises(
+          classifiedExercises['stretching']!,
+          4,
+          fase: 'stretching',
+        ),
+      },
     };
   }
-
 
   DetailExerciseRequest mapToDetailExerciseRequest(Map<String, dynamic> map) {
     final esercizioMap = map['esercizio'] as Map<String, dynamic>;
@@ -170,19 +198,16 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
     String workoutName = 'Workout';
     if (type.isNotEmpty) {
       final match = type.firstWhere(
-            (t) => t.typeId == widget.selectedTypeId,
+        (t) => t.typeId == widget.selectedTypeId,
         orElse: () => type.first,
       );
       workoutName = match.typeName;
     }
 
-
-
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: Stack(
         children: [
-          // Immagine sfondo
           Container(
             height: MediaQuery.of(context).size.height * 0.33,
             width: double.infinity,
@@ -192,29 +217,26 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                   widget.level == 'Principiante'
                       ? 'assets/principiante.jpg'
                       : widget.level == 'Intermedio'
-                          ? 'assets/intermedio.jpg'
-                          : 'assets/avanzato.jpg',
+                      ? 'assets/intermedio.jpg'
+                      : 'assets/avanzato.jpg',
                 ),
                 fit: BoxFit.cover,
               ),
             ),
           ),
 
-          // Freccia in alto a destra sopra immagine
           SafeArea(
             child: Align(
               alignment: Alignment.topLeft,
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
-                child:
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/training');
-                      },
-                      icon: const Icon(Icons.arrow_back_ios),
-                      color: Colors.white,
-                    ),
-
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/training');
+                  },
+                  icon: const Icon(Icons.arrow_back_ios),
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -226,86 +248,78 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
             right: 0,
             bottom: 0,
             child: Container(
-                padding: EdgeInsets.only(
-                  top: 30,
+              padding: EdgeInsets.only(top: 30),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Align(
-                        child: Column(
-                          children: [
-                            Text(
-                              workoutName,
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      child: Column(
+                        children: [
+                          Text(
+                            workoutName,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                FaIcon(FontAwesomeIcons.clock,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Text('45 minuti'),
-                                SizedBox(
-                                  width: 12,
-                                ),
-                                Text('|'),
-                                SizedBox(
-                                  width: 12,
-                                ),
-                                FaIcon(FontAwesomeIcons.chartColumn,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Text(widget.level),
-                              ],
-                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FaIcon(FontAwesomeIcons.clock, size: 15),
+                              SizedBox(width: 6),
+                              Text('45 minuti'),
+                              SizedBox(width: 12),
+                              Text('|'),
+                              SizedBox(width: 12),
+                              FaIcon(FontAwesomeIcons.chartColumn, size: 15),
+                              SizedBox(width: 6),
+                              Text(widget.level),
+                            ],
+                          ),
 
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
+                          SizedBox(height: 20),
+                        ],
                       ),
-                      Text(
-                        'Descrizione',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    Text(
+                      'Descrizione',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                          'Questa routine di allenamento è progettata per uomini e donne, giovani e anziani, per chi desidera sviluppare una quantità significativa di massa muscolare e diventare "grosso" o sviluppare una piccola quantità di massa muscolare e semplicemente "tonificarsi". In pratica, se il tuo obiettivo principale è sviluppare la massa muscolare, questo programma fa al caso tuo.'),
-                      _buildExercisePhase(
-                          'Riscaldamento', selectedLevelData['riscaldamento']),
-                      _buildExercisePhase(
-                          'Allenamento', selectedLevelData['allenamento']),
-                      _buildExercisePhase(
-                          'Stretching', selectedLevelData['stretching']),
-                      const SizedBox(height: 40), // margine per bottom bar
-                    ],
-                  ),
-                )),
+                    ),
+                    SizedBox(height: 15),
+                    Text(
+                      'Questa routine di allenamento è progettata per uomini e donne, giovani e anziani, per chi desidera sviluppare una quantità significativa di massa muscolare e diventare "grosso" o sviluppare una piccola quantità di massa muscolare e semplicemente "tonificarsi". In pratica, se il tuo obiettivo principale è sviluppare la massa muscolare, questo programma fa al caso tuo.',
+                    ),
+                    _buildExercisePhase(
+                      'Riscaldamento',
+                      selectedLevelData['riscaldamento'],
+                    ),
+                    _buildExercisePhase(
+                      'Allenamento',
+                      selectedLevelData['allenamento'],
+                    ),
+                    _buildExercisePhase(
+                      'Stretching',
+                      selectedLevelData['stretching'],
+                    ),
+                    const SizedBox(height: 40), // margine per bottom bar
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -339,7 +353,6 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                 ),
                 child: Row(
                   children: [
-                    // Immagine esercizio
                     Container(
                       width: MediaQuery.of(context).size.width * 0.2,
                       height: 80,
@@ -347,21 +360,23 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
                           image: NetworkImage(
-                              exercise['esercizio']['image'] ?? ''),
+                            exercise['esercizio']['image'] ?? '',
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                     const SizedBox(width: 20),
 
-                    // Dettagli esercizio
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.black87,
                               borderRadius: BorderRadius.circular(20),
@@ -369,8 +384,9 @@ class _ExerciseGptState extends ConsumerState<ExerciseGpt> {
                             child: Text(
                               exercise['esercizio']['name'],
                               style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 8),

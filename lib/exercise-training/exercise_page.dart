@@ -32,12 +32,11 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
     });
     if (isOpen2) {
       showModalBottomSheet(
-          backgroundColor: Colors.white,
-          context: context,
-          isScrollControlled: true,
-          builder: (context) => AddExercise(
-                typeId: _selectedTypeId,
-              ));
+        backgroundColor: Colors.white,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => AddExercise(typeId: _selectedTypeId),
+      );
     }
   }
 
@@ -80,8 +79,9 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30)),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
                 image: DecorationImage(
                   image: AssetImage('assets/sfondo_training.jpeg'),
                   fit: BoxFit.cover,
@@ -107,9 +107,10 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                       child: Text(
                         'Esercizi',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
                       ),
                     ),
                   ),
@@ -130,8 +131,9 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                             bool isSelected = _selectedTypeId == typeEx.typeId;
 
                             return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 5,
+                              ),
                               child: OutlinedButton(
                                 onPressed: () async {
                                   setState(() {
@@ -145,15 +147,15 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                 style: OutlinedButton.styleFrom(
                                   minimumSize: Size(100, 40),
                                   side: BorderSide(
-                                      color: Colors.white, width: 1.5),
+                                    color: Colors.white,
+                                    width: 1.5,
+                                  ),
                                   backgroundColor: isSelected
                                       ? Colors.white
-                                      : Colors
-                                          .transparent, // Sfondo bianco se selezionato
+                                      : Colors.transparent,
                                   foregroundColor: isSelected
                                       ? Colors.black
-                                      : Colors
-                                          .white, // Testo nero se selezionato
+                                      : Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
@@ -190,8 +192,9 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                             Text(
                               type
                                   .firstWhere(
-                                      (t) => t.typeId == _selectedTypeId,
-                                      orElse: () => type.first)
+                                    (t) => t.typeId == _selectedTypeId,
+                                    orElse: () => type.first,
+                                  )
                                   .typeName,
                               style: TextStyle(
                                 fontSize: 20,
@@ -207,14 +210,13 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                     Icons.add_circle_outline_outlined,
                                     color: Color(0XFFC4B7E1),
                                   ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
+                                  SizedBox(width: 15),
                                   Text(
                                     'Esercizi',
                                     style: TextStyle(
-                                        color: Color(0XFFC4B7E1),
-                                        fontWeight: FontWeight.bold),
+                                      color: Color(0XFFC4B7E1),
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -224,7 +226,8 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                       ),
                     // Lista orizzontale per gli esercizi
                     SizedBox(
-                      height: MediaQuery.of(context).size.height *
+                      height:
+                          MediaQuery.of(context).size.height *
                           0.33, // Imposta l'altezza fissa
                       child: ListView.builder(
                         shrinkWrap: true, // Permette di adattarsi al contenuto
@@ -250,9 +253,12 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                   },
                                   child: Card(
                                     margin: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 30),
+                                      horizontal: 10,
+                                      vertical: 30,
+                                    ),
                                     child: Container(
-                                      width: MediaQuery.of(context).size.width *
+                                      width:
+                                          MediaQuery.of(context).size.width *
                                           0.70,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(
@@ -270,12 +276,15 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                             right: 40,
                                             child: Container(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 15, vertical: 8),
+                                                horizontal: 15,
+                                                vertical: 8,
+                                              ),
                                               decoration: BoxDecoration(
-                                                  color: Color(0XFFBAFFA5),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20))),
+                                                color: Color(0XFFBAFFA5),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(20),
+                                                ),
+                                              ),
                                               child: Text(
                                                 ex.name,
                                                 style: TextStyle(
@@ -335,12 +344,14 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                     );
                                   },
                                   child: SizedBox(
-                                    width: MediaQuery.of(context).size.width *
+                                    width:
+                                        MediaQuery.of(context).size.width *
                                         0.85,
                                     child: Card(
                                       color: Color(0XFFE0F6DA),
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 10),
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
                                       child: Padding(
                                         padding: EdgeInsets.all(16),
                                         child: Column(
@@ -363,31 +374,34 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                                     Text(
                                                       '${user.firstName} ${user.surname}',
                                                       style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
                                                     SizedBox(height: 10),
                                                     Text(
                                                       user.email,
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              35),
+                                                        fontSize:
+                                                            MediaQuery.of(
+                                                              context,
+                                                            ).size.width /
+                                                            35,
+                                                      ),
                                                     ),
                                                     SizedBox(height: 10),
                                                     Text(
                                                       user.phone!,
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              35),
-                                                    )
+                                                        fontSize:
+                                                            MediaQuery.of(
+                                                              context,
+                                                            ).size.width /
+                                                            35,
+                                                      ),
+                                                    ),
                                                   ],
-                                                )
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -396,7 +410,8 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                     ),
                                   ),
                                 );
-                              })
+                              },
+                            )
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
@@ -406,7 +421,7 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                 ElevatedButton(
                                   onPressed: () {},
                                   child: Text('Inizia qui'),
-                                )
+                                ),
                               ],
                             ),
                     ),
@@ -434,7 +449,7 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                           final levels = [
                             'Principiante',
                             'Intermedio',
-                            'Avanzato'
+                            'Avanzato',
                           ];
                           final level = levels[index];
 
@@ -452,7 +467,9 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                             },
                             child: Card(
                               margin: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
+                                horizontal: 10,
+                                vertical: 10,
+                              ),
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.70,
                                 child: Stack(
@@ -461,14 +478,16 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                     Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(15)),
+                                          Radius.circular(15),
+                                        ),
                                         image: DecorationImage(
-                                          image:
-                                              AssetImage(level == 'Principiante'
-                                                  ? 'assets/principiante.jpg'
-                                                  : level == 'Intermedio'
-                                                      ? 'assets/intermedio.jpg'
-                                                      : 'assets/avanzato.jpg'),
+                                          image: AssetImage(
+                                            level == 'Principiante'
+                                                ? 'assets/principiante.jpg'
+                                                : level == 'Intermedio'
+                                                ? 'assets/intermedio.jpg'
+                                                : 'assets/avanzato.jpg',
+                                          ),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -478,11 +497,14 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                                       right: 40,
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 15, vertical: 8),
+                                          horizontal: 15,
+                                          vertical: 8,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: Color(0XFFBAFFA5),
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
+                                            Radius.circular(20),
+                                          ),
                                         ),
                                         child: Text(
                                           level,
@@ -501,9 +523,7 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: 30,
-                    )
+                    SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -511,9 +531,7 @@ class _ExercisePageState extends ConsumerState<ExercisePage> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomBar(
-        currentIndex: selectedIndex,
-      ),
+      bottomNavigationBar: CustomBottomBar(currentIndex: selectedIndex),
     );
   }
 }

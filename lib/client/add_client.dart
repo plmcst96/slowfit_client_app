@@ -8,7 +8,7 @@ import '../provider/login_provider.dart';
 import '../provider/register_provider.dart';
 import '../service/app_messenger.dart';
 
-class AddClient extends ConsumerStatefulWidget{
+class AddClient extends ConsumerStatefulWidget {
   const AddClient({super.key});
 
   @override
@@ -16,7 +16,8 @@ class AddClient extends ConsumerStatefulWidget{
     return _AddClientState();
   }
 }
-class _AddClientState extends ConsumerState<AddClient>{
+
+class _AddClientState extends ConsumerState<AddClient> {
   bool _passwordVisible = false;
 
   @override
@@ -30,7 +31,6 @@ class _AddClientState extends ConsumerState<AddClient>{
     void registerUser() async {
       final loginState = ref.watch(loginProvider);
 
-
       if (formKey.currentState!.validate()) {
         final registerModel = Register(
           email: emailController.text,
@@ -41,7 +41,9 @@ class _AddClientState extends ConsumerState<AddClient>{
           ptId: loginState.userId,
         );
 
-        await ref.read(registerProvider.notifier).register(registerModel, context);
+        await ref
+            .read(registerProvider.notifier)
+            .register(registerModel, context);
 
         final registerState = ref.read(registerProvider);
         if (registerState.isRegister) {
@@ -64,7 +66,6 @@ class _AddClientState extends ConsumerState<AddClient>{
       }
     }
 
-
     // Funzione per validare l'email
     String? validateEmail(String? value) {
       if (value == null || value.isEmpty) {
@@ -76,17 +77,18 @@ class _AddClientState extends ConsumerState<AddClient>{
       }
       return null;
     }
+
     return Center(
       child: Column(
         children: [
-
           const SizedBox(height: 30),
           Text(
             'Registra Cliente',
             style: TextStyle(
-                color: Colors.pink,
-                fontSize: 26,
-                fontWeight: FontWeight.bold),
+              color: Colors.pink,
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(30),
@@ -100,31 +102,22 @@ class _AddClientState extends ConsumerState<AddClient>{
                     autocorrect: false,
                     enableSuggestions: false,
                     decoration: InputDecoration(
-                      contentPadding:
-                      EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 20),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 20,
+                      ),
                       border: OutlineInputBorder(),
-                      labelText:
-                      AppLocalizations.of(context)!
-                          .name,
-                      labelStyle: TextStyle(
-                          color: Colors
-                              .blue), // Colore label
+                      labelText: AppLocalizations.of(context)!.name,
+                      labelStyle: TextStyle(color: Colors.blue),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors
-                                .blue), // Colore bordo al focus
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors
-                                .blue), // Bordo sempre blu
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                     ),
                     validator: (value) => value!.isEmpty
-                        ? AppLocalizations.of(context)!
-                        .insert_name
+                        ? AppLocalizations.of(context)!.insert_name
                         : null,
                   ),
                   const SizedBox(height: 15),
@@ -134,59 +127,43 @@ class _AddClientState extends ConsumerState<AddClient>{
                     autocorrect: false,
                     enableSuggestions: false,
                     decoration: InputDecoration(
-                      contentPadding:
-                      EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 20),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 20,
+                      ),
                       border: OutlineInputBorder(),
-                      labelText:
-                      AppLocalizations.of(context)!
-                          .surname,
-                      labelStyle: TextStyle(
-                          color: Colors
-                              .blue), // Colore label
+                      labelText: AppLocalizations.of(context)!.surname,
+                      labelStyle: TextStyle(color: Colors.blue),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors
-                                .blue), // Colore bordo al focus
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors
-                                .blue), // Bordo sempre blu
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                     ),
                     validator: (value) => value!.isEmpty
-                        ? AppLocalizations.of(context)!
-                        .insert_surname
+                        ? AppLocalizations.of(context)!.insert_surname
                         : null,
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
                     controller: emailController,
-                    keyboardType:
-                    TextInputType.emailAddress,
+                    keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     enableSuggestions: false,
                     decoration: const InputDecoration(
-                      contentPadding:
-                      EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 20),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 20,
+                      ),
                       border: OutlineInputBorder(),
                       labelText: 'Email',
-                      labelStyle: TextStyle(
-                          color: Colors
-                              .blue), // Colore label
+                      labelStyle: TextStyle(color: Colors.blue),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors
-                                .blue), // Bordo sempre blu
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors
-                                .blue), // Colore bordo al focus
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                     ),
                     validator: validateEmail,
@@ -194,34 +171,24 @@ class _AddClientState extends ConsumerState<AddClient>{
                   const SizedBox(height: 15),
                   TextFormField(
                     controller: passwordController,
-                    keyboardType:
-                    TextInputType.visiblePassword,
+                    keyboardType: TextInputType.visiblePassword,
                     autocorrect: false,
                     enableSuggestions: false,
                     obscureText:
-                    !_passwordVisible, // Usa questa proprietà per nascondere/vedere la password
+                        !_passwordVisible, // Usa questa proprietà per nascondere/vedere la password
                     decoration: InputDecoration(
-                      contentPadding:
-                      const EdgeInsets.symmetric(
-                          vertical: 15,
-                          horizontal: 20),
-                      border:
-                      const OutlineInputBorder(),
-                      labelText: 'Password',
-                      labelStyle: const TextStyle(
-                          color: Colors
-                              .blue), // Colore label
-                      enabledBorder:
-                      const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors
-                                .blue), // Bordo sempre blu
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 20,
                       ),
-                      focusedBorder:
-                      const OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors
-                                .blue), // Colore bordo al focus
+                      border: const OutlineInputBorder(),
+                      labelText: 'Password',
+                      labelStyle: const TextStyle(color: Colors.blue),
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -231,32 +198,30 @@ class _AddClientState extends ConsumerState<AddClient>{
                         ),
                         onPressed: () {
                           setState(() {
-                            _passwordVisible =
-                            !_passwordVisible;
+                            _passwordVisible = !_passwordVisible;
                           });
                         },
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   SizedBox(
                     child: ElevatedButton(
                       onPressed: registerUser,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.pink,
-                        padding:
-                        const EdgeInsets.symmetric(
-                            vertical: 18,
-                            horizontal: 50),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 18,
+                          horizontal: 50,
+                        ),
                       ),
                       child: Text(
                         'Registra Ora!',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),

@@ -9,12 +9,13 @@ import '../provider/exercise_provider.dart';
 import '../widget/custom_bottom_bar.dart';
 
 class DetailExBottom extends ConsumerStatefulWidget {
-  const DetailExBottom(
-      {super.key,
-      required this.ex,
-      required this.exRest,
-      required this.exStr,
-      required this.email});
+  const DetailExBottom({
+    super.key,
+    required this.ex,
+    required this.exRest,
+    required this.exStr,
+    required this.email,
+  });
   final List<Exercise> exRest;
   final List<Exercise> ex;
   final List<Exercise> exStr;
@@ -85,10 +86,12 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
         exerciseId: exercise.exerciseId,
         name: exercise.name,
         image: exercise.image,
-        series:
-            int.tryParse(_seriesControllers[exercise.exerciseId]?.text ?? ''),
+        series: int.tryParse(
+          _seriesControllers[exercise.exerciseId]?.text ?? '',
+        ),
         nRipetition: int.tryParse(
-            _nRipetitionControllers[exercise.exerciseId]?.text ?? ''),
+          _nRipetitionControllers[exercise.exerciseId]?.text ?? '',
+        ),
         pause: int.tryParse(_pauseControllers[exercise.exerciseId]?.text ?? ''),
         phase: _phaseControllers[exercise.exerciseId]?.text,
       );
@@ -120,14 +123,9 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
               children: [
                 Text(
                   'Dettagli esercizi',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+                SizedBox(height: 30),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
@@ -135,9 +133,7 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                         _buildExercisePhase('Riscaldamento', widget.exRest),
                         _buildExercisePhase('Allenamento', widget.ex),
                         _buildExercisePhase('Stretching', widget.exStr),
-                        SizedBox(
-                          height: 40,
-                        ),
+                        SizedBox(height: 40),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -146,89 +142,101 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                             ),
                             onPressed: () {
                               if (_formKey.currentState?.validate() ?? false) {
-                                List<DetailExerciseRequest> updatedExRest =
-                                    widget.exRest
-                                        .map((exercise) =>
-                                            DetailExerciseRequest(
-                                              exerciseId: exercise.exerciseId,
-                                              name: exercise.name,
-                                              image: exercise.image!,
-                                              series: int.tryParse(
-                                                  _seriesControllers[exercise
-                                                              .exerciseId]
-                                                          ?.text ??
-                                                      ''),
-                                              nRipetition: int.tryParse(
-                                                  _nRipetitionControllers[
-                                                              exercise
-                                                                  .exerciseId]
-                                                          ?.text ??
-                                                      ''),
-                                              pause: int.tryParse(
-                                                  _pauseControllers[exercise
-                                                              .exerciseId]
-                                                          ?.text ??
-                                                      ''),
-                                              phase: _phaseControllers[
-                                                      exercise.exerciseId]
-                                                  ?.text,
-                                            ))
-                                        .toList();
+                                List<DetailExerciseRequest>
+                                updatedExRest = widget.exRest
+                                    .map(
+                                      (exercise) => DetailExerciseRequest(
+                                        exerciseId: exercise.exerciseId,
+                                        name: exercise.name,
+                                        image: exercise.image!,
+                                        series: int.tryParse(
+                                          _seriesControllers[exercise
+                                                      .exerciseId]
+                                                  ?.text ??
+                                              '',
+                                        ),
+                                        nRipetition: int.tryParse(
+                                          _nRipetitionControllers[exercise
+                                                      .exerciseId]
+                                                  ?.text ??
+                                              '',
+                                        ),
+                                        pause: int.tryParse(
+                                          _pauseControllers[exercise.exerciseId]
+                                                  ?.text ??
+                                              '',
+                                        ),
+                                        phase:
+                                            _phaseControllers[exercise
+                                                    .exerciseId]
+                                                ?.text,
+                                      ),
+                                    )
+                                    .toList();
 
                                 List<DetailExerciseRequest> updatedEx = widget
                                     .ex
-                                    .map((exercise) => DetailExerciseRequest(
-                                          exerciseId: exercise.exerciseId,
-                                          name: exercise.name,
-                                          image: exercise.image!,
-                                          series: int.tryParse(
-                                              _seriesControllers[
-                                                          exercise.exerciseId]
-                                                      ?.text ??
-                                                  ''),
-                                          nRipetition: int.tryParse(
-                                              _nRipetitionControllers[
-                                                          exercise.exerciseId]
-                                                      ?.text ??
-                                                  ''),
-                                          pause: int.tryParse(_pauseControllers[
-                                                      exercise.exerciseId]
+                                    .map(
+                                      (exercise) => DetailExerciseRequest(
+                                        exerciseId: exercise.exerciseId,
+                                        name: exercise.name,
+                                        image: exercise.image!,
+                                        series: int.tryParse(
+                                          _seriesControllers[exercise
+                                                      .exerciseId]
                                                   ?.text ??
-                                              ''),
-                                          phase: _phaseControllers[
-                                                  exercise.exerciseId]
-                                              ?.text,
-                                        ))
+                                              '',
+                                        ),
+                                        nRipetition: int.tryParse(
+                                          _nRipetitionControllers[exercise
+                                                      .exerciseId]
+                                                  ?.text ??
+                                              '',
+                                        ),
+                                        pause: int.tryParse(
+                                          _pauseControllers[exercise.exerciseId]
+                                                  ?.text ??
+                                              '',
+                                        ),
+                                        phase:
+                                            _phaseControllers[exercise
+                                                    .exerciseId]
+                                                ?.text,
+                                      ),
+                                    )
                                     .toList();
 
-                                List<DetailExerciseRequest> updatedExStr =
-                                    widget.exStr
-                                        .map((exercise) =>
-                                            DetailExerciseRequest(
-                                              exerciseId: exercise.exerciseId,
-                                              name: exercise.name,
-                                              image: exercise.image!,
-                                              series: int.tryParse(
-                                                  _seriesControllers[exercise
-                                                              .exerciseId]
-                                                          ?.text ??
-                                                      ''),
-                                              nRipetition: int.tryParse(
-                                                  _nRipetitionControllers[
-                                                              exercise
-                                                                  .exerciseId]
-                                                          ?.text ??
-                                                      ''),
-                                              pause: int.tryParse(
-                                                  _pauseControllers[exercise
-                                                              .exerciseId]
-                                                          ?.text ??
-                                                      ''),
-                                              phase: _phaseControllers[
-                                                      exercise.exerciseId]
-                                                  ?.text,
-                                            ))
-                                        .toList();
+                                List<DetailExerciseRequest>
+                                updatedExStr = widget.exStr
+                                    .map(
+                                      (exercise) => DetailExerciseRequest(
+                                        exerciseId: exercise.exerciseId,
+                                        name: exercise.name,
+                                        image: exercise.image!,
+                                        series: int.tryParse(
+                                          _seriesControllers[exercise
+                                                      .exerciseId]
+                                                  ?.text ??
+                                              '',
+                                        ),
+                                        nRipetition: int.tryParse(
+                                          _nRipetitionControllers[exercise
+                                                      .exerciseId]
+                                                  ?.text ??
+                                              '',
+                                        ),
+                                        pause: int.tryParse(
+                                          _pauseControllers[exercise.exerciseId]
+                                                  ?.text ??
+                                              '',
+                                        ),
+                                        phase:
+                                            _phaseControllers[exercise
+                                                    .exerciseId]
+                                                ?.text,
+                                      ),
+                                    )
+                                    .toList();
 
                                 // Salva nel provider!
                                 ref
@@ -268,9 +276,7 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomBar(
-        currentIndex: selectedIndex,
-      ),
+      bottomNavigationBar: CustomBottomBar(currentIndex: selectedIndex),
     );
   }
 
@@ -294,7 +300,6 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
               padding: EdgeInsets.symmetric(vertical: 13),
               child: Row(
                 children: [
-                  // Immagine esercizio
                   Container(
                     width: MediaQuery.of(context).size.width * 0.2,
                     height: 80,
@@ -308,14 +313,15 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                   ),
                   const SizedBox(width: 20),
 
-                  // Dettagli esercizio
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.black87,
                             borderRadius: BorderRadius.circular(20),
@@ -323,24 +329,23 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                           child: Text(
                             exercise.name,
                             style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 8),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Row(
                           children: [
                             Text(
                               'Serie',
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            SizedBox(
-                              width: 15,
-                            ),
+                            SizedBox(width: 15),
                             SizedBox(
                               width: 80,
                               child: TextFormField(
@@ -358,8 +363,9 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 4),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ),
                                   isDense: true,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -369,24 +375,23 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Row(
                           children: [
                             Text(
                               'Ripetizioni',
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            SizedBox(
-                              width: 15,
-                            ),
+                            SizedBox(width: 15),
                             SizedBox(
                               width: 80,
                               child: TextFormField(
-                                controller: _nRipetitionControllers[
-                                    exercise.exerciseId],
+                                controller:
+                                    _nRipetitionControllers[exercise
+                                        .exerciseId],
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.center,
                                 validator: (value) {
@@ -399,8 +404,9 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 4),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ),
                                   isDense: true,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -410,19 +416,17 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(height: 20),
                         Row(
                           children: [
                             Text(
                               'Riposo',
                               style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            SizedBox(
-                              width: 15,
-                            ),
+                            SizedBox(width: 15),
                             SizedBox(
                               width: 100,
                               child: TextFormField(
@@ -440,8 +444,9 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 4),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ),
                                   isDense: true,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8),
@@ -449,16 +454,11 @@ class _DetailExBottomState extends ConsumerState<DetailExBottom> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('sec')
+                            SizedBox(width: 10),
+                            Text('sec'),
                           ],
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
-
+                        SizedBox(height: 20),
                       ],
                     ),
                   ),

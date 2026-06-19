@@ -67,7 +67,10 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
   }
 
   void _showMeasurementSheet(
-      BuildContext context, int bodyPartId, String bodyPartName) {
+    BuildContext context,
+    int bodyPartId,
+    String bodyPartName,
+  ) {
     final TextEditingController controller = TextEditingController();
 
     showModalBottomSheet(
@@ -89,8 +92,10 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
             children: [
               Text(
                 'Inserisci misura per $bodyPartName',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 30),
               TextField(
@@ -107,12 +112,16 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                 onPressed: () async {
                   final value = double.tryParse(controller.text);
                   if (value != null) {
-                    await ref.read(measureProvider.notifier).saveMeasure(
-                        MeasureAdd(
+                    await ref
+                        .read(measureProvider.notifier)
+                        .saveMeasure(
+                          MeasureAdd(
                             userId: widget.clientId,
                             bodyId: bodyPartId,
                             cm: int.tryParse(controller.text)!,
-                            collectPeriod: DateTime.now()));
+                            collectPeriod: DateTime.now(),
+                          ),
+                        );
                     await ref
                         .read(measureAllProvider.notifier)
                         .fetchAllMeasure(widget.clientId);
@@ -121,14 +130,17 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                     // opzionale: mostra un errore
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                          content: Text('Inserisci un valore valido')),
+                        content: Text('Inserisci un valore valido'),
+                      ),
                     );
                   }
                 },
                 child: const Text(
                   'Salva',
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 30),
@@ -154,21 +166,17 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
       body: user != null
           ? Stack(
               children: [
-                // Immagine sfondo
                 Container(
                   height: MediaQuery.of(context).size.height * 0.33,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(
-                        'assets/profile_ex.jpg',
-                      ),
+                      image: AssetImage('assets/profile_ex.jpg'),
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
 
-                // Freccia in alto a destra sopra immagine
                 SafeArea(
                   child: Align(
                     alignment: Alignment.topLeft,
@@ -190,9 +198,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                   right: 0,
                   bottom: 0,
                   child: Container(
-                    padding: EdgeInsets.only(
-                      top: 30,
-                    ),
+                    padding: EdgeInsets.only(top: 30),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: const BorderRadius.only(
@@ -215,65 +221,69 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                               Text(
                                 '${user.firstName} ${user.surname}',
                                 style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               Spacer(),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    side: BorderSide(color: Colors.pink)),
+                                  backgroundColor: Colors.white,
+                                  side: BorderSide(color: Colors.pink),
+                                ),
                                 onPressed: () {
                                   showModalBottomSheet(
                                     context: context,
                                     isScrollControlled: true,
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(20)),
+                                        top: Radius.circular(20),
+                                      ),
                                     ),
                                     builder: (_) => AddProfileBottomSheet(
-                                        userId: user.userId), // passa lo userId
+                                      userId: user.userId,
+                                    ), // passa lo userId
                                   );
                                 },
                                 child: Text(
                                   'Aggiungi Dettagli',
                                   style: TextStyle(
-                                      color: Colors.pink,
-                                      fontWeight: FontWeight.bold),
+                                    color: Colors.pink,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10),
                           Row(
                             children: [
                               Text(
                                 user.email,
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
+                              SizedBox(width: 10),
                               Text(
                                 '|',
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
+                              SizedBox(width: 10),
                               Text(
                                 user.phone!,
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 16),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Text(
                             'Misurazioni',
                             style: TextStyle(
@@ -281,19 +291,13 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10),
                           if (measures.isEmpty)
                             Text(
                               'Clicca qui per aggiungere le misurazioni',
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
+                              style: TextStyle(color: Colors.grey),
                             ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.20,
                             child: ListView.builder(
@@ -334,28 +338,30 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
+                                              SizedBox(height: 20),
                                               measure != null
                                                   ? Row(
                                                       children: [
                                                         Text(
                                                           DateFormat(
-                                                                  'dd MMM yy')
-                                                              .format(measure
-                                                                  .collectPeriod),
+                                                            'dd MMM yy',
+                                                          ).format(
+                                                            measure
+                                                                .collectPeriod,
+                                                          ),
                                                         ),
                                                         Spacer(),
                                                         body.bodyPartName ==
                                                                 'Peso'
                                                             ? Text(
-                                                                '${measure.cm.toString()} kg')
+                                                                '${measure.cm.toString()} kg',
+                                                              )
                                                             : Text(
-                                                                '${measure.cm.toString()} cm'),
+                                                                '${measure.cm.toString()} cm',
+                                                              ),
                                                       ],
                                                     )
-                                                  : Text('--')
+                                                  : Text('--'),
                                             ],
                                           ),
                                         ),
@@ -366,9 +372,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Text(
                             'Allenamenti',
                             style: TextStyle(
@@ -376,9 +380,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           trainings.isNotEmpty
                               ? SizedBox(
                                   height: 130, // o qualsiasi altezza adeguata
@@ -396,11 +398,11 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   TrainingDetail(
-                                                userEmail: user.email,
-                                                training: training,
-                                                level: lev!.levelString,
-                                                type: type!.typeName,
-                                              ),
+                                                    userEmail: user.email,
+                                                    training: training,
+                                                    level: lev!.levelString,
+                                                    type: type!.typeName,
+                                                  ),
                                             ),
                                           );
                                           ref
@@ -409,28 +411,33 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                         },
                                         child: Container(
                                           margin: EdgeInsets.only(right: 10),
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
+                                          width:
+                                              MediaQuery.of(
+                                                context,
+                                              ).size.width *
                                               0.60,
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                  (lev?.levelString ==
-                                                          'Principiante')
-                                                      ? 'assets/principiante.jpg'
-                                                      : (lev?.levelString ==
-                                                              'Intermedio')
-                                                          ? 'assets/intermedio.jpg'
-                                                          : 'assets/avanzato.jpg',
-                                                ),
-                                                fit: BoxFit.cover,
-                                              )),
+                                            borderRadius: BorderRadius.circular(
+                                              25,
+                                            ),
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                (lev?.levelString ==
+                                                        'Principiante')
+                                                    ? 'assets/principiante.jpg'
+                                                    : (lev?.levelString ==
+                                                          'Intermedio')
+                                                    ? 'assets/intermedio.jpg'
+                                                    : 'assets/avanzato.jpg',
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                           child: Padding(
                                             padding: const EdgeInsets.only(
-                                                left: 20, bottom: 15),
+                                              left: 20,
+                                              bottom: 15,
+                                            ),
                                             child: Stack(
                                               children: [
                                                 if (type != null)
@@ -442,25 +449,30 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                                         color: Colors.white,
                                                         borderRadius:
                                                             BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  15),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  15),
-                                                        ),
+                                                              topLeft:
+                                                                  Radius.circular(
+                                                                    15,
+                                                                  ),
+                                                              bottomLeft:
+                                                                  Radius.circular(
+                                                                    15,
+                                                                  ),
+                                                            ),
                                                       ),
                                                       padding:
                                                           EdgeInsets.symmetric(
-                                                              horizontal: 10,
-                                                              vertical: 6),
+                                                            horizontal: 10,
+                                                            vertical: 6,
+                                                          ),
                                                       child: Text(
                                                         type.typeName,
                                                         style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Color(
-                                                                0XFF9A91AD)),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Color(
+                                                            0XFF9A91AD,
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   )
@@ -474,38 +486,30 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                                         Text(
                                                           lev.levelString,
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontStyle:
-                                                                  FontStyle
-                                                                      .italic,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                            color: Colors.white,
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
+                                                        SizedBox(width: 10),
                                                         Text(
                                                           '|',
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         ),
-                                                        SizedBox(
-                                                          width: 10,
-                                                        ),
+                                                        SizedBox(width: 10),
                                                         Text(
                                                           '${training.duration ?? 30} min',
                                                           style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -522,11 +526,10 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                 )
                               : Center(
                                   child: Text(
-                                      'Nessun allenamento creato per il cliente'),
+                                    'Nessun allenamento creato per il cliente',
+                                  ),
                                 ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Text(
                             'Piano Nutrizionale',
                             style: TextStyle(
@@ -534,9 +537,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           nutrition.isNotEmpty
                               ? SizedBox(
                                   height: 180, // o qualsiasi altezza adeguata
@@ -547,8 +548,10 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                       final nutri = nutrition[index];
                                       // Qui usiamo la family provider con l'ID dinamico
                                       final typeState = ref.watch(
-                                          typeNutritionByIdFamilyProvider(
-                                              nutri.typeNutritionId));
+                                        typeNutritionByIdFamilyProvider(
+                                          nutri.typeNutritionId,
+                                        ),
+                                      );
 
                                       return GestureDetector(
                                         onTap: () {
@@ -558,21 +561,26 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                             backgroundColor: Colors.white,
                                             builder: (context) =>
                                                 FractionallySizedBox(
-                                              heightFactor: 0.8,
-                                              child: NutritionDetailModal(
-                                                nutritionId: nutri.nutritionId!,
-                                                typeId: nutri.typeNutritionId,
-                                              ),
-                                            ),
+                                                  heightFactor: 0.8,
+                                                  child: NutritionDetailModal(
+                                                    nutritionId:
+                                                        nutri.nutritionId!,
+                                                    typeId:
+                                                        nutri.typeNutritionId,
+                                                  ),
+                                                ),
                                           );
                                         },
                                         child: Card(
                                           margin: EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 10),
+                                            horizontal: 10,
+                                            vertical: 10,
+                                          ),
                                           child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                            width:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).size.width *
                                                 0.70,
                                             child: Stack(
                                               fit: StackFit.expand,
@@ -581,14 +589,16 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                            Radius.circular(
-                                                                15)),
+                                                          Radius.circular(15),
+                                                        ),
                                                     image: DecorationImage(
                                                       image: NetworkImage(
                                                         nutri.meals.isNotEmpty
-                                                            ? nutri.meals.first
-                                                                    .imageMeal ??
-                                                                ''
+                                                            ? nutri
+                                                                      .meals
+                                                                      .first
+                                                                      .imageMeal ??
+                                                                  ''
                                                             : 'https://media.hellofresh.com/w_3840,q_auto,f_auto,c_limit,fl_lossy/recipes/image/HF220905_R14_W39_IT_IT351-1_MB_Main_highremove_chili_rounds_edit_high-8a6c9450.jpg',
                                                       ),
                                                       fit: BoxFit.cover,
@@ -601,33 +611,36 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                                   child: Container(
                                                     padding:
                                                         EdgeInsets.symmetric(
-                                                            horizontal: 15,
-                                                            vertical: 8),
+                                                          horizontal: 15,
+                                                          vertical: 8,
+                                                        ),
                                                     decoration: BoxDecoration(
                                                       color: Color(0XFFBAFFA5),
                                                       borderRadius:
                                                           BorderRadius.all(
-                                                              Radius.circular(
-                                                                  20)),
+                                                            Radius.circular(20),
+                                                          ),
                                                     ),
                                                     child: typeState.when(
                                                       data: (type) => Text(
                                                         type?.typeNutritionName ??
                                                             'Tipo non trovato',
                                                         style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
                                                       ),
                                                       loading: () => SizedBox(
-                                                          width: 20,
-                                                          height: 20,
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                                  strokeWidth:
-                                                                      2)),
-                                                      error: (e, _) =>
-                                                          Text('Impossibile caricare i dati.'),
+                                                        width: 20,
+                                                        height: 20,
+                                                        child:
+                                                            CircularProgressIndicator(
+                                                              strokeWidth: 2,
+                                                            ),
+                                                      ),
+                                                      error: (e, _) => Text(
+                                                        'Impossibile caricare i dati.',
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -643,7 +656,8 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                                   padding: EdgeInsets.symmetric(vertical: 30),
                                   child: Center(
                                     child: Text(
-                                        'Nessun piano nutrizionale creato per il cliente'),
+                                      'Nessun piano nutrizionale creato per il cliente',
+                                    ),
                                   ),
                                 ),
                         ],
@@ -653,9 +667,7 @@ class _ClientDetailState extends ConsumerState<ClientDetail> {
                 ),
               ],
             )
-          : Center(
-              child: CircularProgressIndicator(),
-            ),
+          : Center(child: CircularProgressIndicator()),
       bottomNavigationBar: CustomBottomBar(currentIndex: selectedIndex),
     );
   }

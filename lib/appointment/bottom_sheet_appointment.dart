@@ -20,7 +20,8 @@ class BottomSheetAppointment extends ConsumerStatefulWidget {
 class _BottomSheetAppointmentState
     extends ConsumerState<BottomSheetAppointment> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _descriptionController = TextEditingController();
+  late final TextEditingController _descriptionController =
+      TextEditingController();
   late int? _duration;
   late DateTime? _date;
   late TimeOfDay? _time;
@@ -187,7 +188,7 @@ class _BottomSheetAppointmentState
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Color(0xFFDCE5E3), // Colore sfondo
+                  color: Color(0xFFDCE5E3),
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 child: Column(
@@ -204,7 +205,6 @@ class _BottomSheetAppointmentState
                       },
                     ),
 
-
                     SizedBox(height: 30),
                   ],
                 ),
@@ -213,7 +213,7 @@ class _BottomSheetAppointmentState
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Color(0xFFDCE5E3), // Colore sfondo
+                  color: Color(0xFFDCE5E3),
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 child: Column(

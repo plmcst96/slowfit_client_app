@@ -290,7 +290,7 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                         Container(
                                           margin: const EdgeInsets.only(
                                             bottom: 70,
-                                          ), // lascia spazio per il box sotto
+                                          ),
                                           child: Column(
                                             children: [
                                               Container(
@@ -598,7 +598,8 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                                 loading: () => const Center(
                                   child: CircularProgressIndicator(),
                                 ),
-                                error: (e, _) => Text('Impossibile caricare i dati.'),
+                                error: (e, _) =>
+                                    Text('Impossibile caricare i dati.'),
                               );
                             },
                           ),
@@ -608,7 +609,8 @@ class _NutritionPageState extends ConsumerState<NutritionPage> {
                   },
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
-                  error: (e, _) => Center(child: Text('Impossibile caricare i dati.')),
+                  error: (e, _) =>
+                      Center(child: Text('Impossibile caricare i dati.')),
                 ),
               ),
             ],

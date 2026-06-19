@@ -160,7 +160,8 @@ class _MeasurePageState extends ConsumerState<MeasurePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FaIcon(FontAwesomeIcons.weightScale,
+                  FaIcon(
+                    FontAwesomeIcons.weightScale,
                     size: 40,
                     color: Colors.pink[500],
                   ),
@@ -245,7 +246,7 @@ class _MeasurePageState extends ConsumerState<MeasurePage> {
                             ),
                             SizedBox(height: 7),
                             Text(
-                              "${m.cm} cm", // valore della misura
+                              "${m.cm} cm",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,

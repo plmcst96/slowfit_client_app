@@ -52,7 +52,6 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
           MaterialPageRoute(builder: (context) => NutritionPage()),
         );
       }
-
     } catch (_) {
       // L'errore (messaggio del backend) è già mostrato dal provider tramite
       // showAppError: qui evitiamo solo la snackbar di successo e la navigazione.
@@ -80,8 +79,9 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30)),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
                 image: DecorationImage(
                   image: AssetImage('assets/nutrition_bg.jpg'),
                   fit: BoxFit.cover,
@@ -95,7 +95,7 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30),
                       ),
-                      color: Colors.black45, // Cambia opacità a tuo piacimento
+                      color: Colors.black45,
                     ),
                   ),
                   Positioned(
@@ -104,14 +104,13 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                     child: IconButton(
                       onPressed: () {
                         Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NutritionPage()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NutritionPage(),
+                          ),
+                        );
                       },
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      ),
+                      icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                     ),
                   ),
                   Positioned(
@@ -157,17 +156,15 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 20),
                       Text(
                         '1. Tipo Piano Nutrizionale',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 28),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                        ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       Text('Seleziona il tipo di piano nutrizionale.'),
                       const SizedBox(height: 30),
 
@@ -184,11 +181,11 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                               physics: NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2, // ✅ due colonne
-                                mainAxisSpacing: 12,
-                                crossAxisSpacing: 12,
-                                childAspectRatio: 3, // regola altezza/largh
-                              ),
+                                    crossAxisCount: 2, // ✅ due colonne
+                                    mainAxisSpacing: 12,
+                                    crossAxisSpacing: 12,
+                                    childAspectRatio: 3, // regola altezza/largh
+                                  ),
                               itemCount: typeN.length,
                               itemBuilder: (context, index) {
                                 final item = typeN[index];
@@ -207,10 +204,11 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(15),
                                       border: Border.all(
-                                          color: isSelect
-                                              ? Colors.pink
-                                              : Colors.black,
-                                          width: 1.3),
+                                        color: isSelect
+                                            ? Colors.pink
+                                            : Colors.black,
+                                        width: 1.3,
+                                      ),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.black26,
@@ -237,15 +235,15 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                                 );
                               },
                             ),
-                      SizedBox(
-                        height: 30,
-                      ),
+                      SizedBox(height: 30),
                       Row(
                         children: [
                           Text(
                             '2. Pasti',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 28),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                            ),
                           ),
                           Spacer(),
                           TextButton(
@@ -263,9 +261,7 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                                   'Seleziona Altro',
                                   style: TextStyle(color: Colors.grey[600]),
                                 ),
-                                SizedBox(
-                                  width: 6,
-                                ),
+                                SizedBox(width: 6),
                                 Icon(
                                   Icons.arrow_forward_outlined,
                                   color: Colors.grey[600],
@@ -276,14 +272,11 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                         ],
                       ),
 
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       Text(
-                          'Seleziona i pasti che vuoi inserire nel piano nutrizionale o creane di nuovi.'),
-                      SizedBox(
-                        height: 30,
+                        'Seleziona i pasti che vuoi inserire nel piano nutrizionale o creane di nuovi.',
                       ),
+                      SizedBox(height: 30),
                       if (selectedMeals.isNotEmpty)
                         SizedBox(
                           height: 420, // altezza fissa delle card
@@ -320,9 +313,12 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                                   width: 150,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        side: BorderSide(
-                                            color: Colors.pink, width: 1.3)),
+                                      backgroundColor: Colors.white,
+                                      side: BorderSide(
+                                        color: Colors.pink,
+                                        width: 1.3,
+                                      ),
+                                    ),
                                     onPressed: () {
                                       Navigator.push(
                                         context,
@@ -336,140 +332,135 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                                         Text(
                                           'Aggiungi',
                                           style: TextStyle(
-                                              color: Colors.pink,
-                                              fontWeight: FontWeight.bold),
+                                            color: Colors.pink,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
+                                        SizedBox(width: 10),
                                         Icon(
                                           Icons.add_circle_outline,
                                           color: Colors.pink,
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                SizedBox(height: 20),
                                 Text(
                                   'Nessuna ricetta disponibile',
                                   style: TextStyle(fontWeight: FontWeight.bold),
-                                )
+                                ),
                               ],
                             ),
                           ),
                         ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 20),
                       Text(
                         '3. Utenti',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 28),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 28,
+                        ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       Text(
-                          "Seleziona l'utente a cui assegnare il piano nutrizionale."),
+                        "Seleziona l'utente a cui assegnare il piano nutrizionale.",
+                      ),
                       const SizedBox(height: 30),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.13,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: users.length,
-                              itemBuilder: (context, index) {
-                                final user = users[index];
-                                final isSelect = selectedUser == user.userId;
-                                return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      selectedUser = user.userId;
-                                    });
-                                  },
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.85,
-                                    height: 200,
-                                    child: Card(
-                                      color: Color(0XFFE0F6DA),
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(12),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                        height: MediaQuery.of(context).size.height * 0.13,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: users.length,
+                          itemBuilder: (context, index) {
+                            final user = users[index];
+                            final isSelect = selectedUser == user.userId;
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedUser = user.userId;
+                                });
+                              },
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.85,
+                                height: 200,
+                                child: Card(
+                                  color: Color(0XFFE0F6DA),
+                                  margin: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
                                           children: [
-                                            Row(
+                                            Image.asset(
+                                              'assets/illustration_avatar.png',
+                                              width: 80,
+                                            ),
+                                            SizedBox(width: 10),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                Image.asset(
-                                                  'assets/illustration_avatar.png',
-                                                  width: 80,
-                                                ),
-                                                SizedBox(width: 10),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                Row(
                                                   children: [
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          '${user.firstName} ${user.surname}',
-                                                          style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 30,
-                                                        ),
-                                                        isSelect
-                                                            ? Icon(
-                                                                Icons
-                                                                    .check_circle_outline,
-                                                                color:
-                                                                    Colors.pink,
-                                                              )
-                                                            : Container()
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: 10),
                                                     Text(
-                                                      user.email,
+                                                      '${user.firstName} ${user.surname}',
                                                       style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              35),
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
                                                     ),
-                                                    SizedBox(height: 10),
-                                                    Text(
-                                                      user.phone!,
-                                                      style: TextStyle(
-                                                          fontSize: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width /
-                                                              35),
-                                                    ),
-                                                    SizedBox(height: 10),
+                                                    SizedBox(width: 30),
+                                                    isSelect
+                                                        ? Icon(
+                                                            Icons
+                                                                .check_circle_outline,
+                                                            color: Colors.pink,
+                                                          )
+                                                        : Container(),
                                                   ],
-                                                )
+                                                ),
+                                                SizedBox(height: 10),
+                                                Text(
+                                                  user.email,
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(
+                                                          context,
+                                                        ).size.width /
+                                                        35,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Text(
+                                                  user.phone!,
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        MediaQuery.of(
+                                                          context,
+                                                        ).size.width /
+                                                        35,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
                                               ],
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ),
-                                );
-                              })),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                       const SizedBox(height: 30),
                       Padding(
                         padding: EdgeInsets.all(15),
@@ -477,27 +468,31 @@ class _AddNutritionState extends ConsumerState<AddNutrition> {
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.pink),
+                              backgroundColor: Colors.pink,
+                            ),
                             onPressed: () {
-                              final totCalories =
-                                  calculateTotalCalories(selectedMeals);
+                              final totCalories = calculateTotalCalories(
+                                selectedMeals,
+                              );
                               saveNutrition(
                                 Nutrition(
-                                    meals: selectedMeals,
-                                    typeNutritionId: selectedType,
-                                    userId: selectedUser,
-                                    totDailyCalories: totCalories),
+                                  meals: selectedMeals,
+                                  typeNutritionId: selectedType,
+                                  userId: selectedUser,
+                                  totDailyCalories: totCalories,
+                                ),
                               );
                             },
                             child: Text(
                               'Aggiungi Piano Nutrizionale',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

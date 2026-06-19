@@ -193,22 +193,22 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final selectedIndex = ref.watch(bottomBarProvider);
     final selectedDate = ref.watch(selectedDateProvider);
     final login = ref.watch(loginProvider);
 
-    final dayId = selectedDate != null ? Utils.getDayIdFromDate(selectedDate) : 1;
+    final dayId = selectedDate != null
+        ? Utils.getDayIdFromDate(selectedDate)
+        : 1;
 
     final dailyNutritionAsync = ref.watch(
       dailyNutritionProvider((login.userId!, dayId)),
     );
 
-    if(_loading){
-      Center(child: CircularProgressIndicator(),);
+    if (_loading) {
+      Center(child: CircularProgressIndicator());
     }
 
     return Scaffold(
@@ -433,9 +433,18 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                     categoryData?.momentOfDay ??
                                                     'Categoria $categoryId';
                                                 // ✂️ Tronca se contiene "Spuntino"
-                                                if (categoryName.contains('Spuntino')) {
-                                                  final index = categoryName.indexOf('Spuntino');
-                                                  categoryName = categoryName.substring(0, index + 'Spuntino'.length).trim();
+                                                if (categoryName.contains(
+                                                  'Spuntino',
+                                                )) {
+                                                  final index = categoryName
+                                                      .indexOf('Spuntino');
+                                                  categoryName = categoryName
+                                                      .substring(
+                                                        0,
+                                                        index +
+                                                            'Spuntino'.length,
+                                                      )
+                                                      .trim();
                                                 }
 
                                                 return Padding(
@@ -450,9 +459,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                     children: [
                                                       // 🔸 Card immagine principale
                                                       Container(
-                                                        margin: const EdgeInsets.only(
-                                                          bottom: 70,
-                                                        ), // lascia spazio per il box sotto
+                                                        margin:
+                                                            const EdgeInsets.only(
+                                                              bottom: 70,
+                                                            ),
                                                         child: ClipRRect(
                                                           borderRadius:
                                                               BorderRadius.circular(
@@ -799,7 +809,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                         ),
                       ),
                       SizedBox(height: 60),
-
                     ],
                   ),
                 ),

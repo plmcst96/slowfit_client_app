@@ -62,9 +62,9 @@ class _MealPageListState extends ConsumerState<MealPageList> {
                       IconButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddMeal()));
+                            context,
+                            MaterialPageRoute(builder: (context) => AddMeal()),
+                          );
                         },
                         icon: const Icon(
                           Icons.add_circle_outline,
@@ -92,10 +92,7 @@ class _MealPageListState extends ConsumerState<MealPageList> {
                         SizedBox(height: 15),
                         Text(
                           'Scegli i piatti con cui poter comporre il piano nutrizionale o crea i tuoi piatti partendo da qui.',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                          ),
+                          style: TextStyle(color: Colors.black, fontSize: 14),
                         ),
                       ],
                     ),
@@ -128,8 +125,9 @@ class _MealPageListState extends ConsumerState<MealPageList> {
                           color: isSelected ? Colors.pink : Colors.black,
                           width: 1.5,
                         ),
-                        backgroundColor:
-                            isSelected ? Colors.white : Colors.transparent,
+                        backgroundColor: isSelected
+                            ? Colors.white
+                            : Colors.transparent,
                         foregroundColor: Colors.black,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -138,8 +136,9 @@ class _MealPageListState extends ConsumerState<MealPageList> {
                       child: Text(
                         category.momentOfDay,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: isSelected ? Colors.pink : Colors.black),
+                          fontWeight: FontWeight.bold,
+                          color: isSelected ? Colors.pink : Colors.black,
+                        ),
                       ),
                     ),
                   );
@@ -179,14 +178,11 @@ class _MealPageListState extends ConsumerState<MealPageList> {
                                 context: context,
                                 isScrollControlled:
                                     true, // Importante per usare heightFactor
-                                backgroundColor:
-                                    Colors.white, // Bordo arrotondato
+                                backgroundColor: Colors.white,
                                 builder: (context) => FractionallySizedBox(
                                   heightFactor:
                                       0.7, // 80% dell'altezza dello schermo
-                                  child: MealDetailModal(
-                                    mealId: meal.mealId,
-                                  ),
+                                  child: MealDetailModal(mealId: meal.mealId),
                                 ),
                               );
                             },
@@ -204,9 +200,7 @@ class _MealPageListState extends ConsumerState<MealPageList> {
                     ),
                   );
                 },
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
                 error: (err, _) => Center(
                   child: Text(
                     'Errore nel caricamento dei piatti: $err',
@@ -220,9 +214,7 @@ class _MealPageListState extends ConsumerState<MealPageList> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomBar(
-        currentIndex: selectedIndex,
-      ),
+      bottomNavigationBar: CustomBottomBar(currentIndex: selectedIndex),
     );
   }
 }

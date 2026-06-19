@@ -18,14 +18,14 @@ class LoginState {
   final bool isLoggedIn;
   final String? errorMessage;
   final int? userId;
-  final String? email; // Add userId to the state
+  final String? email;
   final int? roleId;
 
   LoginState({
     required this.isLoggedIn,
     this.errorMessage,
     this.userId,
-    this.email, // Initialize userId
+    this.email,
     this.roleId,
   });
 
@@ -34,12 +34,12 @@ class LoginState {
     int? userId,
     String? errorMessage,
     String? email,
-    int? roleId, // Add userId to copyWith method
+    int? roleId,
   }) {
     return LoginState(
       isLoggedIn: isLoggedIn,
       errorMessage: errorMessage ?? this.errorMessage,
-      email: email ?? this.email, // Ensure userId is copied
+      email: email ?? this.email,
       userId: userId ?? this.userId,
       roleId: roleId ?? this.roleId,
     );
@@ -55,11 +55,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
     String password,
     BuildContext context,
   ) async {
-    // Start the login process
     state = state.copyWith(errorMessage: null, isLoggedIn: false);
-
-    // Catturo il messaggio localizzato prima dell'await (evita uso di context
-    // attraverso async gap).
     final String invalidMsg = AppLocalizations.of(context)!.invalid;
 
     try {
@@ -70,17 +66,14 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
       final data = json.decode(response.body);
 
-      // Check if the message is "Login successful!" instead of "status"
       if (data['message'] == 'Login successful!') {
-        // Salva il JWT per autenticare gli endpoint protetti.
         if (data['token'] != null) {
           await AuthToken.save(data['token']);
-          // Avvia il rinnovo proattivo del token (refresh prima della scadenza).
           AuthSession.instance.start();
         }
         state = state.copyWith(
           isLoggedIn: true,
-          email: data['email'], // Save the userId from response
+          email: data['email'],
           userId: data['userId'],
           roleId: data['roleId'],
         );
@@ -88,8 +81,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
         state = state.copyWith(errorMessage: invalidMsg, isLoggedIn: false);
       }
     } on ApiException catch (e) {
-      // 400/401 = credenziali errate → messaggio localizzato;
-      // altri casi (rete/timeout/500) → messaggio dell'errore.
       final msg = (e.statusCode == 400 || e.statusCode == 401)
           ? invalidMsg
           : e.message;

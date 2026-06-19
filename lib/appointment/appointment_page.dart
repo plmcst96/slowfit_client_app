@@ -41,7 +41,6 @@ class _AppointmentPageState extends ConsumerState<AppointmentPage> {
             });
             ref.watch(appointmentGetProvider);
           },
-          // Chiude il BottomSheet
         ),
       );
     }
@@ -337,7 +336,8 @@ class _AppointmentPageState extends ConsumerState<AppointmentPage> {
             child: ListTile(
               title: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.circleCheck,
+                  FaIcon(
+                    FontAwesomeIcons.circleCheck,
                     color: Color(0XFFBAFFA5),
                     size: 20,
                   ),

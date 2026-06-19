@@ -9,12 +9,13 @@ import '../provider/bottom_bar_provider.dart';
 import '../widget/custom_bottom_bar.dart';
 
 class TrainingDetail extends ConsumerStatefulWidget {
-  const TrainingDetail(
-      {super.key,
-      required this.userEmail,
-      required this.training,
-      required this.level,
-      required this.type});
+  const TrainingDetail({
+    super.key,
+    required this.userEmail,
+    required this.training,
+    required this.level,
+    required this.type,
+  });
 
   final String userEmail;
   final TrainingCreateResponse training;
@@ -78,90 +79,116 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
     return Scaffold(
       body: Stack(
         children: [
-          // Immagine sfondo
           Container(
             height: MediaQuery.of(context).size.height * 0.25,
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                  'assets/intermedio.jpg',
-                ),
+                image: AssetImage('assets/intermedio.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
 
-          // Freccia in alto a destra sopra immagine
           SafeArea(
-            child: Row(children: [Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: IconButton(
-                  onPressed: () {
-                    ref.read(bottomBarProvider.notifier).updateIndex(3);
-                    Navigator.pushNamed(context, '/trainer-clients');
-                  },
-                  icon: const Icon(Icons.arrow_back_ios),
-                  color: Colors.white,
-                ),
-              ),
-            ),
-              Spacer(),
-              Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(14.0),
-                  child: IconButton(
-                    onPressed: () async {
-                      final confirmed = await showDialog<bool>(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text("Conferma eliminazione", style: TextStyle(fontWeight: FontWeight.bold),),
-                            content: const Text(
-                              "Sei sicuro di voler eliminare questo allenamento? Tutti gli esercizi associati verranno rimossi.",
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, false),
-                                child: const Text("Annulla", style: TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
-                                onPressed: () => Navigator.pop(context, true),
-                                child: const Text("Elimina", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-
-                      if (confirmed == true) {
-                        await ref
-                            .read(trainingProvider.notifier)
-                            .deleteTraining(widget.training.trainingId);
-
-                        if (mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(" Allenamento eliminato con successo", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                              backgroundColor: Colors.green,
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-
-                          Navigator.pushNamed(context, '/trainer-clients'); // Torna indietro alla lista
-                        }
-                      }
-                    },
-
-                    icon: const Icon(Icons.delete_outline_outlined),
-                    color: Colors.white,
+            child: Row(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: IconButton(
+                      onPressed: () {
+                        ref.read(bottomBarProvider.notifier).updateIndex(3);
+                        Navigator.pushNamed(context, '/trainer-clients');
+                      },
+                      icon: const Icon(Icons.arrow_back_ios),
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              )],) ,
+                Spacer(),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: IconButton(
+                      onPressed: () async {
+                        final confirmed = await showDialog<bool>(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text(
+                                "Conferma eliminazione",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              content: const Text(
+                                "Sei sicuro di voler eliminare questo allenamento? Tutti gli esercizi associati verranno rimossi.",
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, false),
+                                  child: const Text(
+                                    "Annulla",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.pink,
+                                  ),
+                                  onPressed: () => Navigator.pop(context, true),
+                                  child: const Text(
+                                    "Elimina",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+
+                        if (confirmed == true) {
+                          await ref
+                              .read(trainingProvider.notifier)
+                              .deleteTraining(widget.training.trainingId);
+
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  " Allenamento eliminato con successo",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                backgroundColor: Colors.green,
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+
+                            Navigator.pushNamed(
+                              context,
+                              '/trainer-clients',
+                            ); // Torna indietro alla lista
+                          }
+                        }
+                      },
+
+                      icon: const Icon(Icons.delete_outline_outlined),
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.23,
@@ -169,9 +196,7 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
             right: 0,
             bottom: 0,
             child: Container(
-              padding: EdgeInsets.only(
-                top: 30,
-              ),
+              padding: EdgeInsets.only(top: 30),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: const BorderRadius.only(
@@ -190,11 +215,11 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                           Text(
                             'Workout ${'${user!.firstName} ${user.surname}'}',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -204,26 +229,25 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                               SizedBox(width: 10),
                               Text(' | '),
                               SizedBox(width: 10),
-                              Text(widget.level)
+                              Text(widget.level),
                             ],
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Text(widget.type),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               ' Riscaldamento',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height *
+                            height:
+                                MediaQuery.of(context).size.height *
                                 0.20, // Imposta l'altezza fissa
                             child: ListView.builder(
                               shrinkWrap:
@@ -236,11 +260,14 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                 return riscaldamento.isNotEmpty
                                     ? Card(
                                         margin: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 30),
+                                          horizontal: 10,
+                                          vertical: 30,
+                                        ),
                                         child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
+                                          width:
+                                              MediaQuery.of(
+                                                context,
+                                              ).size.width *
                                               0.55,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
@@ -258,14 +285,15 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                                 right: 10,
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(
-                                                      horizontal: 6,
-                                                      vertical: 6),
+                                                    horizontal: 6,
+                                                    vertical: 6,
+                                                  ),
                                                   decoration: BoxDecoration(
                                                     color: Color(0XFFBAFFA5),
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                      Radius.circular(20),
-                                                    ),
+                                                          Radius.circular(20),
+                                                        ),
                                                   ),
                                                   child: Text(
                                                     exD.name,
@@ -282,28 +310,29 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                                 left: 10,
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(
-                                                      horizontal: 6,
-                                                      vertical: 6),
+                                                    horizontal: 6,
+                                                    vertical: 6,
+                                                  ),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                      Radius.circular(20),
-                                                    ),
+                                                          Radius.circular(20),
+                                                        ),
                                                   ),
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                          '${ex.series} X ${ex.nRipetition}'),
-                                                      SizedBox(
-                                                        width: 10,
+                                                        '${ex.series} X ${ex.nRipetition}',
                                                       ),
+                                                      SizedBox(width: 10),
                                                       Text(
-                                                          '${ex.pause.toString()} sec')
+                                                        '${ex.pause.toString()} sec',
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -317,19 +346,20 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               ' Allenamneto',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height *
+                            height:
+                                MediaQuery.of(context).size.height *
                                 0.20, // Imposta l'altezza fissa
                             child: ListView.builder(
                               shrinkWrap:
@@ -342,11 +372,14 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                 return allenamento.isNotEmpty
                                     ? Card(
                                         margin: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 30),
+                                          horizontal: 10,
+                                          vertical: 30,
+                                        ),
                                         child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
+                                          width:
+                                              MediaQuery.of(
+                                                context,
+                                              ).size.width *
                                               0.55,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
@@ -364,14 +397,15 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                                 right: 10,
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(
-                                                      horizontal: 6,
-                                                      vertical: 6),
+                                                    horizontal: 6,
+                                                    vertical: 6,
+                                                  ),
                                                   decoration: BoxDecoration(
                                                     color: Color(0XFFBAFFA5),
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                      Radius.circular(20),
-                                                    ),
+                                                          Radius.circular(20),
+                                                        ),
                                                   ),
                                                   child: Text(
                                                     exD.name,
@@ -388,28 +422,29 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                                 left: 10,
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(
-                                                      horizontal: 6,
-                                                      vertical: 6),
+                                                    horizontal: 6,
+                                                    vertical: 6,
+                                                  ),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                      Radius.circular(20),
-                                                    ),
+                                                          Radius.circular(20),
+                                                        ),
                                                   ),
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                          '${ex.series} X ${ex.nRipetition}'),
-                                                      SizedBox(
-                                                        width: 10,
+                                                        '${ex.series} X ${ex.nRipetition}',
                                                       ),
+                                                      SizedBox(width: 10),
                                                       Text(
-                                                          '${ex.pause.toString()} sec')
+                                                        '${ex.pause.toString()} sec',
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -417,27 +452,26 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                     : Container(
                                         child: Text(
                                           'Nessun contenuto',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                          ),
+                                          style: TextStyle(color: Colors.black),
                                         ),
                                       );
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               ' Stretching',
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height *
+                            height:
+                                MediaQuery.of(context).size.height *
                                 0.20, // Imposta l'altezza fissa
                             child: ListView.builder(
                               shrinkWrap:
@@ -451,11 +485,14 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                 return stretching.isNotEmpty
                                     ? Card(
                                         margin: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 30),
+                                          horizontal: 10,
+                                          vertical: 30,
+                                        ),
                                         child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
+                                          width:
+                                              MediaQuery.of(
+                                                context,
+                                              ).size.width *
                                               0.55,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
@@ -473,14 +510,15 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                                 right: 10,
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(
-                                                      horizontal: 6,
-                                                      vertical: 6),
+                                                    horizontal: 6,
+                                                    vertical: 6,
+                                                  ),
                                                   decoration: BoxDecoration(
                                                     color: Color(0XFFBAFFA5),
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                      Radius.circular(20),
-                                                    ),
+                                                          Radius.circular(20),
+                                                        ),
                                                   ),
                                                   child: Text(
                                                     exD.name,
@@ -497,28 +535,29 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
                                                 left: 10,
                                                 child: Container(
                                                   padding: EdgeInsets.symmetric(
-                                                      horizontal: 6,
-                                                      vertical: 6),
+                                                    horizontal: 6,
+                                                    vertical: 6,
+                                                  ),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                      Radius.circular(20),
-                                                    ),
+                                                          Radius.circular(20),
+                                                        ),
                                                   ),
                                                   child: Row(
                                                     children: [
                                                       Text(
-                                                          '${ex.series} X ${ex.nRipetition}'),
-                                                      SizedBox(
-                                                        width: 10,
+                                                        '${ex.series} X ${ex.nRipetition}',
                                                       ),
+                                                      SizedBox(width: 10),
                                                       Text(
-                                                          '${ex.pause.toString()} sec')
+                                                        '${ex.pause.toString()} sec',
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -543,9 +582,7 @@ class _TrainingDetailState extends ConsumerState<TrainingDetail> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomBar(
-        currentIndex: selectedIndex,
-      ),
+      bottomNavigationBar: CustomBottomBar(currentIndex: selectedIndex),
     );
   }
 }

@@ -211,7 +211,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                                 children: [
                                   Row(
                                     children: [
-                                      FaIcon(FontAwesomeIcons.dumbbell,
+                                      FaIcon(
+                                        FontAwesomeIcons.dumbbell,
                                         color: Colors.pink[300],
                                         size: 20,
                                       ),
@@ -277,7 +278,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage>
                                 children: [
                                   Row(
                                     children: [
-                                      FaIcon(FontAwesomeIcons.appleWhole,
+                                      FaIcon(
+                                        FontAwesomeIcons.appleWhole,
                                         color: Colors.pink[300],
                                         size: 20,
                                       ),
@@ -715,7 +717,7 @@ Widget _buildStatsGridMeasure(int index, List<Measure> data, WidgetRef ref) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "${m.cm} ${body.bodyPartId == 13 ? 'kg' : 'cm'}", // valore della misura
+                "${m.cm} ${body.bodyPartId == 13 ? 'kg' : 'cm'}",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 7),

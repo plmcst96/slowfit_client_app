@@ -51,9 +51,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       );
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     } else {
       // Email non trovata
@@ -77,17 +75,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-          title: 'Recupera Password',
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.arrow_back_ios))),
+        title: 'Recupera Password',
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
@@ -99,8 +97,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 autocorrect: false,
                 enableSuggestions: false,
                 decoration: const InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 15,
+                    horizontal: 20,
+                  ),
                   border: OutlineInputBorder(),
                   labelText: 'Email',
                   labelStyle: TextStyle(color: Colors.blue),
@@ -113,21 +113,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
                 validator: _validateEmail,
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30),
               const Text.rich(
                 style: TextStyle(fontSize: 12),
                 TextSpan(
                   text:
                       "Inserisci l'indirizzo email che hai utilizzato per registrarti su ",
-                  style: TextStyle(color: Colors.black), // Testo normale
+                  style: TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
                       text: "Pilates a Casa",
                       style: TextStyle(
-                          color: Colors.pink,
-                          fontWeight: FontWeight.bold), // Parole in rosa
+                        color: Colors.pink,
+                        fontWeight: FontWeight.bold,
+                      ), // Parole in rosa
                     ),
                     TextSpan(
                       text:
@@ -147,14 +146,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.pink,
                           padding: const EdgeInsets.symmetric(
-                              vertical: 12, horizontal: 60),
+                            vertical: 12,
+                            horizontal: 60,
+                          ),
                         ),
                         child: const Text(
                           'Inserisci Nuova Password',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),

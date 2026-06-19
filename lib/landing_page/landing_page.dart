@@ -38,10 +38,9 @@ class _LandingPageState extends State<LandingPage> {
               AppLocalizations.of(context)!.page_welcome_title,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: MediaQuery.of(context)
-                    .size
-                    .width
-                    .clamp(13, 20), // Testo più grande
+                fontSize: MediaQuery.of(
+                  context,
+                ).size.width.clamp(13, 20), // Testo più grande
                 fontWeight: FontWeight.bold,
                 color: Colors.white, // Testo in bianco per visibilità
               ),
@@ -58,9 +57,7 @@ class _LandingPageState extends State<LandingPage> {
               fit: BoxFit.cover,
             ),
           ),
-          Container(
-            color: Colors.black54,
-          ),
+          Container(color: Colors.black54),
           Center(
             child: Text(
               AppLocalizations.of(context)!.page_welcome_text,
@@ -78,14 +75,9 @@ class _LandingPageState extends State<LandingPage> {
         fit: StackFit.expand,
         children: [
           Positioned.fill(
-            child: Image.asset(
-              'assets/intro/mental.jpeg',
-              fit: BoxFit.cover,
-            ),
+            child: Image.asset('assets/intro/mental.jpeg', fit: BoxFit.cover),
           ),
-          Container(
-            color: Colors.black54,
-          ),
+          Container(color: Colors.black54),
           Center(
             child: Text(
               AppLocalizations.of(context)!.page_welcome_text_1,
@@ -105,7 +97,7 @@ class _LandingPageState extends State<LandingPage> {
     final List<String> buttonTexts = [
       AppLocalizations.of(context)!.button_welcome,
       AppLocalizations.of(context)!.button_welcome_1,
-      AppLocalizations.of(context)!.button_welcome_2
+      AppLocalizations.of(context)!.button_welcome_2,
     ];
 
     return Scaffold(
@@ -119,10 +111,7 @@ class _LandingPageState extends State<LandingPage> {
             left: 0,
             right: 0,
             child: Center(
-              child: Image.asset(
-                'assets/loghi/logo1.2.png',
-                width: 120,
-              ),
+              child: Image.asset('assets/loghi/logo1.2.png', width: 120),
             ),
           ),
           // Contenuto delle pagine nel PageView
@@ -164,9 +153,9 @@ class _LandingPageState extends State<LandingPage> {
             left: 0,
             right: 0,
             child: Center(
-                child: Column(
-              children: [
-                ElevatedButton(
+              child: Column(
+                children: [
+                  ElevatedButton(
                     onPressed: () {
                       if (_currentPage < pages.length - 1) {
                         // Se non è l'ultima pagina, passa alla successiva
@@ -177,44 +166,53 @@ class _LandingPageState extends State<LandingPage> {
                         );
                       }
                     },
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 16),
+                        horizontal: 30,
+                        vertical: 16,
+                      ),
                       child: Text(
                         buttonTexts[_currentPage],
                         style: const TextStyle(
-                            color: Colors.pink,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.pink,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    )),
-                const SizedBox(height: 25),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const LoginPage()));
-                  },
-                  child: Text.rich(
-                    TextSpan(
-                      text: AppLocalizations.of(context)!.text_1,
-                      style: TextStyle(fontSize: 12, color: Colors.white),
-                      children: [
-                        TextSpan(
-                          text: AppLocalizations.of(context)!.login,
-                          style: TextStyle(
-                              color: Colors.pink, fontWeight: FontWeight.bold),
+                          builder: (context) => const LoginPage(),
                         ),
-                      ],
+                      );
+                    },
+                    child: Text.rich(
+                      TextSpan(
+                        text: AppLocalizations.of(context)!.text_1,
+                        style: TextStyle(fontSize: 12, color: Colors.white),
+                        children: [
+                          TextSpan(
+                            text: AppLocalizations.of(context)!.login,
+                            style: TextStyle(
+                              color: Colors.pink,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    // Per accessibilità
                   ),
-                )
-              ],
-            )),
+                ],
+              ),
+            ),
           ),
         ],
       ),

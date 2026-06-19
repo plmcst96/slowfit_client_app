@@ -10,10 +10,7 @@ import '../provider/exercise_provider.dart';
 import '../widget/custom_bottom_bar.dart';
 
 class AddTrainingFinal extends ConsumerStatefulWidget {
-  const AddTrainingFinal({
-    super.key,
-    required this.userEmail,
-  });
+  const AddTrainingFinal({super.key, required this.userEmail});
 
   final String userEmail;
 
@@ -62,7 +59,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
     final List<DetailExerciseRequest> allExercise = [
       ...exRest,
       ...exe,
-      ...exStr
+      ...exStr,
     ];
     final today = DateTime.now();
     final nextMonth = DateTime(today.year, today.month + 1, today.day);
@@ -71,29 +68,25 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
     if (user == null) {
       return Scaffold(
         body: Center(
-            child:
-                CircularProgressIndicator()), // Mostra un caricamento mentre i dati non sono pronti
+          child: CircularProgressIndicator(),
+        ), // Mostra un caricamento mentre i dati non sono pronti
       );
     }
 
     return Scaffold(
       body: Stack(
         children: [
-          // Immagine sfondo
           Container(
             height: MediaQuery.of(context).size.height * 0.25,
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                  'assets/intermedio.jpg',
-                ),
+                image: AssetImage('assets/intermedio.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
 
-          // Freccia in alto a destra sopra immagine
           SafeArea(
             child: Align(
               alignment: Alignment.topLeft,
@@ -113,9 +106,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
             right: 0,
             bottom: 0,
             child: Container(
-              padding: EdgeInsets.only(
-                top: 30,
-              ),
+              padding: EdgeInsets.only(top: 30),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: const BorderRadius.only(
@@ -134,11 +125,11 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                           Text(
                             'Workout ${'${user.firstName} ${user.surname}'}',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          SizedBox(height: 20),
                           Form(
                             key: _formKey,
                             child: Column(
@@ -165,14 +156,17 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                         },
                                         decoration: InputDecoration(
                                           prefixIcon: FaIcon(
-                                              FontAwesomeIcons.clock,
-                                              size: 15),
-                                          contentPadding:
-                                              EdgeInsets.symmetric(vertical: 4),
+                                            FontAwesomeIcons.clock,
+                                            size: 15,
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 4,
+                                          ),
                                           isDense: true,
                                           border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -193,11 +187,14 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                             size: 15,
                                           ),
                                           contentPadding: EdgeInsets.symmetric(
-                                              vertical: 4, horizontal: 8),
+                                            vertical: 4,
+                                            horizontal: 8,
+                                          ),
                                           isDense: true,
                                           border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
                                           ),
                                         ),
                                         items: level
@@ -223,9 +220,7 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                SizedBox(height: 20),
                                 SizedBox(
                                   width: 300,
                                   height: 30,
@@ -233,7 +228,9 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                     initialValue: _selectedTypeId,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(
-                                          vertical: 4, horizontal: 8),
+                                        vertical: 4,
+                                        horizontal: 8,
+                                      ),
                                       isDense: true,
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8),
@@ -260,17 +257,17 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                     },
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                SizedBox(height: 20),
                                 Text(
                                   ' Riscaldamento',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
                                 ),
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height *
+                                  height:
+                                      MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(
                                     shrinkWrap:
@@ -283,20 +280,24 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                       return exRest.isNotEmpty
                                           ? Card(
                                               margin: EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 30),
+                                                horizontal: 10,
+                                                vertical: 30,
+                                              ),
                                               child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
+                                                width:
+                                                    MediaQuery.of(
+                                                      context,
+                                                    ).size.width *
                                                     0.55,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.all(
-                                                    Radius.circular(15),
-                                                  ),
+                                                        Radius.circular(15),
+                                                      ),
                                                   image: DecorationImage(
-                                                    image:
-                                                        NetworkImage(ex.image),
+                                                    image: NetworkImage(
+                                                      ex.image,
+                                                    ),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -306,18 +307,21 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                                       top: 20,
                                                       right: 10,
                                                       child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 6,
-                                                                vertical: 6),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0XFFBAFFA5),
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                              horizontal: 6,
+                                                              vertical: 6,
+                                                            ),
+                                                        decoration: BoxDecoration(
+                                                          color: Color(
+                                                            0XFFBAFFA5,
+                                                          ),
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                            Radius.circular(20),
-                                                          ),
+                                                                Radius.circular(
+                                                                  20,
+                                                                ),
+                                                              ),
                                                         ),
                                                         child: Text(
                                                           ex.name,
@@ -333,143 +337,33 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                                       bottom: 10,
                                                       left: 10,
                                                       child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 6,
-                                                                vertical: 6),
-                                                        decoration:
-                                                            BoxDecoration(
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                              horizontal: 6,
+                                                              vertical: 6,
+                                                            ),
+                                                        decoration: BoxDecoration(
                                                           color: Colors.white,
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                            Radius.circular(20),
-                                                          ),
+                                                                Radius.circular(
+                                                                  20,
+                                                                ),
+                                                              ),
                                                         ),
                                                         child: Row(
                                                           children: [
                                                             Text(
-                                                                '${ex.series} X ${ex.nRipetition}'),
-                                                            SizedBox(
-                                                              width: 10,
+                                                              '${ex.series} X ${ex.nRipetition}',
                                                             ),
+                                                            SizedBox(width: 10),
                                                             Text(
-                                                                '${ex.pause.toString()} sec')
+                                                              '${ex.pause.toString()} sec',
+                                                            ),
                                                           ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            )
-                                          : Container(
-                                              child: Text(
-                                                'Nessun contenuto',
-                                                style: TextStyle(
-                                                    color: Colors.black),
-                                              ),
-                                            );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  ' Allenamneto',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.20, // Imposta l'altezza fissa
-                                  child: ListView.builder(
-                                    shrinkWrap:
-                                        true, // Permette di adattarsi al contenuto
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: exe.length,
-                                    itemBuilder: (context, index) {
-                                      final ex = exe[index];
-
-                                      return exe.isNotEmpty
-                                          ? Card(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 30),
-                                              child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.55,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(15),
-                                                  ),
-                                                  image: DecorationImage(
-                                                    image:
-                                                        NetworkImage(ex.image),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                                child: Stack(
-                                                  children: [
-                                                    Positioned(
-                                                      top: 20,
-                                                      right: 10,
-                                                      child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 6,
-                                                                vertical: 6),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0XFFBAFFA5),
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(20),
-                                                          ),
-                                                        ),
-                                                        child: Text(
-                                                          ex.name,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 12,
-                                                          ),
                                                         ),
                                                       ),
                                                     ),
-                                                    Positioned(
-                                                      bottom: 10,
-                                                      left: 10,
-                                                      child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 6,
-                                                                vertical: 6),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                            Radius.circular(20),
-                                                          ),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            Text(
-                                                                '${ex.series} X ${ex.nRipetition}'),
-                                                            SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Text(
-                                                                '${ex.pause.toString()} sec')
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
                                                   ],
                                                 ),
                                               ),
@@ -485,43 +379,47 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                     },
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                SizedBox(height: 20),
                                 Text(
-                                  ' Stretching',
+                                  ' Allenamneto',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
                                 ),
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height *
+                                  height:
+                                      MediaQuery.of(context).size.height *
                                       0.20, // Imposta l'altezza fissa
                                   child: ListView.builder(
                                     shrinkWrap:
                                         true, // Permette di adattarsi al contenuto
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: exStr.length,
+                                    itemCount: exe.length,
                                     itemBuilder: (context, index) {
-                                      final ex = exStr[index];
+                                      final ex = exe[index];
 
-                                      return exStr.isNotEmpty
+                                      return exe.isNotEmpty
                                           ? Card(
                                               margin: EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 30),
+                                                horizontal: 10,
+                                                vertical: 30,
+                                              ),
                                               child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
+                                                width:
+                                                    MediaQuery.of(
+                                                      context,
+                                                    ).size.width *
                                                     0.55,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.all(
-                                                    Radius.circular(15),
-                                                  ),
+                                                        Radius.circular(15),
+                                                      ),
                                                   image: DecorationImage(
-                                                    image:
-                                                        NetworkImage(ex.image),
+                                                    image: NetworkImage(
+                                                      ex.image,
+                                                    ),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -531,18 +429,21 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                                       top: 20,
                                                       right: 10,
                                                       child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 6,
-                                                                vertical: 6),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0XFFBAFFA5),
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                              horizontal: 6,
+                                                              vertical: 6,
+                                                            ),
+                                                        decoration: BoxDecoration(
+                                                          color: Color(
+                                                            0XFFBAFFA5,
+                                                          ),
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                            Radius.circular(20),
-                                                          ),
+                                                                Radius.circular(
+                                                                  20,
+                                                                ),
+                                                              ),
                                                         ),
                                                         child: Text(
                                                           ex.name,
@@ -558,31 +459,33 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                                       bottom: 10,
                                                       left: 10,
                                                       child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 6,
-                                                                vertical: 6),
-                                                        decoration:
-                                                            BoxDecoration(
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                              horizontal: 6,
+                                                              vertical: 6,
+                                                            ),
+                                                        decoration: BoxDecoration(
                                                           color: Colors.white,
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                            Radius.circular(20),
-                                                          ),
+                                                                Radius.circular(
+                                                                  20,
+                                                                ),
+                                                              ),
                                                         ),
                                                         child: Row(
                                                           children: [
                                                             Text(
-                                                                '${ex.series} X ${ex.nRipetition}'),
-                                                            SizedBox(
-                                                              width: 10,
+                                                              '${ex.series} X ${ex.nRipetition}',
                                                             ),
+                                                            SizedBox(width: 10),
                                                             Text(
-                                                                '${ex.pause.toString()} sec')
+                                                              '${ex.pause.toString()} sec',
+                                                            ),
                                                           ],
                                                         ),
                                                       ),
-                                                    )
+                                                    ),
                                                   ],
                                                 ),
                                               ),
@@ -591,7 +494,130 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                               child: Text(
                                                 'Nessun contenuto',
                                                 style: TextStyle(
-                                                    color: Colors.black),
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  ' Stretching',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height *
+                                      0.20, // Imposta l'altezza fissa
+                                  child: ListView.builder(
+                                    shrinkWrap:
+                                        true, // Permette di adattarsi al contenuto
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: exStr.length,
+                                    itemBuilder: (context, index) {
+                                      final ex = exStr[index];
+
+                                      return exStr.isNotEmpty
+                                          ? Card(
+                                              margin: EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                                vertical: 30,
+                                              ),
+                                              child: Container(
+                                                width:
+                                                    MediaQuery.of(
+                                                      context,
+                                                    ).size.width *
+                                                    0.55,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(15),
+                                                      ),
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      ex.image,
+                                                    ),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                child: Stack(
+                                                  children: [
+                                                    Positioned(
+                                                      top: 20,
+                                                      right: 10,
+                                                      child: Container(
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                              horizontal: 6,
+                                                              vertical: 6,
+                                                            ),
+                                                        decoration: BoxDecoration(
+                                                          color: Color(
+                                                            0XFFBAFFA5,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  20,
+                                                                ),
+                                                              ),
+                                                        ),
+                                                        child: Text(
+                                                          ex.name,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      bottom: 10,
+                                                      left: 10,
+                                                      child: Container(
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                              horizontal: 6,
+                                                              vertical: 6,
+                                                            ),
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                Radius.circular(
+                                                                  20,
+                                                                ),
+                                                              ),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              '${ex.series} X ${ex.nRipetition}',
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                            Text(
+                                                              '${ex.pause.toString()} sec',
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          : Container(
+                                              child: Text(
+                                                'Nessun contenuto',
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                ),
                                               ),
                                             );
                                     },
@@ -602,25 +628,34 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0XFFC4B7E1)),
+                                      backgroundColor: Color(0XFFC4B7E1),
+                                    ),
                                     onPressed: () {
-                                      saveTraining(TrainingCreateRequest(
+                                      saveTraining(
+                                        TrainingCreateRequest(
                                           typeId: _selectedTypeId,
                                           userId: user.userId,
                                           creationDate: DateTime.now(),
                                           levelId: _levelId,
-                                          duration:
-                                              int.tryParse(_duration.text),
+                                          duration: int.tryParse(
+                                            _duration.text,
+                                          ),
                                           endDate: nextMonth,
-                                          detailExercises: allExercise));
+                                          detailExercises: allExercise,
+                                        ),
+                                      );
                                       // Mostra snackbar di successo ✅
                                       if (mounted) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
                                           const SnackBar(
                                             content: Text(
                                               "Workout creato con successo!",
-                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                             backgroundColor: Colors.green,
                                             duration: Duration(seconds: 2),
@@ -628,7 +663,9 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                                         );
 
                                         Navigator.pushNamed(
-                                            context, '/clients');
+                                          context,
+                                          '/clients',
+                                        );
                                       }
                                     },
                                     child: Text(
@@ -651,12 +688,10 @@ class _AddTrainingFinalState extends ConsumerState<AddTrainingFinal> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
-      bottomNavigationBar: CustomBottomBar(
-        currentIndex: selectedIndex,
-      ),
+      bottomNavigationBar: CustomBottomBar(currentIndex: selectedIndex),
     );
   }
 }

@@ -53,8 +53,9 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30)),
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
                 image: DecorationImage(
                   image: AssetImage('assets/nutrition_bg.jpg'),
                   fit: BoxFit.cover,
@@ -68,7 +69,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30),
                       ),
-                      color: Colors.black45, // Cambia opacità a tuo piacimento
+                      color: Colors.black45,
                     ),
                   ),
                   Positioned(
@@ -78,10 +79,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                       onPressed: () {
                         Navigator.pushNamed(context, '/trainer-home');
                       },
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      ),
+                      icon: Icon(Icons.arrow_back_ios, color: Colors.white),
                     ),
                   ),
                   Positioned(
@@ -91,9 +89,10 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                       child: Text(
                         'Nutrizione',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 40),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40,
+                        ),
                       ),
                     ),
                   ),
@@ -107,31 +106,31 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 40,
-                      ),
+                      SizedBox(height: 40),
                       Text(
                         'Qui troverai alcune ricette che ti possono ispirre per creare il tuo piano nutrizionale o crearne di nuove completamnete personalizzate',
                         style: TextStyle(color: Colors.black54),
                       ),
                       //Inizio Sezione ricette
-                      SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(height: 20),
                       Row(
                         children: [
                           Text(
                             'Ricette',
                             style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Spacer(),
                           TextButton(
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MealPageList()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MealPageList(),
+                                ),
+                              );
                             },
                             child: Row(
                               children: [
@@ -139,9 +138,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                   'Vedi Altro',
                                   style: TextStyle(color: Colors.grey[600]),
                                 ),
-                                SizedBox(
-                                  width: 6,
-                                ),
+                                SizedBox(width: 6),
                                 Icon(
                                   Icons.arrow_forward_outlined,
                                   color: Colors.grey[600],
@@ -151,16 +148,12 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       Text(
                         'Ricette disponibili per poter creare un piano nutrizionale',
                         style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       if (meal.isNotEmpty)
                         SizedBox(
                           height: 420, // altezza fissa delle card
@@ -177,8 +170,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                     context: context,
                                     isScrollControlled:
                                         true, // Importante per usare heightFactor
-                                    backgroundColor:
-                                        Colors.white, // Bordo arrotondato
+                                    backgroundColor: Colors.white,
                                     builder: (context) => FractionallySizedBox(
                                       heightFactor:
                                           0.9, // 80% dell'altezza dello schermo
@@ -203,20 +195,18 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                             child: Text('Nessuna ricetta disponibile'),
                           ),
                         ),
-                      SizedBox(
-                        height: 8,
-                      ),
+                      SizedBox(height: 8),
                       //--> Inizio sezione ingredienti
-                      SizedBox(
-                        height: 30,
-                      ),
+                      SizedBox(height: 30),
                       if (nutrition.length > 5)
                         Row(
                           children: [
                             Text(
                               'Nutrizione',
                               style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Spacer(),
                             nutrition.isNotEmpty
@@ -227,11 +217,10 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                         Text(
                                           'Vedi Altro',
                                           style: TextStyle(
-                                              color: Colors.grey[600]),
+                                            color: Colors.grey[600],
+                                          ),
                                         ),
-                                        SizedBox(
-                                          width: 6,
-                                        ),
+                                        SizedBox(width: 6),
                                         Icon(
                                           Icons.arrow_forward_outlined,
                                           color: Colors.grey[600],
@@ -239,7 +228,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                       ],
                                     ),
                                   )
-                                : Container()
+                                : Container(),
                           ],
                         )
                       else
@@ -248,28 +237,30 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                             Text(
                               'Nutrizione',
                               style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Spacer(),
                             nutrition.isNotEmpty
                                 ? TextButton(
                                     onPressed: () {
                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  AddNutrition()));
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AddNutrition(),
+                                        ),
+                                      );
                                     },
                                     child: Row(
                                       children: [
                                         Text(
                                           'Aggiungi',
                                           style: TextStyle(
-                                              color: Colors.grey[600]),
+                                            color: Colors.grey[600],
+                                          ),
                                         ),
-                                        SizedBox(
-                                          width: 6,
-                                        ),
+                                        SizedBox(width: 6),
                                         Icon(
                                           Icons.add,
                                           color: Colors.grey[600],
@@ -277,19 +268,15 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                       ],
                                     ),
                                   )
-                                : Container()
+                                : Container(),
                           ],
                         ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       Text(
                         'Piani nutrizionali generati in base al tipo di nutrizione che si vuole avere.',
                         style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                       ),
-                      SizedBox(
-                        height: 30,
-                      ),
+                      SizedBox(height: 30),
                       if (nutrition.isNotEmpty)
                         SizedBox(
                           height: 280,
@@ -300,7 +287,11 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                               final nutri = nutrition[index];
 
                               // Qui usiamo la family provider con l'ID dinamico
-                              final typeState = ref.watch(typeNutritionByIdFamilyProvider(nutri.typeNutritionId));
+                              final typeState = ref.watch(
+                                typeNutritionByIdFamilyProvider(
+                                  nutri.typeNutritionId,
+                                ),
+                              );
 
                               return GestureDetector(
                                 onTap: () {
@@ -318,19 +309,30 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                   );
                                 },
                                 child: Card(
-                                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 10,
+                                  ),
                                   child: SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.70,
+                                    width:
+                                        MediaQuery.of(context).size.width *
+                                        0.70,
                                     child: Stack(
                                       fit: StackFit.expand,
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(15),
+                                            ),
                                             image: DecorationImage(
                                               image: NetworkImage(
                                                 nutri.meals.isNotEmpty
-                                                    ? nutri.meals.first.imageMeal ?? ''
+                                                    ? nutri
+                                                              .meals
+                                                              .first
+                                                              .imageMeal ??
+                                                          ''
                                                     : 'https://media.hellofresh.com/w_3840,q_auto,f_auto,c_limit,fl_lossy/recipes/image/HF220905_R14_W39_IT_IT351-1_MB_Main_highremove_chili_rounds_edit_high-8a6c9450.jpg',
                                               ),
                                               fit: BoxFit.cover,
@@ -341,21 +343,35 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                           top: 20,
                                           right: 20,
                                           child: Container(
-                                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 15,
+                                              vertical: 8,
+                                            ),
                                             decoration: BoxDecoration(
                                               color: Color(0XFFBAFFA5),
-                                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(20),
+                                              ),
                                             ),
                                             child: typeState.when(
                                               data: (type) => Text(
-                                                type?.typeNutritionName ?? 'Tipo non trovato',
-                                                style: TextStyle(fontWeight: FontWeight.bold),
+                                                type?.typeNutritionName ??
+                                                    'Tipo non trovato',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                               loading: () => SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                  child: CircularProgressIndicator(strokeWidth: 2)),
-                                              error: (e, _) => Text('Impossibile caricare i dati.'),
+                                                width: 20,
+                                                height: 20,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                    ),
+                                              ),
+                                              error: (e, _) => Text(
+                                                'Impossibile caricare i dati.',
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -367,7 +383,6 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                             },
                           ),
                         )
-
                       else
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.16,
@@ -378,9 +393,12 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                   width: 150,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white,
-                                        side: BorderSide(
-                                            color: Colors.pink, width: 1.3)),
+                                      backgroundColor: Colors.white,
+                                      side: BorderSide(
+                                        color: Colors.pink,
+                                        width: 1.3,
+                                      ),
+                                    ),
                                     onPressed: () {
                                       Navigator.pushReplacement(
                                         context,
@@ -394,34 +412,29 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
                                         Text(
                                           'Aggiungi',
                                           style: TextStyle(
-                                              color: Colors.pink,
-                                              fontWeight: FontWeight.bold),
+                                            color: Colors.pink,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
+                                        SizedBox(width: 10),
                                         Icon(
                                           Icons.add_circle_outline,
                                           color: Colors.pink,
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 20,
-                                ),
+                                SizedBox(height: 20),
                                 Text(
                                   'Nessuna ricetta disponibile',
                                   style: TextStyle(fontWeight: FontWeight.bold),
-                                )
+                                ),
                               ],
                             ),
                           ),
                         ),
-                      SizedBox(
-                        height: 30,
-                      )
+                      SizedBox(height: 30),
                     ],
                   ),
                 ),
@@ -430,9 +443,7 @@ class _TrainerNutritionPageState extends ConsumerState<TrainerNutritionPage> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomBar(
-        currentIndex: selectedIndex,
-      ),
+      bottomNavigationBar: CustomBottomBar(currentIndex: selectedIndex),
     );
   }
 }
